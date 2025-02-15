@@ -271,5 +271,23 @@
   "str_report_generator": "Report Generator",
   "ml/s": " ML/Min",
   "delete_account": "Delete Account",
-  "delete_account_message": "Are you sure you want to delete your account?"
+  "delete_account_message": "Are you sure you want to delete your account?",
+
+  "live_broilers": "Live Broilers",
+  "egg_tray": "Egg Tray",
+  "katkot_alwadi_broilers_doc_price": "Katkot Alwadi Broilers DOC Price",
+  "alaf_alwadi_price" : "A’laf Al Wadi Prices",
+  "starter_feed" : "Starter Feed",
+  "grower_feed" : "Grower Feed",
+  "finisher_feed" : "Finisher Feed",
+  "live_chat" : "Live Chat",
+  "news" : "NEWS",
+  "videos" : "Videos",
+  "cb_report_generator" : "CB Report Generator",
+  "ps_report_generator" : "PS Report Generator",
+  "egp_ton" : "EGP/Ton",
+  "egp_kg" : "EGP/Kg",
+  "egp" : "EGP"
+
+
 }

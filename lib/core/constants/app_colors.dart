@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color DARK_SPRING_GREEN = Color(0xff007a40);
+  static const Color DARK_SPRING_GREEN = AppColors.APP_BLUE;
   static const Color Liver = Color(0xff4B4B4B);
   static const Color Dim_gray = Color(0xff6e6e6e);
   static const Color OLIVE_DRAB = Color(0xff6EB02F);
-  static const Color Dark_spring_green = Color(0xff007a40);
+  static const Color Dark_spring_green = AppColors.APP_BLUE;
   static const Color Gamboge = Color(0xfff1930a);
   static const Color Olive_Drab = Color(0xff6eb02f);
   static const Color Princeton_Orange = Color(0xfff7b800);
@@ -50,7 +50,6 @@ class AppColors {
   static const Color LIGHT_GREEN = Color(0xffe2ffe5);
   static const Color LIGHT_RED = Color(0xfffff2f2);
   static const Color ORANGE = Color(0xffE38523);
-  static const Color LIGHT_BACKGROUND = Color(0xffECEFFA);
   static const Color APP_TRANSPARENT_BLUE = Color(0xff344470);
   static const Color APP_CARDS_BLUE = Color(0xff424F79);
   static const Color APP_MAP_CIRCLE_BLUE = Color(0xff5d8ff7);
@@ -64,5 +63,6 @@ class AppColors {
   static const Color TANGERIEN = Color(0xfff18a00);
   static const Color LA_SALLE_GREEN = Color(0xff007934);
   static const Color CADMIUM_RED = Color(0xffea0029);
-  static const Color SPLASH_GREEN = Color(0xff006a31);
+  static const Color SPLASH_GREEN = AppColors.APP_BLUE;
+  static const Color LIGHT_BACKGROUND = Color(0xffe2eef3);
 }

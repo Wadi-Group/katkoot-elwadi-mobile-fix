@@ -15,20 +15,20 @@ class CustomText extends StatelessWidget {
   final bool underline;
   final bool italic;
 
-  CustomText(
-      {required this.title,
-      this.fontSize = 14,
-      this.textOverflow,
-      this.maxLines,
-      this.fontWeight = FontWeight.normal,
-      this.textColor,
-      this.fontFamily,
-      this.lineSpacing,
-      this.padding,
-      this.textAlign,
-      this.underline = false,
-      this.italic = false,
-      });
+  CustomText({
+    required this.title,
+    this.fontSize = 14,
+    this.textOverflow,
+    this.maxLines,
+    this.fontWeight = FontWeight.normal,
+    this.textColor,
+    this.fontFamily,
+    this.lineSpacing,
+    this.padding,
+    this.textAlign,
+    this.underline = false,
+    this.italic = false,
+  });
 
   @override
   Widget build(BuildContext context) {
