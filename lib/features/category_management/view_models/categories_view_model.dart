@@ -46,5 +46,24 @@ class CategoriesViewModel extends StateNotifier<BaseState<List<Category>?>>
   }
 
   // get home data
-  Future getHomeData() async {}
+  Future<Map<String, dynamic>> getHomeData() async {
+    // Set loading state before API call
+    state = BaseState(data: state.data, isLoading: true);
+
+    try {
+      var result = await _repository.getHomeData();
+
+      // After fetching data, update state with new data and stop loading
+      state = BaseState(data: state.data, isLoading: false);
+
+      return result ?? {};
+    } catch (error) {
+      // If an error occurs, stop loading and handle the error
+      state = BaseState(data: state.data, isLoading: false);
+      handleError(
+          errorType: ErrorType.GENERAL_ERROR, errorMessage: error.toString());
+
+      return {};
+    }
+  }
 }

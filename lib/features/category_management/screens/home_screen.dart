@@ -4,19 +4,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
-import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
+import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/category_management/widgets/category_tab_widget.dart';
+import 'package:katkoot_elwady/features/guides_management/models/url.dart';
+import 'package:katkoot_elwady/features/messages_management/models/message.dart';
+
+import '../../../core/constants/app_constants.dart';
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/services/remote/weather_service.dart';
 import '../../app_base/entities/base_state.dart';
 import '../../app_base/screens/custom_drawer.dart';
+import '../../guides_management/models/video.dart';
 import '../../menu_management/view_models/menu_categorized_videos_view_model.dart';
 import '../models/category.dart';
 import '../sections/alaf_alwadi_prices_section.dart';
+import '../sections/auto_scrolling_text_section.dart';
 import '../sections/live_chat_and_news_section.dart';
 import '../sections/report_generator_section.dart';
-import '../sections/auto_scrolling_text_section.dart';
 import '../sections/video_section.dart';
 import '../sections/weather_and_prices_section.dart';
 
@@ -38,24 +43,8 @@ class _HomeScreenState extends State<HomeScreen>
   late String? city = '';
   late String? weather = '';
 
-  final List<Map<String, String>> prices = [
-    {
-      "title": "starter_feed".tr(),
-      "price": "24,750",
-      "image": "assets/images/starter_feed.png"
-    },
-    {
-      "title": "grower_feed".tr(),
-      "price": "24,500",
-      "image": "assets/images/grower_feed.png"
-    },
-    {
-      "title": "finisher_feed".tr(),
-      "price": "24,250",
-      "image": "assets/images/finisher_feed.png"
-    },
-  ];
-
+  late Map<String, dynamic> homeData = {};
+  final List<Map<String, String>> alaafPrices = [];
   // ===================================================== Functions =====================================================
   @override
   void initState() {
@@ -87,14 +76,42 @@ class _HomeScreenState extends State<HomeScreen>
 
   // Get list of categories
   Future getListOfCategories() async {
-    await Future.delayed(Duration.zero, () {
-      print("call categoryGuideViewModel");
-      ProviderScope.containerOf(context, listen: false)
-          .read(di.unseenNotificationCountProvider.notifier)
-          .getRemoteUnseenNotificationCount();
-      ProviderScope.containerOf(context, listen: false)
-          .read(di.categoriesViewModelProvider.notifier)
-          .getListOfCategories(mainCategories: true);
+    setState(() {
+      homeData = {}; // Reset before fetching
+    });
+
+    var categoriesViewModel = ProviderScope.containerOf(context, listen: false)
+        .read(di.categoriesViewModelProvider.notifier);
+
+    await Future.delayed(Duration.zero, () async {
+      print("Fetching categories and home data...");
+
+      await categoriesViewModel.getListOfCategories(mainCategories: true);
+
+      homeData = await categoriesViewModel.getHomeData();
+
+      if (homeData.isNotEmpty) {
+        alaafPrices.clear(); // Clear old data
+        alaafPrices.addAll([
+          {
+            "title": "starter_feed".tr(),
+            "price": homeData["starter_feed_price"] ?? "N/A",
+            "image": "assets/images/starter_feed.png"
+          },
+          {
+            "title": "grower_feed".tr(),
+            "price": homeData["grower_feed_price"] ?? "N/A",
+            "image": "assets/images/grower_feed.png"
+          },
+          {
+            "title": "finisher_feed".tr(),
+            "price": homeData["finisher_feed_price"] ?? "N/A",
+            "image": "assets/images/finisher_feed.png"
+          },
+        ]);
+      }
+
+      setState(() {}); // Refresh UI after data is loaded
     });
   }
 
@@ -108,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   // Get News
-  Future getNews({bool showLoading = false, bool refresh = false}) async {
+  Future getNews({bool showLoading = true, bool refresh = false}) async {
     await Future.delayed(Duration.zero, () {
       print("call categoryGuideViewModel");
       ProviderScope.containerOf(context, listen: false)
@@ -147,78 +164,101 @@ class _HomeScreenState extends State<HomeScreen>
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    //  WeatherAndPricesSection
-                    WeatherAndPricesSection(
-                      city: city ?? "Cairo",
-                      date: date ?? '',
-                      weather: weather ?? "",
-                      liveBroilersPrice: "70.50",
-                      eggTrayPrice: "125.25",
-                      katkootPrice: "70.50",
-                    ),
-                    _sizedBox,
+                child: homeData.isEmpty
+                    ? SizedBox.shrink()
+                    : Column(
+                        children: [
+                          Consumer(builder: (_, ref, __) {
+                            var categoriesViewModel =
+                                ref.watch(di.categoriesViewModelProvider);
+                            var categories = categoriesViewModel.data;
 
-                    // CategoriesSection
-                    Consumer(builder: (_, ref, __) {
-                      var categoriesViewModel =
-                          ref.watch(di.categoriesViewModelProvider);
-                      var categories = categoriesViewModel.data;
-                      return ListView.builder(
-                        itemCount: categories!.length,
-                        itemBuilder: (context, index) => Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: CategoryTabWidget(
-                              category: categories[index],
-                            ),
-                          ),
-                        ),
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                      );
-                    }),
+                            return Column(children: [
+                              //  WeatherAndPricesSection
+                              WeatherAndPricesSection(
+                                city: city ?? "Cairo",
+                                date: date ?? '',
+                                weather: weather ?? "",
+                                liveBroilersPrice:
+                                    homeData["live_broilers_price"],
+                                eggTrayPrice: homeData["egg_tray_price"],
+                                katkootPrice:
+                                    homeData["katkoot_alwadi_broilers_price"],
+                              ),
+                              _sizedBox,
 
-                    //  AlafAlWadiPricesSection
-                    AlafAlWadiPrices(
-                      prices: prices,
-                    ),
-                    _sizedBox,
+                              // CategoriesSection
 
-                    //  AutoScrollingTextSection
-                    Consumer(builder: (_, ref, __) {
-                      var messagesViewModel =
-                          ref.watch(di.messagesViewModelProvider);
-                      var messages = messagesViewModel.data;
-                      if (messages != null && messages.isNotEmpty) {
-                        return AutoScrollingTextSection(
-                            rotatingTexts: messages);
-                      }
-                      return Container();
-                    }),
-                    _sizedBox,
+                              ListView.builder(
+                                itemCount: categories!.length,
+                                itemBuilder: (context, index) => Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: CategoryTabWidget(
+                                      category: categories[index],
+                                    ),
+                                  ),
+                                ),
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                              ),
 
-                    //  LiveChatAndNewsSection
-                    LiveChatAndNewsSection(),
-                    _sizedBox,
+                              //  AlafAlWadiPricesSection
+                              AlafAlWadiPrices(
+                                prices: alaafPrices,
+                              ),
+                              _sizedBox,
+                            ]);
+                          }),
 
-                    // VideoSection
-                    Consumer(builder: (_, ref, __) {
-                      var videosViewModel =
-                          ref.watch(_categorizedVideosViewModelProvider);
-                      var videos = videosViewModel.data;
-                      var latestVideo = videos?.last;
-                      return videos != null && videos.isNotEmpty
-                          ? VideoSection(video: latestVideo)
-                          : Container();
-                    }),
-                    _sizedBox,
+                          //  AutoScrollingTextSection
+                          Consumer(builder: (_, ref, __) {
+                            var messagesViewModel =
+                                ref.watch(di.messagesViewModelProvider);
+                            var messages = messagesViewModel.data;
 
-                    // ReportGeneratorSection
-                    ReportGeneratorSection(),
-                  ],
-                ),
+                            if (messages == null || messages.isEmpty) {
+                              // Show a placeholder message when there are no messages
+                              return AutoScrollingTextSection(
+                                rotatingTexts: [
+                                  Message(
+                                      id: 1,
+                                      content: "No messages available".tr()),
+                                ],
+                              );
+                            }
+                            return AutoScrollingTextSection(
+                                rotatingTexts: messages);
+                          }),
+                          _sizedBox,
+
+                          //  LiveChatAndNewsSection
+                          LiveChatAndNewsSection(),
+                          _sizedBox,
+
+                          // VideoSection
+                          Consumer(builder: (_, ref, __) {
+                            if (homeData.isEmpty) return SizedBox.shrink();
+                            var homeVideo = Category(
+                                id: 0,
+                                imageUrl: homeData["video_image"],
+                                videosList: [
+                                  Video(
+                                      id: 0,
+                                      title: homeData["video_title"],
+                                      url: Url(
+                                          url: homeData["home_page_video"],
+                                          provider:
+                                              AppConstants.YOUTUBE_PROVIDER))
+                                ]);
+                            return VideoSection(video: homeVideo);
+                          }),
+                          _sizedBox,
+
+                          // ReportGeneratorSection
+                          ReportGeneratorSection(),
+                        ],
+                      ),
               ),
             ),
           ),

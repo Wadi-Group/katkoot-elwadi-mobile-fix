@@ -8,6 +8,20 @@ import 'package:katkoot_elwady/core/api/api_config.dart';
 import 'package:dio/dio.dart';
 
 class ApiMethods<T> {
+  // get request without baseApiResult wrapper
+  Future<T> getRaw(String url,
+      {Map<String, String>? params,
+      bool hasToken = true,
+      bool hasLanguage = true,
+      bool cache = false}) async {
+    Response response = await ApiConfig.dio.get(url,
+        queryParameters: params,
+        options: getOptions(
+            cache: cache, hasToken: hasToken, hasLanguage: hasLanguage));
+    print(response.toString());
+    return response.data;
+  }
+
   Future<BaseApiResult<T>> get(String url,
       {Map<String, String>? params,
       bool hasToken = true,
