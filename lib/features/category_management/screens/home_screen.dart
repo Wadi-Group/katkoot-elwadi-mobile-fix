@@ -37,13 +37,6 @@ class _HomeScreenState extends State<HomeScreen>
   late String? date = '';
   late String? city = '';
   late String? weather = '';
-  final List<String> rotatingTexts = [
-    "Latest Feed Prices: 24,750 EGP/Ton",
-    "New Broiler Prices Update",
-    "Daily Market Analysis Available",
-    "Egg Tray Prices: 125.25 EGP",
-    "Live Broilers at 70.50 EGP/Kg"
-  ];
 
   final List<Map<String, String>> prices = [
     {
