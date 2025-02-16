@@ -275,9 +275,11 @@ class Repository {
     return await _apiService.getCycles(page ?? 1, limit ?? 10);
   }
 
-  Future<BaseApiResult<List<CbCycle>?>> getCbCycles(int? page, int? limit) async {
+  Future<BaseApiResult<List<CbCycle>?>> getCbCycles(
+      int? page, int? limit) async {
     return await _apiService.getCbCycles(page ?? 1, limit ?? 10);
   }
+
   Future<BaseApiResult> addRearingWeekData({
     required String? cycleId,
     required String? weekNumber,
@@ -319,27 +321,27 @@ class Repository {
   Future<BaseApiResult<Cycle?>> getCycleDetails(String? cycleId) async {
     return _apiService.getCycleDetails(cycleId);
   }
+
   Future<BaseApiResult<CbCycle?>> getCbCycleDetails(String? cycleId) async {
     return _apiService.getCbCycleDetails(cycleId);
   }
+
   Future<BaseApiResult> deleteCycle(int cycleId) async {
     return _apiService.deleteCycle(cycleId);
   }
+
   Future<BaseApiResult> deleteCbCycle(int cycleId) async {
     return _apiService.deleteCbCycle(cycleId);
   }
+
   Future<BaseApiResult> deleteUser(userId) async {
     return _apiService.deleteUser(userId);
   }
 
-
-
-
-
-
-
-
+  // get home data
+  Future<BaseApiResult<Map<String, dynamic>?>> getHomeData() async {
+    return await _apiService.getHomeData();
+  }
 
   // CB Report Genrator
-
 }

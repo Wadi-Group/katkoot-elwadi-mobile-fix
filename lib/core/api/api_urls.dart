@@ -1,5 +1,4 @@
 class ApiUrls {
-
   static const BASE_URL = 'https://backend.katkootalwadi.com/api/'; //live
   // static const BASE_URL = 'http://172.17.0.1:8000/api/'; //development
   static const REFRESH_TOKEN = "refresh-token";
@@ -29,4 +28,5 @@ class ApiUrls {
   static const MESSAGE_SEEN = "messages";
   static const SEARCH = "search";
   static const GUIDES = "guides";
+  static const HOME = "home-page";
 }

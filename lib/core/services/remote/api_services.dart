@@ -134,9 +134,12 @@ class ApiService {
     return await ApiMethods<UserData>()
         .get(ApiUrls.EDIT_PROFILE, hasToken: true, hasLanguage: false);
   }
+
   Future<BaseApiResult> deleteUser(int userId) async {
-    return await ApiMethods().delete(ApiUrls.DELETE_USER + "?id=$userId",hasLanguage: false);
+    return await ApiMethods()
+        .delete(ApiUrls.DELETE_USER + "?id=$userId", hasLanguage: false);
   }
+
   Future<BaseApiResult<ContactUsData?>> getContactUsData() async {
     return await ApiMethods<ContactUsData>().get(ApiUrls.CONTACT_US_DATA);
   }
@@ -285,7 +288,8 @@ class ApiService {
   Future<BaseApiResult<List<Cycle>?>> getCycles(int page, int limit) async {
     var params = {"page": page.toString(), "limit": limit.toString()};
     return await ApiMethods<Cycle>().getList(ApiUrls.CYCLES, params: params);
-    return await ApiMethods<Cycle>().getList(ApiUrls.CYCLES + "?tool_id=8", params: params);
+    return await ApiMethods<Cycle>()
+        .getList(ApiUrls.CYCLES + "?tool_id=8", params: params);
   }
 
   Future<BaseApiResult<List<CbCycle>>> getCbCycles(int page, int limit) async {
@@ -340,15 +344,6 @@ class ApiService {
         ApiUrls.CYCLE_DATA + "?cycle_id=$cycleId" + "&duration=$weekNumber");
   }
 
-
-
-
-
-
-
-
-
-
   ///////////////////////////////CBCycle///////////////
 
   Future<BaseApiResult<CbWeekData?>> getCbCycleWeekData(
@@ -358,7 +353,6 @@ class ApiService {
       "duration": weekNumber.toString()
     });
   }
-
 
   Future<BaseApiResult<CbCycle?>> getCbCycleDetails(String? cycleId) async {
     return await ApiMethods<CbCycle>().get(ApiUrls.CYCLES + "/$cycleId");
@@ -375,7 +369,6 @@ class ApiService {
       "tool_id": cycle.toolId
     });
   }
-
 
   Future<BaseApiResult> deleteCbCycle(int cycleId) async {
     return await ApiMethods().delete(ApiUrls.CYCLE + "?id=$cycleId");
@@ -423,8 +416,8 @@ class ApiService {
         ApiUrls.CYCLE_DATA + "?cycle_id=$cycleId" + "&duration=$weekNumber");
   }
 
-
-
-
-
+  // get home data
+  Future<BaseApiResult<Map<String, dynamic>?>> getHomeData() async {
+    return await ApiMethods<Map<String, dynamic>>().get(ApiUrls.HOME);
+  }
 }
