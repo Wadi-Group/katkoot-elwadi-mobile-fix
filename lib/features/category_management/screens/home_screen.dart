@@ -9,7 +9,10 @@ import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/category_management/widgets/category_tab_widget.dart';
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/services/remote/weather_service.dart';
+import '../../app_base/entities/base_state.dart';
 import '../../app_base/screens/custom_drawer.dart';
+import '../../menu_management/view_models/menu_categorized_videos_view_model.dart';
+import '../models/category.dart';
 import '../sections/alaf_alwadi_prices_section.dart';
 import '../sections/live_chat_and_news_section.dart';
 import '../sections/report_generator_section.dart';
@@ -68,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen>
     initUserLocalData();
     getListOfCategories();
     getNews();
+    getAllVideos();
   }
 
   //  Fetch weather data from the API
@@ -117,6 +121,19 @@ class _HomeScreenState extends State<HomeScreen>
       ProviderScope.containerOf(context, listen: false)
           .read(di.messagesViewModelProvider.notifier)
           .getMessages(context, refresh: refresh, showLoading: showLoading);
+    });
+  }
+
+  // Get latest video
+  final _categorizedVideosViewModelProvider = StateNotifierProvider<
+      MenuCategorizedVideosViewModel, BaseState<List<Category>?>>((ref) {
+    return MenuCategorizedVideosViewModel(ref.read(di.repositoryProvider));
+  });
+  Future getAllVideos() async {
+    await Future.delayed(Duration.zero, () {
+      ProviderScope.containerOf(context, listen: false)
+          .read(_categorizedVideosViewModelProvider.notifier)
+          .getVideos();
     });
   }
 
@@ -177,7 +194,6 @@ class _HomeScreenState extends State<HomeScreen>
                     _sizedBox,
 
                     //  AutoScrollingTextSection
-
                     Consumer(builder: (_, ref, __) {
                       var messagesViewModel =
                           ref.watch(di.messagesViewModelProvider);
@@ -195,7 +211,15 @@ class _HomeScreenState extends State<HomeScreen>
                     _sizedBox,
 
                     // VideoSection
-                    VideoSection(),
+                    Consumer(builder: (_, ref, __) {
+                      var videosViewModel =
+                          ref.watch(_categorizedVideosViewModelProvider);
+                      var videos = videosViewModel.data;
+                      var latestVideo = videos?.last;
+                      return videos != null && videos.isNotEmpty
+                          ? VideoSection(video: latestVideo)
+                          : Container();
+                    }),
                     _sizedBox,
 
                     // ReportGeneratorSection

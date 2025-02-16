@@ -1,44 +1,64 @@
 // ============================= VIDEO SECTION =============================
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:katkoot_elwady/features/category_management/models/category.dart';
+import 'package:katkoot_elwady/features/guides_management/models/url.dart';
 
 import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../app_base/widgets/custom_text.dart';
+import '../../guides_management/screens/video_player_youtube_iframe_screen.dart';
+import '../../menu_management/screens/categorized_videos_screen.dart';
 
 class VideoSection extends StatelessWidget {
+  const VideoSection({Key? key, this.video}) : super(key: key);
+  final Category? video;
+
   @override
   Widget build(BuildContext context) {
+    var firstVideo = video?.videosList?.first;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: CustomText(
-            title: "videos".tr(),
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            textColor: AppColors.APP_BLUE,
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return MenuCategorizedVideosScreen();
+            }));
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
+              height: 40,
+              child: CustomText(
+                title: "videos".tr(),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                textColor: AppColors.APP_BLUE,
+              ),
+            ),
           ),
         ),
-        SizedBox(height: 20),
-        Container(
-          height: 200,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: AppColors.APPLE_GREEN,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "الإحتفال بمرور ٣٠ عامًا من الشراكة مع شركة أفيجان",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        SizedBox(height: 5),
+        GestureDetector(
+          onTap: () {
+            AppConstants.navigatorKey.currentState?.push(MaterialPageRoute(
+                builder: (context) => VideoPlayerYouTubeIframeScreen(
+                    url: firstVideo?.url ?? Url())));
+          },
+          child: Container(
+            height: 200,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(firstVideo?.url?.image ?? ""),
+                fit: BoxFit.cover,
               ),
-              SizedBox(height: 10),
-              Icon(Icons.play_circle_filled, size: 50, color: Colors.green),
-            ],
+              color: AppColors.APPLE_GREEN,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child:
+                Icon(Icons.play_circle_filled, size: 60, color: Colors.white),
           ),
         ),
       ],
