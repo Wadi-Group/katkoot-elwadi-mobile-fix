@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
+import 'package:katkoot_elwady/features/messages_management/screens/messages_list_screen.dart';
 
 import '../widgets/reusable_container_widget.dart';
 
@@ -45,7 +46,9 @@ class LiveChatAndNewsSection extends StatelessWidget {
                   ),
             title: "news".tr(),
             onTap: () {
-              // Navigator.of(context).pushNamed(NewsScreen.routeName);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return MessagesListScreen();
+              }));
             },
           ),
         ),
