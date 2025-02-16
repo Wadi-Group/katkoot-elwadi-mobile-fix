@@ -3,12 +3,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/features/messages_management/models/message.dart';
 
 import '../../app_base/widgets/custom_text.dart';
 import '../widgets/reusable_container_widget.dart';
 
 class AutoScrollingTextSection extends StatefulWidget {
-  final List<String> rotatingTexts;
+  final List<Message> rotatingTexts;
   const AutoScrollingTextSection({
     Key? key,
     required this.rotatingTexts,
@@ -22,7 +23,7 @@ class AutoScrollingTextSection extends StatefulWidget {
 class _AutoScrollingTextSectionState extends State<AutoScrollingTextSection> {
   final ScrollController _scrollController = ScrollController();
   late Timer _timer;
-  List<String> get rotatingTexts => widget.rotatingTexts;
+  List<Message> get rotatingTexts => widget.rotatingTexts;
 
   @override
   void initState() {
@@ -54,13 +55,13 @@ class _AutoScrollingTextSectionState extends State<AutoScrollingTextSection> {
         controller: _scrollController,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final text = rotatingTexts[index % rotatingTexts.length];
+          final message = rotatingTexts[index % rotatingTexts.length];
           return Row(
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 child: CustomText(
-                  title: text,
+                  title: message.content ?? '',
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                   maxLines: 1,

@@ -161,10 +161,11 @@ class WeatherAndPricesSection extends StatelessWidget {
     return Flexible(
       child: ReusableContainer(
         padding: EdgeInsets.symmetric(horizontal: 10),
-        borderRadius: context.locale.countryCode == "en"
+        borderRadius: context.locale.languageCode == "en"
             ? BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(20),
+                bottomLeft: Radius.circular(0),
                 bottomRight: Radius.circular(20),
               )
             : BorderRadius.only(

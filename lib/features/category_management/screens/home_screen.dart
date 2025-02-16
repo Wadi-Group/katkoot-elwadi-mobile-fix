@@ -7,13 +7,9 @@ import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dar
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/category_management/widgets/category_tab_widget.dart';
-import 'package:katkoot_elwady/features/guides_management/models/url.dart';
-import 'package:katkoot_elwady/features/guides_management/models/video.dart';
-import 'package:katkoot_elwady/main.dart';
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/services/remote/weather_service.dart';
 import '../../app_base/screens/custom_drawer.dart';
-import '../../guides_management/widgets/video_row_item.dart';
 import '../sections/alaf_alwadi_prices_section.dart';
 import '../sections/live_chat_and_news_section.dart';
 import '../sections/report_generator_section.dart';
@@ -71,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen>
     fetchWeatherData();
     initUserLocalData();
     getListOfCategories();
+    getNews();
   }
 
   //  Fetch weather data from the API
@@ -110,6 +107,16 @@ class _HomeScreenState extends State<HomeScreen>
       ProviderScope.containerOf(context, listen: false)
           .read(di.userViewModelProvider.notifier)
           .getLocalUserData();
+    });
+  }
+
+  // Get News
+  Future getNews({bool showLoading = false, bool refresh = false}) async {
+    await Future.delayed(Duration.zero, () {
+      print("call categoryGuideViewModel");
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.messagesViewModelProvider.notifier)
+          .getMessages(context, refresh: refresh, showLoading: showLoading);
     });
   }
 
@@ -170,7 +177,17 @@ class _HomeScreenState extends State<HomeScreen>
                     _sizedBox,
 
                     //  AutoScrollingTextSection
-                    AutoScrollingTextSection(rotatingTexts: rotatingTexts),
+
+                    Consumer(builder: (_, ref, __) {
+                      var messagesViewModel =
+                          ref.watch(di.messagesViewModelProvider);
+                      var messages = messagesViewModel.data;
+                      if (messages != null && messages.isNotEmpty) {
+                        return AutoScrollingTextSection(
+                            rotatingTexts: messages);
+                      }
+                      return Container();
+                    }),
                     _sizedBox,
 
                     //  LiveChatAndNewsSection
