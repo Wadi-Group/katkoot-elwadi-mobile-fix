@@ -9,8 +9,10 @@ import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/category_management/widgets/category_tab_widget.dart';
 import 'package:katkoot_elwady/features/guides_management/models/url.dart';
 import 'package:katkoot_elwady/features/guides_management/models/video.dart';
+import 'package:katkoot_elwady/main.dart';
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/services/remote/weather_service.dart';
+import '../../app_base/screens/custom_drawer.dart';
 import '../../guides_management/widgets/video_row_item.dart';
 import '../sections/alaf_alwadi_prices_section.dart';
 import '../sections/live_chat_and_news_section.dart';
@@ -30,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // ===================================================== Variables =====================================================
   late String? date = '';
@@ -117,6 +120,8 @@ class _HomeScreenState extends State<HomeScreen>
     );
     super.build(context);
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: CustomDrawer(),
       appBar: customAppBar,
       backgroundColor: AppColors.LIGHT_BACKGROUND,
       body: Stack(

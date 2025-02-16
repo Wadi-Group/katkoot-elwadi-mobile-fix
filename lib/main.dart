@@ -15,7 +15,6 @@ import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 
 import 'core/services/local/shared_preferences_service.dart';
 import 'features/app_base/screens/splash_screen.dart';
-import 'dart:io' show Platform;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +74,7 @@ class MyApp extends ConsumerWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       title: 'katkot al wadi',
+      initialRoute: SplashScreen.routeName,
       theme: ThemeData(
         snackBarTheme: SnackBarThemeData(
             contentTextStyle: TextStyle(
@@ -84,7 +84,6 @@ class MyApp extends ConsumerWidget {
         fontFamily: context.locale.toString() == 'en' ? "Arial" : "GE_SS_Two",
       ),
       navigatorKey: AppConstants.navigatorKey,
-      initialRoute: SplashScreen.routeName,
       onGenerateRoute: (_) => RouteGenerator.generateRoute(_, context),
     );
   }

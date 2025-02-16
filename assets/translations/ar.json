@@ -289,7 +289,16 @@
   "ps_report_generator": "مولد تقرير PS",
   "egp_ton" : "جنيه/طن",
   "egp_kg" :"جنيه/كجم",
-  "egp" : "جنيه"
+  "egp" : "جنيه",
+
+     "more": "المزيد",
+  "about_us": "معلومات عنا",
+  "ask_for_advice": "طلب نصيحة",
+  "sales_and_customer_support": "المبيعات والدعم الفني",
+  "received_messages": "الرسائل المستلمة",
+  "share_app": "مشاركة التطبيق",
+  "language": "اللغة"
+
 
 
 }

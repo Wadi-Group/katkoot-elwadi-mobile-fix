@@ -287,7 +287,15 @@
   "ps_report_generator" : "PS Report Generator",
   "egp_ton" : "EGP/Ton",
   "egp_kg" : "EGP/Kg",
-  "egp" : "EGP"
+  "egp" : "EGP",
+    "more": "More",
+  "about_us": "About Us",
+  "ask_for_advice": "Ask for Advice",
+  "sales_and_customer_support": "Sales & Customer Support",
+  "received_messages": "Received Messages",
+  "share_app": "Share App",
+  "language": "Language"
+
 
 
 }

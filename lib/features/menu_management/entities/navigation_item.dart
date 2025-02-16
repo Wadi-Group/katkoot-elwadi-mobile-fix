@@ -1,12 +1,15 @@
 enum NavigationItem {
   header,
   home,
+  about_us,
   profile,
   support,
+  ask_for_advice,
   where_to_find_us,
   received_messages,
   contact_us,
   video,
+  share_app,
   language,
-  none
+  none,
 }

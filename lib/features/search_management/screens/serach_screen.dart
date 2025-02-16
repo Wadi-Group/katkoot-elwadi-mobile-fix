@@ -16,6 +16,8 @@ import 'package:katkoot_elwady/features/search_management/screens/search_all_scr
 import 'package:katkoot_elwady/features/tools_management/screens/tools_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../app_base/screens/custom_drawer.dart';
+
 class SearchScreen extends StatefulWidget {
   static const routeName = "./search_screen";
 
@@ -36,6 +38,7 @@ class _SearchScreenState extends State<SearchScreen>
   late GuidesTabBarViewModel viewModel;
   ScrollController _scrollController = ScrollController();
   int _selectedIndex = 0;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,8 @@ class _SearchScreenState extends State<SearchScreen>
         initialIndex: _selectedIndex,
         length: widget.searchData?.numberOfAvailableSections ?? 0,
         child: Scaffold(
+          key: _scaffoldKey,
+          drawer: CustomDrawer(),
           appBar: PreferredSize(
               preferredSize: Size.fromHeight(130),
               child: Stack(
