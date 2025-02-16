@@ -12,15 +12,13 @@ class ReportGeneratorSection extends StatelessWidget {
       children: [
         ReportGenerator(
           title: "cb_report_generator".tr(),
-          onTap: () {
-            // Navigator.of(context).pushNamed(CBReportGeneratorScreen.routeName);
-          },
-          icon: RotatedBox(
-            quarterTurns: context.locale.languageCode == "en" ? 0 : 2,
-            child: Icon(
-              Icons.east,
-              color: AppColors.APP_BLUE,
-            ),
+          subtitle: "str_add_new_cycle".tr(),
+          onTap: () {},
+          icon: Image.asset(
+            'assets/images/add_cycle.png',
+            color: AppColors.APP_BLUE,
+            width: 20,
+            height: 20,
           ),
         ),
         SizedBox(height: 20),
