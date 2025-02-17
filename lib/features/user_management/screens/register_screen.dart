@@ -3,28 +3,25 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
-import 'package:katkoot_elwady/core/constants/app_constants.dart';
-import 'package:katkoot_elwady/core/constants/katkoot_elwadi_icons.dart';
-import 'package:katkoot_elwady/core/constants/navigation_constants.dart';
-import 'package:katkoot_elwady/core/utils/country_code_picker.dart';
 import 'package:katkoot_elwady/core/utils/integer_text_input_formatter.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/active_button.dart';
-import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_text_field.dart';
+import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
-import 'package:katkoot_elwady/features/user_management/models/city.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_fields_extension.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
+import 'package:katkoot_elwady/features/user_management/models/city.dart';
 import 'package:katkoot_elwady/features/user_management/screens/widgets/customDialog.dart';
 import 'package:katkoot_elwady/features/user_management/screens/widgets/selected_chip.dart';
 import 'package:katkoot_elwady/features/user_management/view_models/auth_view_model.dart';
-import '../../../core/di/injection_container.dart' as di;
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+
+import '../../../core/di/injection_container.dart' as di;
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "./RegisterScreen";
@@ -47,11 +44,12 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
   });
   Future getCategoriesAndCities() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(di.categoriesViewModelProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.categoriesViewModelProvider.notifier)
           .getListOfCategories(mainCategories: false);
-      ProviderScope.containerOf(context,
-          listen: false).read(di.cityViewModelProvider.notifier).getListOfCities();
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.cityViewModelProvider.notifier)
+          .getListOfCities();
     });
   }
 
@@ -74,7 +72,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               children: [
                 Container(
                   height: MediaQuery.of(context).size.height,
-                  color: Colors.white,
+                  color: AppColors.LIGHT_BACKGROUND,
                   padding: EdgeInsetsDirectional.only(
                       top: 2, bottom: 8, start: 20, end: 20),
                   child: SingleChildScrollView(
@@ -85,74 +83,69 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                         ),
                         CustomText(
                           title: 'You need to register'.tr(),
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          textColor: AppColors.APP_BLUE,
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         buildForm(),
                         Consumer(builder: (_, ref, __) {
                           var categoriesViewModelProvider =
-                          ref.watch(di.categoriesViewModelProvider);
+                              ref.watch(di.categoriesViewModelProvider);
                           var categories = categoriesViewModelProvider.data;
                           return buildCategoriesDropDown(categories!);
                         }),
                         SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         Consumer(builder: (_, ref, __) {
                           var cityViewModelProvider =
-                          ref.watch(di.cityViewModelProvider);
+                              ref.watch(di.cityViewModelProvider);
                           var cities = cityViewModelProvider.data;
                           return buildLocationDropDown(cities!);
                         }),
                         SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         Consumer(builder: (_, ref, __) {
                           final errors = ref.watch(_errorsProvider);
                           return CustomTextField(
                               controller: stateController,
                               hintText: "state".tr(),
-                              contentPadding:
-                              EdgeInsetsDirectional.only(start: 20),
+                              contentPadding: EdgeInsetsDirectional.only(
+                                  bottom: 12, start: 20),
                               inputType: TextInputType.text,
                               fontSize: 14,
                               errorMessage: errors
                                   .firstWhere(
                                       (element) =>
-                                  element.field ==
-                                      UserFields.STATE.field,
-                                  orElse: () => UserFormsErrors())
+                                          element.field ==
+                                          UserFields.STATE.field,
+                                      orElse: () => UserFormsErrors())
                                   .message);
                         }),
                         SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         GestureDetector(
                           onTap: () {
                             // launch datePicker
                             _selectDate(context);
                           },
-                          child:
-                          Consumer(builder: (_, ref, __) {
+                          child: Consumer(builder: (_, ref, __) {
                             final errors = ref.watch(_errorsProvider);
                             var error = errors.firstWhere(
-                                    (element) =>
-                                element.field == UserFields.DATE.field,
+                                (element) =>
+                                    element.field == UserFields.DATE.field,
                                 orElse: () => UserFormsErrors());
                             return Container(
                               child: CustomTextField(
-                                endWidget: Icon(
-                                  KatkootELWadyIcons.calendar,
-                                  color: AppColors.Olive_Drab,
-                                  size: 20,
-                                ),
                                 isEnabled: false,
                                 controller: arrivalDateController,
-                                contentPadding:
-                                EdgeInsetsDirectional.only(start: 20),
+                                contentPadding: EdgeInsetsDirectional.only(
+                                    bottom: 12, start: 20),
                                 hintText: "birth_date".tr(),
                                 maxLength: 10,
                                 inputType: TextInputType.none,
@@ -162,52 +155,137 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                             );
                           }),
                         ),
-
                         SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         Consumer(builder: (_, ref, __) {
                           final errors = ref.watch(_errorsProvider);
                           return CustomTextField(
                               controller: flockSizeContoller,
                               hintText: "flock_size".tr(),
-                              contentPadding:
-                              EdgeInsetsDirectional.only(start: 20),
+                              contentPadding: EdgeInsetsDirectional.only(
+                                  bottom: 12, start: 20),
                               inputType: TextInputType.number,
                               fontSize: 14,
                               errorMessage: errors
                                   .firstWhere(
                                       (element) =>
-                                  element.field ==
-                                      UserFields.FLOCK_SIZE.field,
-                                  orElse: () => UserFormsErrors())
+                                          element.field ==
+                                          UserFields.FLOCK_SIZE.field,
+                                      orElse: () => UserFormsErrors())
+                                  .message);
+                        }),
+                        SizedBox(
+                          height: 20,
+                        ),
+
+                        //Number of birds / House
+                        Consumer(builder: (_, ref, __) {
+                          final errors = ref.watch(_errorsProvider);
+                          return CustomTextField(
+                              controller: numberOfBirdsController,
+                              hintText: "numberOfBirds".tr(),
+                              contentPadding: EdgeInsetsDirectional.only(
+                                  bottom: 12, start: 20),
+                              inputType: TextInputType.number,
+                              fontSize: 14,
+                              errorMessage: errors
+                                  .firstWhere(
+                                      (element) =>
+                                          element.field ==
+                                          UserFields.NUMBER_OF_BIRDS.field,
+                                      orElse: () => UserFormsErrors())
+                                  .message);
+                        }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        // number of farms
+                        Consumer(builder: (_, ref, __) {
+                          final errors = ref.watch(_errorsProvider);
+                          return CustomTextField(
+                              controller: numberOfFarmsController,
+                              hintText: "numberOfFarms".tr(),
+                              contentPadding: EdgeInsetsDirectional.only(
+                                  bottom: 12, start: 20),
+                              inputType: TextInputType.number,
+                              fontSize: 14,
+                              errorMessage: errors
+                                  .firstWhere(
+                                      (element) =>
+                                          element.field ==
+                                          UserFields.NUMBER_OF_FARMS.field,
+                                      orElse: () => UserFormsErrors())
+                                  .message);
+                        }),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        // number of houses
+                        Consumer(builder: (_, ref, __) {
+                          final errors = ref.watch(_errorsProvider);
+                          return CustomTextField(
+                              controller: numberOfHousesController,
+                              hintText: "numberOfHouses".tr(),
+                              contentPadding: EdgeInsetsDirectional.only(
+                                  bottom: 12, start: 20),
+                              inputType: TextInputType.number,
+                              fontSize: 14,
+                              errorMessage: errors
+                                  .firstWhere(
+                                      (element) =>
+                                          element.field ==
+                                          UserFields.NUMBER_OF_HOUSES.field,
+                                      orElse: () => UserFormsErrors())
                                   .message);
                         }),
                         SizedBox(
                           height: 30,
                         ),
+
                         Row(
                           children: [
                             CustomText(
                               title: 'Already have an account ?'.tr(),
-                              fontSize: 13,
+                              fontSize: 12,
+                              textColor: AppColors.APP_BLUE,
                             ),
-                            InkWell(
-                              onTap: () {
-                                ProviderScope.containerOf(context,
-                                    listen: false)
-                                    .read(authViewProvider.notifier)
-                                    .resetState();
-                                Navigator.of(context).pop();
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  ProviderScope.containerOf(context,
+                                          listen: false)
+                                      .read(authViewProvider.notifier)
+                                      .resetState();
+                                  Navigator.of(context).pop();
                                 },
-                              child: CustomText(
-                                title: 'Sign in'.tr(),
-                                fontSize: 13,
-                                textColor: AppColors.Olive_Drab,
-                                padding: EdgeInsets.symmetric(horizontal: 8),
-                                underline: true,
+                                child: CustomText(
+                                  title: 'Sign in'.tr(),
+                                  fontSize: 12,
+                                  textColor: AppColors.Olive_Drab,
+                                  padding: EdgeInsets.symmetric(horizontal: 8),
+                                ),
                               ),
                             ),
+                            RichText(
+                              text: TextSpan(
+                                text: '* ',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'indicates required fields'.tr(),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color: AppColors.APP_BLUE,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                         SizedBox(
@@ -253,6 +331,10 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
 
   TextEditingController stateController = TextEditingController();
   TextEditingController flockSizeContoller = TextEditingController();
+  TextEditingController numberOfBirdsController = TextEditingController();
+  TextEditingController numberOfFarmsController = TextEditingController();
+  TextEditingController numberOfHousesController = TextEditingController();
+
   TextEditingController arrivalDateController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
@@ -270,8 +352,9 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
           final errors = ref.watch(_errorsProvider);
           return CustomTextField(
               controller: nameController,
+              isMandatory: true,
               hintText: "name".tr(),
-              contentPadding: EdgeInsetsDirectional.only(start: 20),
+              contentPadding: EdgeInsetsDirectional.only(bottom: 12, start: 20),
               inputType: TextInputType.text,
               fontSize: 14,
               errorMessage: errors
@@ -281,12 +364,13 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                   .message);
         }),
         SizedBox(
-          height: 10,
+          height: 20,
         ),
         Consumer(builder: (_, ref, __) {
           final errors = ref.watch(_errorsProvider);
           return CustomTextField(
               controller: phoneController,
+              isMandatory: true,
               hintText: "phone_number".tr(),
               inputType: TextInputType.phone,
               fontSize: 14,
@@ -300,7 +384,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                   .message);
         }),
         SizedBox(
-          height: 10,
+          height: 20,
         ),
       ],
     );
@@ -308,7 +392,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
 
   buildCountryDialog() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: GestureDetector(
         onTap: () {
           showCountryPicker(
@@ -335,13 +419,12 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
         },
         child: ValueListenableBuilder<String>(
             valueListenable: _countryImageNotifier,
-            builder: (context, countryImage, child){
+            builder: (context, countryImage, child) {
               return Text(
                 countryImage,
                 style: TextStyle(fontSize: 25),
               );
-            }
-        ),
+            }),
       ),
     );
   }
@@ -364,21 +447,40 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               decoration: BoxDecoration(
-                  color: AppColors.Tea_green,
-                  borderRadius: BorderRadius.circular(10)),
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+                      spreadRadius: 0.5,
+                      blurRadius: 2,
+                      offset: Offset(1, 2),
+                    )
+                  ]),
               child: selectedCategories.isEmpty
                   ? Container(
                       padding: selectedCategories.isEmpty
                           ? EdgeInsetsDirectional.only(top: 10, bottom: 10)
                           : null,
-                      child: CustomText(
-                        title: 'choose_category'.tr(),
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        textColor: AppColors.Liver,
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                    )
+                      child: RichText(
+                        text: TextSpan(
+                          text: '* ',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'choose_category'.tr(),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.TEXTFIELD_HINT,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
                   : SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
@@ -496,8 +598,16 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             decoration: BoxDecoration(
-                color: AppColors.Tea_green,
-                borderRadius: BorderRadius.circular(10)),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+                    spreadRadius: 0.5,
+                    blurRadius: 2,
+                    offset: Offset(1, 2),
+                  )
+                ]),
             child: DropdownButton<City>(
               items: cities.map((City value) {
                 return DropdownMenuItem<City>(
@@ -521,13 +631,13 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               isExpanded: true,
               icon: Icon(
                 Icons.arrow_drop_down,
-                color: AppColors.Liver,
+                color: AppColors.TEXTFIELD_HINT,
               ),
               hint: CustomText(
                 title: 'choose_city'.tr(),
                 fontSize: 13,
                 fontWeight: FontWeight.bold,
-                textColor: AppColors.Liver,
+                textColor: AppColors.TEXTFIELD_HINT,
                 padding: EdgeInsets.symmetric(horizontal: 8),
               ),
             ),
@@ -550,34 +660,48 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
 
   buildButtons(BuildContext context) {
     return Container(
-      padding: EdgeInsetsDirectional.only(start: 15, end: 15),
+      padding: EdgeInsetsDirectional.only(start: 15, end: 15, bottom: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * 0.3,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+                  spreadRadius: 0.5,
+                  blurRadius: 2,
+                  offset: Offset(1, 2),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(30),
+            ),
+            width: MediaQuery.of(context).size.width * 0.35,
             child: CustomElevatedButton(
               title: 'Register'.tr(),
-              fontSize: 17,
-              textColor: AppColors.white,
-              backgroundColor: AppColors.Olive_Drab,
+              fontSize: 16,
+              textColor: AppColors.APP_BLUE,
+              backgroundColor: AppColors.white,
               onPressed: () {
                 hideKeyboard();
-                ProviderScope.containerOf(context,
-                    listen: false).read(authViewProvider.notifier).validateFeilds(
-                    context: context,
-                    fullName: nameController.text,
-                    phone: phoneController.text,
-                    date: arrivalDateController.text,
-                    countryCode: _countryCode,
-                    cityId: selectedCity?.id ?? 0,
-                    categoryId: selectedCategories.isNotEmpty
-                        ? selectedCategories.map((e) => e.value!.id!).toList()
-                        : [],
-                    userState: stateController.text,
-                    flockSize: flockSizeContoller.text);
-                final errors = ProviderScope.containerOf(context,
-                    listen: false).read(_errorsProvider);
+                ProviderScope.containerOf(context, listen: false)
+                    .read(authViewProvider.notifier)
+                    .validateFeilds(
+                        context: context,
+                        fullName: nameController.text,
+                        phone: phoneController.text,
+                        date: arrivalDateController.text,
+                        countryCode: _countryCode,
+                        cityId: selectedCity?.id ?? 0,
+                        categoryId: selectedCategories.isNotEmpty
+                            ? selectedCategories
+                                .map((e) => e.value!.id!)
+                                .toList()
+                            : [],
+                        userState: stateController.text,
+                        flockSize: flockSizeContoller.text);
+                final errors = ProviderScope.containerOf(context, listen: false)
+                    .read(_errorsProvider);
                 print(errors.length);
                 errors.forEach((element) {
                   print(element.message);
@@ -586,12 +710,23 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
             ),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.3,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+                  spreadRadius: 0.5,
+                  blurRadius: 2,
+                  offset: Offset(1, 2),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(30),
+            ),
+            width: MediaQuery.of(context).size.width * 0.35,
             child: CustomElevatedButton(
-                fontSize: 17,
+                fontSize: 16,
                 title: 'skip'.tr(),
-                textColor: AppColors.white,
-                backgroundColor: AppColors.calc_bef_btn,
+                textColor: AppColors.APP_BLUE,
+                backgroundColor: AppColors.white,
                 onPressed: () {
                   if (Navigator.of(context).canPop()) {
                     print("can pop");

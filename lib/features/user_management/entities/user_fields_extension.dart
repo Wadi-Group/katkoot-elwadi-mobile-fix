@@ -15,7 +15,11 @@ enum UserFields {
   CONFIRM_PASSWORD,
   DATE,
   STATE,
-  FLOCK_SIZE
+  FLOCK_SIZE,
+
+  NUMBER_OF_BIRDS,
+  NUMBER_OF_HOUSES,
+  NUMBER_OF_FARMS,
 }
 
 extension UserFieldsExtension on UserFields {

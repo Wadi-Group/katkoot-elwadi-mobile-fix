@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 
@@ -33,12 +33,12 @@ class CustomTextField extends StatelessWidget {
   final bool isDense;
   final Function? onSubmitted;
   final Color fillColor;
-  Function? onChange;
-  FocusNode? focusNode;
-  String? errorMessage;
-  int? maxLength;
-  List<TextInputFormatter>? inputFormatter;
-  //int? maxNumber;
+  final Function? onChange;
+  final FocusNode? focusNode;
+  final String? errorMessage;
+  final int? maxLength;
+  final List<TextInputFormatter>? inputFormatter;
+  final bool isMandatory;
 
   CustomTextField({
     this.titleTextColor,
@@ -54,7 +54,7 @@ class CustomTextField extends StatelessWidget {
     this.isDense = false,
     this.hasSuffixSecurityIcon = false,
     this.borderRadius = 12,
-    this.hintColor = AppColors.Liver,
+    this.hintColor = AppColors.TEXTFIELD_HINT,
     this.padding = EdgeInsetsDirectional.zero,
     this.titlePadding = const EdgeInsetsDirectional.only(top: 5, bottom: 5),
     this.contentPadding = const EdgeInsetsDirectional.only(start: 10, end: 10),
@@ -67,110 +67,100 @@ class CustomTextField extends StatelessWidget {
     this.endWidget,
     this.showBorder = true,
     this.fontFamily,
-    this.fillColor = AppColors.Tea_green,
+    this.fillColor = AppColors.white,
     this.onChange,
     this.focusNode,
     this.errorMessage = "",
     this.maxLength,
     this.inputFormatter,
-    //this.maxNumber
+    this.isMandatory = false,
   });
+
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: padding,
-          child: TextFormField(
-            inputFormatters: inputFormatter,
-            maxLength: maxLength,
-            textAlignVertical: TextAlignVertical.center,
-            focusNode: focusNode,
-            onChanged: (val) {
-              if (onChange != null) {
-                onChange!;
-              }
-              if (inputType == TextInputType.number ||
-                  inputType == TextInputType.numberWithOptions(decimal: true)) {
-                // if(maxNumber != null){
-                //   if((double.tryParse(val) ?? maxNumber!) > maxNumber!){
-                //     controller.text = maxNumber.toString();
-                //     controller.selection = TextSelection.collapsed(offset: maxNumber.toString().length);
-                //   }
-                // }
-                // if(val == '.'){
-                //   String newVal = '0'+val;
-                //   controller.text = newVal;
-                //   controller.selection = TextSelection.collapsed(offset: newVal.length);
-                // }
-                // else if(val.isNotEmpty && (!RegExp(r"^([0-9]+\.?[0-9]*|\.[0-9]+)$").hasMatch(val) || !RegExp(r"^([\u0660-\u0669]+\,?[\u0660-\u0669]*|\,[\u0660-\u0669]+)$").hasMatch(val))){
-                //   controller.text = val.substring(0, val.length - 1);
-                //   controller.selection = TextSelection.collapsed(offset: val.length-1);
-                // }
-              }
-            },
-            keyboardType: inputType,
-            enabled: isEnabled,
-            onFieldSubmitted: (val) {
-              if (onSubmitted != null) {
-                onSubmitted!();
-              }
-            },
-            controller: controller,
-            obscureText: isSecured ? isSecured : false,
-            textAlign: textAlign,
-            cursorColor: textColor ?? AppColors.Liver,
-            textInputAction: textInputAction ?? TextInputAction.next,
-            style: TextStyle(
-                    fontSize: fontSize,
-                    fontWeight: fontWeight,
+        Container(
+          decoration: BoxDecoration(
+            color: fillColor,
+            borderRadius: BorderRadius.circular(borderRadius),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+                spreadRadius: 0.5,
+                blurRadius: 2,
+                offset: Offset(1, 2),
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              TextFormField(
+                inputFormatters: inputFormatter,
+                maxLength: maxLength,
+                textAlignVertical: TextAlignVertical.center,
+                focusNode: focusNode,
+                onChanged: (val) {
+                  if (onChange != null) {
+                    onChange!(val);
+                  }
+                },
+                keyboardType: inputType,
+                enabled: isEnabled,
+                onFieldSubmitted: (val) {
+                  if (onSubmitted != null) {
+                    onSubmitted!();
+                  }
+                },
+                controller: controller,
+                obscureText: isSecured,
+                textAlign: textAlign,
+                cursorColor: textColor ?? AppColors.Liver,
+                textInputAction: textInputAction ?? TextInputAction.next,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: fontWeight,
+                  fontFamily: fontFamily,
+                  color: textColor ?? AppColors.Liver,
+                ).apply(
+                  fontSizeDelta: context.locale.toString() == 'en' ? 0.0 : -2.0,
+                  fontSizeFactor: 1.0,
+                ),
+                decoration: InputDecoration(
+                  isDense: isDense,
+                  counterText: "",
+                  border: InputBorder.none,
+                  prefixIcon: prefixIcon,
+                  suffixIcon: endWidget,
+                  contentPadding:
+                      hasSuffixSecurityIcon ? EdgeInsets.zero : contentPadding,
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    color: hintColor,
                     fontFamily: fontFamily,
-                    color: textColor ?? AppColors.Liver)
-                .apply(
+                    fontSize: fontSize,
+                  ).apply(
                     fontSizeDelta:
                         context.locale.toString() == 'en' ? 0.0 : -2.0,
-                    fontSizeFactor: 1.0),
-            decoration: InputDecoration(
-              isDense: isDense,
-              counterText: "",
-              fillColor: fillColor,
-              filled:
-                  true, //controller == null || (controller?.text.isEmpty ?? false),
-              border: InputBorder.none,
-              focusColor: AppColors.OFF_WHITE,
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color:
-                        showBorder ? AppColors.Tea_green : AppColors.Platinum),
-                borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+                    fontSizeFactor: 1.0,
+                  ),
+                ),
               ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color:
-                        showBorder ? AppColors.Tea_green : AppColors.Platinum),
-                borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                    color:
-                        showBorder ? AppColors.Tea_green : AppColors.Platinum),
-                borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-              ),
-              prefixIcon: prefixIcon,
-              suffixIcon: endWidget,
-
-              contentPadding:
-                  hasSuffixSecurityIcon ? EdgeInsets.zero : contentPadding,
-              hintText: hintText,
-              hintStyle: TextStyle(
-                      color: hintColor,
-                      fontFamily: fontFamily,
-                      fontSize: fontSize)
-                  .apply(
-                      fontSizeDelta:
-                          context.locale.toString() == 'en' ? 0.0 : -2.0,
-                      fontSizeFactor: 1.0),
-            ),
+              if (isMandatory)
+                Positioned(
+                  left: prefixIcon == null ? 10 : 60,
+                  top: 10,
+                  child: Text(
+                    '*',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: fontSize + 2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
         if (errorMessage!.isNotEmpty)

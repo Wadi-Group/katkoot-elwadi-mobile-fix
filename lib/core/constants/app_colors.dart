@@ -64,5 +64,6 @@ class AppColors {
   static const Color LA_SALLE_GREEN = Color(0xff007934);
   static const Color CADMIUM_RED = Color(0xffea0029);
   static const Color SPLASH_GREEN = AppColors.APP_BLUE;
-  static const Color LIGHT_BACKGROUND = Color(0xffe2eef3);
+  static const Color LIGHT_BACKGROUND = Color(0xffeef0ef);
+  static const Color TEXTFIELD_HINT = Color(0xffced5e7);
 }

@@ -1,5 +1,4 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,13 +8,14 @@ import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/active_button.dart';
-import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_text_field.dart';
+import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_fields_extension.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
 import 'package:katkoot_elwady/features/user_management/screens/register_screen.dart';
+
 import '../../../core/di/injection_container.dart' as di;
 import '../view_models/auth_view_model.dart';
 
@@ -61,7 +61,7 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
             hasbackButton: false,
             showNotificationsButton: true,
           ),
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.LIGHT_BACKGROUND,
           body: GestureDetector(
             onTap: () {
               hideKeyboard();
@@ -214,13 +214,12 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
         },
         child: ValueListenableBuilder<String>(
             valueListenable: _countryImageNotifier,
-            builder: (context, countryImage, child){
+            builder: (context, countryImage, child) {
               return Text(
-              countryImage,
-              style: TextStyle(fontSize: 25),
-            );
-          }
-        ),
+                countryImage,
+                style: TextStyle(fontSize: 25),
+              );
+            }),
       ),
     );
   }
