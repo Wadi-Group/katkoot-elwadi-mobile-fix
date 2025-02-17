@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:country_picker/country_picker.dart';
-import 'package:flutter/services.dart';
-import 'package:katkoot_elwady/core/constants/katkoot_elwadi_icons.dart';
-import 'package:katkoot_elwady/core/utils/country_code_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
@@ -23,16 +19,11 @@ import 'package:katkoot_elwady/features/menu_management/widgets/category_drop_do
 import 'package:katkoot_elwady/features/menu_management/widgets/city_drop_down.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_fields_extension.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
-import 'package:katkoot_elwady/features/user_management/models/user.dart';
-import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
 import 'package:katkoot_elwady/features/user_management/view_models/auth_view_model.dart';
-import 'package:katkoot_elwady/features/user_management/view_models/user_data_view_model.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
+
 import '../../../core/di/injection_container.dart' as di;
-import 'package:easy_localization/easy_localization.dart';
-import 'package:katkoot_elwady/features/menu_management/view_models/navigation_view_model.dart';
-import '../../user_management/screens/login_screen.dart';
-import '../view_models/navigation_view_model.dart';
+
 class EditProfileScreen extends StatefulWidget with NavigationDrawerMixin {
   static const routeName = "./edit_profile";
 
@@ -43,13 +34,12 @@ class EditProfileScreen extends StatefulWidget with NavigationDrawerMixin {
 class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   late bool userIsLoggedIn;
   String _countryCode = "+20";
   ValueNotifier<String> _countryImageNotifier = ValueNotifier("🇪🇬");
 
   @override
-  Widget build(BuildContext context,{bool isAuth = false}) {
+  Widget build(BuildContext context, {bool isAuth = false}) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -63,6 +53,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: SafeArea(
           child: Container(
+              color: AppColors.LIGHT_BACKGROUND,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: Stack(
@@ -73,11 +64,13 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                     child: Consumer(builder: (ctx, ref, __) {
                       var viewModel = ref.watch(editProfileProvider);
                       var viewmodelNotifier =
-                      ref.watch(editProfileProvider.notifier);
+                          ref.watch(editProfileProvider.notifier);
                       var data = viewModel.data;
                       return Stack(
                         children: [
                           SingleChildScrollView(
+                            padding:
+                                EdgeInsetsDirectional.only(start: 2, end: 2),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -87,29 +80,26 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   child: CustomText(
                                     textAlign: TextAlign.center,
                                     title: "str_profile".tr(),
-                                    textColor: AppColors.Liver,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w500,
+                                    textColor: AppColors.APP_BLUE,
                                   ),
                                 ),
                                 SizedBox(
-                                    height:
-                                    MediaQuery.of(context).size.height *
+                                    height: MediaQuery.of(context).size.height *
                                         0.05),
                                 buildForm(),
                                 CategoryDropDown(
-                                  categories:
-                                  viewModel.data!.categories ?? [],
-                                  selectedCategories: viewModel
-                                      .data!.selectedCategory !=
-                                      null
-                                      ? viewModel.data!.selectedCategory!
-                                      .map((e) =>
-                                      MultiSelectItem(e, e.title!))
-                                      .toList()
-                                      : [],
-                                  onChange: viewmodelNotifier
-                                      .changeCurrentCategory,
+                                  categories: viewModel.data!.categories ?? [],
+                                  selectedCategories:
+                                      viewModel.data!.selectedCategory != null
+                                          ? viewModel.data!.selectedCategory!
+                                              .map((e) =>
+                                                  MultiSelectItem(e, e.title!))
+                                              .toList()
+                                          : [],
+                                  onChange:
+                                      viewmodelNotifier.changeCurrentCategory,
                                   errorProvider: _errorsProvider,
                                 ),
                                 SizedBox(
@@ -117,34 +107,30 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                 ),
                                 CityDropDown(
                                   cities: viewModel.data!.cities ?? [],
-                                  selectedCity:
-                                  viewModel.data!.selectedCity,
-                                  onChange:
-                                  viewmodelNotifier.changeCurrentCity,
+                                  selectedCity: viewModel.data!.selectedCity,
+                                  onChange: viewmodelNotifier.changeCurrentCity,
                                 ),
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Consumer(
-                                    builder: (_,ref, __) {
-                                      final errors = ref.watch(_errorsProvider);
-                                      return CustomTextField(
-                                          controller: stateController,
-                                          hintText: "state".tr(),
-                                          contentPadding:
+                                Consumer(builder: (_, ref, __) {
+                                  final errors = ref.watch(_errorsProvider);
+                                  return CustomTextField(
+                                      controller: stateController,
+                                      hintText: "state".tr(),
+                                      contentPadding:
                                           EdgeInsetsDirectional.only(
-                                              start: 20),
-                                          inputType: TextInputType.text,
-                                          fontSize: 14,
-                                          errorMessage: errors
-                                              .firstWhere(
-                                                  (element) =>
-                                              element.field ==
+                                              start: 20, bottom: 12),
+                                      inputType: TextInputType.text,
+                                      fontSize: 14,
+                                      errorMessage: errors
+                                          .firstWhere(
+                                              (element) =>
+                                                  element.field ==
                                                   UserFields.STATE.field,
-                                              orElse: () =>
-                                                  UserFormsErrors())
-                                              .message);
-                                    }),
+                                              orElse: () => UserFormsErrors())
+                                          .message);
+                                }),
                                 SizedBox(
                                   height: 20,
                                 ),
@@ -153,67 +139,132 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                     // launch datePicker
                                     _selectDate(context);
                                   },
-                                  child: Consumer(
-                                      builder: (_, watch, __) {
-                                        final errors = ref.watch(_errorsProvider);
-                                        var error = errors.firstWhere(
-                                                (element) =>
+                                  child: Consumer(builder: (_, watch, __) {
+                                    final errors = ref.watch(_errorsProvider);
+                                    var error = errors.firstWhere(
+                                        (element) =>
                                             element.field ==
-                                                UserFields.DATE.field,
-                                            orElse: () => UserFormsErrors());
-                                        return Container(
-                                          child: CustomTextField(
-                                            endWidget: Icon(
-                                              KatkootELWadyIcons.calendar,
-                                              color: AppColors.Olive_Drab,
-                                              size: 20,
-                                            ),
-                                            isEnabled: false,
-                                            controller: arrivalDateController,
-                                            contentPadding:
+                                            UserFields.DATE.field,
+                                        orElse: () => UserFormsErrors());
+                                    return Container(
+                                      child: CustomTextField(
+                                        isEnabled: false,
+                                        controller: arrivalDateController,
+                                        contentPadding:
                                             EdgeInsetsDirectional.only(
-                                                start: 20),
-                                            hintText: "birth_date".tr(),
-                                            maxLength: 10,
-                                            inputType: TextInputType.none,
-                                            fontSize: 14,
-                                            errorMessage: error.message,
-                                          ),
-                                        );
-                                      }),
+                                                start: 20, bottom: 12),
+                                        hintText: "birth_date".tr(),
+                                        maxLength: 10,
+                                        inputType: TextInputType.none,
+                                        fontSize: 14,
+                                        errorMessage: error.message,
+                                      ),
+                                    );
+                                  }),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Consumer(builder: (_, ref, __) {
+                                  final errors = ref.watch(_errorsProvider);
+                                  return CustomTextField(
+                                      controller: flockSizeContoller,
+                                      hintText: "flock_size".tr(),
+                                      contentPadding:
+                                          EdgeInsetsDirectional.only(
+                                              start: 20, bottom: 12),
+                                      inputType: TextInputType.number,
+                                      fontSize: 14,
+                                      errorMessage: errors
+                                          .firstWhere(
+                                              (element) =>
+                                                  element.field ==
+                                                  UserFields.FLOCK_SIZE.field,
+                                              orElse: () => UserFormsErrors())
+                                          .message);
+                                }),
+                                SizedBox(
+                                  height: 20,
                                 ),
 
+                                //Number of birds / House
+                                Consumer(builder: (_, ref, __) {
+                                  final errors = ref.watch(_errorsProvider);
+                                  return CustomTextField(
+                                      controller: numberOfBirdsController,
+                                      hintText: "numberOfBirds".tr(),
+                                      contentPadding:
+                                          EdgeInsetsDirectional.only(
+                                              bottom: 12, start: 20),
+                                      inputType: TextInputType.number,
+                                      fontSize: 14,
+                                      errorMessage: errors
+                                          .firstWhere(
+                                              (element) =>
+                                                  element.field ==
+                                                  UserFields
+                                                      .NUMBER_OF_BIRDS.field,
+                                              orElse: () => UserFormsErrors())
+                                          .message);
+                                }),
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Consumer(
-                                    builder: (_, ref, __) {
-                                      final errors = ref.watch(_errorsProvider);
-                                      return CustomTextField(
-                                          controller: flockSizeContoller,
-                                          hintText: "flock_size".tr(),
-                                          contentPadding:
+                                // number of farms
+                                Consumer(builder: (_, ref, __) {
+                                  final errors = ref.watch(_errorsProvider);
+                                  return CustomTextField(
+                                      controller: numberOfFarmsController,
+                                      hintText: "numberOfFarms".tr(),
+                                      contentPadding:
                                           EdgeInsetsDirectional.only(
-                                              start: 20),
-                                          inputType: TextInputType.number,
-                                          fontSize: 14,
-                                          errorMessage: errors
-                                              .firstWhere(
-                                                  (element) =>
-                                              element.field ==
+                                              bottom: 12, start: 20),
+                                      inputType: TextInputType.number,
+                                      fontSize: 14,
+                                      errorMessage: errors
+                                          .firstWhere(
+                                              (element) =>
+                                                  element.field ==
                                                   UserFields
-                                                      .FLOCK_SIZE.field,
-                                              orElse: () =>
-                                                  UserFormsErrors())
-                                              .message);
-                                    }),
+                                                      .NUMBER_OF_FARMS.field,
+                                              orElse: () => UserFormsErrors())
+                                          .message);
+                                }),
                                 SizedBox(
                                   height: 20,
+                                ),
+                                // number of houses
+                                Consumer(builder: (_, ref, __) {
+                                  final errors = ref.watch(_errorsProvider);
+                                  return CustomTextField(
+                                      controller: numberOfHousesController,
+                                      hintText: "numberOfHouses".tr(),
+                                      contentPadding:
+                                          EdgeInsetsDirectional.only(
+                                              bottom: 12, start: 20),
+                                      inputType: TextInputType.number,
+                                      fontSize: 14,
+                                      errorMessage: errors
+                                          .firstWhere(
+                                              (element) =>
+                                                  element.field ==
+                                                  UserFields
+                                                      .NUMBER_OF_HOUSES.field,
+                                              orElse: () => UserFormsErrors())
+                                          .message);
+                                }),
+                                SizedBox(
+                                  height: 30,
                                 ),
                                 Consumer(
                                   builder: (context, ref, _) {
-                                    var modelView = ref.watch(di.navigationDrawerViewModelProvider.notifier);
-                                    userIsLoggedIn = ref.watch(di.userViewModelProvider.notifier).isUserLoggedIn();
+                                    var modelView = ref.watch(di
+                                        .navigationDrawerViewModelProvider
+                                        .notifier);
+                                    userIsLoggedIn = ref
+                                        .watch(
+                                            di.userViewModelProvider.notifier)
+                                        .isUserLoggedIn();
                                     // var test = data!.userName;
                                     return TextButton(
                                       child: Text("delete_account".tr()),
@@ -223,9 +274,12 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                           context: context,
                                           builder: (context) {
                                             return AlertDialog(
-                                              title : Text("delete_account_message".tr()),
+                                              title: Text(
+                                                  "delete_account_message"
+                                                      .tr()),
                                               // title: Text(data!.userName.toString()),
-                                              content: Text(data!.phoneNumber.toString()),
+                                              content: Text(
+                                                  data!.phoneNumber.toString()),
                                               //
                                               // content: Text("Sds"),
                                               actions: <Widget>[
@@ -233,17 +287,24 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                                   title: "str_cancel".tr(),
                                                   textColor: AppColors.white,
                                                   backgroundColor:
-                                                  AppColors.APP_GREEN,
-                                                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                                                      AppColors.APP_GREEN,
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'Cancel'),
                                                 ),
                                                 CustomElevatedButton(
                                                   title: "delete".tr(),
                                                   textColor: AppColors.white,
                                                   backgroundColor:
-                                                  AppColors.CADMIUM_RED,
-                                                  onPressed: ()=>ProviderScope.containerOf(context)
-                                                      .read(di.userViewModelProvider
-                                                      .notifier).deleteUser(int.tryParse(data!.userId.toString())),
+                                                      AppColors.CADMIUM_RED,
+                                                  onPressed: () => ProviderScope
+                                                          .containerOf(context)
+                                                      .read(di
+                                                          .userViewModelProvider
+                                                          .notifier)
+                                                      .deleteUser(int.tryParse(
+                                                          data!.userId
+                                                              .toString())),
                                                   // onPressed: () => Navigator.pop(context, 'OK'),
 
                                                   // onPressed: ()=>Navigator.pop(context,  modelView.signOut() ),
@@ -269,65 +330,88 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                             child: Container(
                               padding: EdgeInsetsDirectional.only(
                                   start: 15, end: 15, top: 10),
-                              decoration:
-                              BoxDecoration(color: AppColors.white),
+                              decoration: BoxDecoration(
+                                  color: AppColors.LIGHT_BACKGROUND),
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
-                                    width:
-                                    MediaQuery.of(context).size.width *
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppColors.APP_CARDS_BLUE
+                                              .withAlpha(25),
+                                          spreadRadius: 0.5,
+                                          blurRadius: 2,
+                                          offset: Offset(1, 2),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    width: MediaQuery.of(context).size.width *
                                         0.35,
                                     child: CustomElevatedButton(
                                       title: "str_save".tr(),
-                                      textColor: AppColors.white,
-                                      backgroundColor: AppColors.Olive_Drab,
+                                      textColor: AppColors.APP_BLUE,
+                                      backgroundColor: AppColors.white,
                                       onPressed: () {
                                         FocusScope.of(context).unfocus();
                                         ProviderScope.containerOf(context,
-                                            listen: false)
+                                                listen: false)
                                             .read(authViewProvider.notifier)
                                             .validateFeilds(
-                                            context: context,
-                                            fullName:
-                                            nameController.text,
-                                            phone: phoneController.text,
-                                            countryCode: _countryCode,
-                                            cityId: viewModel.data!
-                                                .selectedCity?.id ??
-                                                0,
-                                            date: arrivalDateController
-                                                .text,
-                                            categoryId: viewModel.data!
-                                                .selectedCategory !=
-                                                null
-                                                ? viewModel.data!
-                                                .selectedCategory!
-                                                .map((e) => e.id!)
-                                                .toList()
-                                                : [],
-                                            flockSize:
-                                            flockSizeContoller.text,
-                                            userState:
-                                            stateController.text,
-                                            isEdit: true);
+                                                context: context,
+                                                fullName: nameController.text,
+                                                phone: phoneController.text,
+                                                countryCode: _countryCode,
+                                                cityId: viewModel.data!
+                                                        .selectedCity?.id ??
+                                                    0,
+                                                date:
+                                                    arrivalDateController.text,
+                                                categoryId: viewModel.data!
+                                                            .selectedCategory !=
+                                                        null
+                                                    ? viewModel
+                                                        .data!.selectedCategory!
+                                                        .map((e) => e.id!)
+                                                        .toList()
+                                                    : [],
+                                                flockSize:
+                                                    flockSizeContoller.text,
+                                                userState: stateController.text,
+                                                isEdit: true);
                                       },
                                     ),
                                   ),
                                   Container(
-                                    width:
-                                    MediaQuery.of(context).size.width *
+                                    width: MediaQuery.of(context).size.width *
                                         0.35,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: AppColors.APP_CARDS_BLUE
+                                              .withAlpha(25),
+                                          spreadRadius: 0.5,
+                                          blurRadius: 2,
+                                          offset: Offset(1, 2),
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
                                     child: CustomElevatedButton(
                                       title: "str_cancel".tr(),
-                                      textColor: AppColors.white,
-                                      backgroundColor:
-                                      AppColors.calc_bef_btn,
+                                      textColor: AppColors.APP_BLUE,
+                                      backgroundColor: AppColors.white,
                                       onPressed: () {
                                         hideKeyboard();
                                         ProviderScope.containerOf(context,
-                                            listen: false).read(di.bottomNavigationViewModelProvider.notifier).changeIndex(0);
+                                                listen: false)
+                                            .read(di
+                                                .bottomNavigationViewModelProvider
+                                                .notifier)
+                                            .changeIndex(0);
                                       },
                                     ),
                                   ),
@@ -371,17 +455,20 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
   TextEditingController flockSizeContoller = TextEditingController();
   TextEditingController stateController = TextEditingController();
   TextEditingController arrivalDateController = TextEditingController();
+  TextEditingController numberOfBirdsController = TextEditingController();
+  TextEditingController numberOfFarmsController = TextEditingController();
+  TextEditingController numberOfHousesController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   TextEditingController idController = TextEditingController();
   late final _errorsProvider =
-  Provider.autoDispose<List<UserFormsErrors>>((ref) {
+      Provider.autoDispose<List<UserFormsErrors>>((ref) {
     return ref.watch(authViewProvider).data;
   });
 
   buildForm() {
     return Column(
       children: [
-        Consumer(builder: (_,ref, __) {
+        Consumer(builder: (_, ref, __) {
           final errors = ref.watch(_errorsProvider);
 
           return CustomTextField(
@@ -389,11 +476,11 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
               hintText: "name".tr(),
               inputType: TextInputType.text,
               fontSize: 14,
-              contentPadding: EdgeInsetsDirectional.only(start: 20),
+              contentPadding: EdgeInsetsDirectional.only(bottom: 12, start: 12),
               errorMessage: errors
                   .firstWhere(
                       (element) => element.field == UserFields.NAME.field,
-                  orElse: () => UserFormsErrors())
+                      orElse: () => UserFormsErrors())
                   .message);
         }),
         SizedBox(
@@ -411,7 +498,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
               errorMessage: errors
                   .firstWhere(
                       (element) => element.field == UserFields.PHONE.field,
-                  orElse: () => UserFormsErrors())
+                      orElse: () => UserFormsErrors())
                   .message);
         }),
         SizedBox(
@@ -423,7 +510,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
 
   buildCountryDialog() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: GestureDetector(
         onTap: () {
           showCountryPicker(
@@ -450,27 +537,26 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
         },
         child: ValueListenableBuilder<String>(
             valueListenable: _countryImageNotifier,
-            builder: (context, countryImage, child){
+            builder: (context, countryImage, child) {
               return Text(
                 countryImage,
                 style: TextStyle(fontSize: 25),
               );
-            }
-        ),
+            }),
       ),
     );
   }
 
   final authViewProvider =
-  StateNotifierProvider<AuthViewModel, BaseState<List<UserFormsErrors>>>(
+      StateNotifierProvider<AuthViewModel, BaseState<List<UserFormsErrors>>>(
           (ref) {
-        return AuthViewModel(ref.read(di.repositoryProvider));
-      });
+    return AuthViewModel(ref.read(di.repositoryProvider));
+  });
   final editProfileProvider =
-  StateNotifierProvider<EditProfileViewModel, BaseState<EditProdileData?>>(
+      StateNotifierProvider<EditProfileViewModel, BaseState<EditProdileData?>>(
           (ref) {
-        return EditProfileViewModel(ref.read(di.repositoryProvider));
-      });
+    return EditProfileViewModel(ref.read(di.repositoryProvider));
+  });
   @override
   void initState() {
     // TODO: implement initState
@@ -480,16 +566,16 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
 
   Future getData(BuildContext context) async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(editProfileProvider.notifier).getCategoriesAndCities(
-          context,
-          phoneController,
-          nameController,
-          arrivalDateController,
-          stateController,
-          flockSizeContoller,
-          idController
-         );
+      ProviderScope.containerOf(context, listen: false)
+          .read(editProfileProvider.notifier)
+          .getCategoriesAndCities(
+              context,
+              phoneController,
+              nameController,
+              arrivalDateController,
+              stateController,
+              flockSizeContoller,
+              idController);
     });
   }
 
