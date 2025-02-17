@@ -96,20 +96,23 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
                           CustomText(
                             title: 'login_elite'.tr(),
                             fontSize: 14,
+                            textColor: AppColors.APP_BLUE,
                           ),
                           SizedBox(
                             height: 30,
                           ),
                           buildForm(),
                           SizedBox(
-                            height: 50,
+                            height: 30,
                           ),
                           Container(
                             padding:
                                 EdgeInsetsDirectional.only(start: 15, end: 15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [buildLoginButton(), buildSkipButton()],
+                              children: [
+                                buildLoginButton(),
+                              ],
                             ),
                           ),
                           SizedBox(
@@ -172,17 +175,22 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
     return Consumer(builder: (_, ref, __) {
       final errors = ref.watch(_errorsProvider);
 
-      return CustomTextField(
-          controller: phoneController,
-          hintText: "phone_number".tr(),
-          inputType: TextInputType.phone,
-          inputFormatter: [IntegerTextInputFormatter()],
-          fontSize: 14,
-          prefixIcon: buildCountryDialog(),
-          errorMessage: errors
-              .firstWhere((element) => element.field == UserFields.PHONE.field,
-                  orElse: () => UserFormsErrors())
-              .message);
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: CustomTextField(
+            controller: phoneController,
+            hintText: "phone_number".tr().toUpperCase(),
+            inputType: TextInputType.phone,
+            fontWeight: FontWeight.w300,
+            inputFormatter: [IntegerTextInputFormatter()],
+            fontSize: 14,
+            prefixIcon: buildCountryDialog(),
+            errorMessage: errors
+                .firstWhere(
+                    (element) => element.field == UserFields.PHONE.field,
+                    orElse: () => UserFormsErrors())
+                .message),
+      );
     });
   }
 
