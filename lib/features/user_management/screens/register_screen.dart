@@ -70,232 +70,237 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
           child: SafeArea(
             child: Stack(
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  color: AppColors.LIGHT_BACKGROUND,
-                  padding: EdgeInsetsDirectional.only(
-                      top: 2, bottom: 8, start: 20, end: 20),
-                  child: SingleChildScrollView(
-                    padding: EdgeInsetsDirectional.symmetric(horizontal: 2),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                        ),
-                        CustomText(
-                          title: 'You need to register'.tr(),
-                          fontSize: 22,
-                          fontWeight: FontWeight.w500,
-                          textColor: AppColors.APP_BLUE,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        buildForm(),
-                        Consumer(builder: (_, ref, __) {
-                          var categoriesViewModelProvider =
-                              ref.watch(di.categoriesViewModelProvider);
-                          var categories = categoriesViewModelProvider.data;
-                          return buildCategoriesDropDown(categories!);
-                        }),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Consumer(builder: (_, ref, __) {
-                          var cityViewModelProvider =
-                              ref.watch(di.cityViewModelProvider);
-                          var cities = cityViewModelProvider.data;
-                          return buildLocationDropDown(cities!);
-                        }),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Consumer(builder: (_, ref, __) {
-                          final errors = ref.watch(_errorsProvider);
-                          return CustomTextField(
-                              controller: stateController,
-                              hintText: "state".tr(),
-                              contentPadding: EdgeInsetsDirectional.only(
-                                  bottom: 12, start: 20),
-                              inputType: TextInputType.text,
-                              fontSize: 14,
-                              errorMessage: errors
-                                  .firstWhere(
-                                      (element) =>
-                                          element.field ==
-                                          UserFields.STATE.field,
-                                      orElse: () => UserFormsErrors())
-                                  .message);
-                        }),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // launch datePicker
-                            _selectDate(context);
-                          },
-                          child: Consumer(builder: (_, ref, __) {
-                            final errors = ref.watch(_errorsProvider);
-                            var error = errors.firstWhere(
-                                (element) =>
-                                    element.field == UserFields.DATE.field,
-                                orElse: () => UserFormsErrors());
-                            return Container(
-                              child: CustomTextField(
-                                isEnabled: false,
-                                controller: arrivalDateController,
-                                contentPadding: EdgeInsetsDirectional.only(
-                                    bottom: 12, start: 20),
-                                hintText: "birth_date".tr(),
-                                maxLength: 10,
-                                inputType: TextInputType.none,
-                                fontSize: 14,
-                                errorMessage: error.message,
-                              ),
-                            );
-                          }),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Consumer(builder: (_, ref, __) {
-                          final errors = ref.watch(_errorsProvider);
-                          return CustomTextField(
-                              controller: flockSizeContoller,
-                              hintText: "flock_size".tr(),
-                              contentPadding: EdgeInsetsDirectional.only(
-                                  bottom: 12, start: 20),
-                              inputType: TextInputType.number,
-                              fontSize: 14,
-                              errorMessage: errors
-                                  .firstWhere(
-                                      (element) =>
-                                          element.field ==
-                                          UserFields.FLOCK_SIZE.field,
-                                      orElse: () => UserFormsErrors())
-                                  .message);
-                        }),
-                        SizedBox(
-                          height: 20,
-                        ),
-
-                        //Number of birds / House
-                        Consumer(builder: (_, ref, __) {
-                          final errors = ref.watch(_errorsProvider);
-                          return CustomTextField(
-                              controller: numberOfBirdsController,
-                              hintText: "numberOfBirds".tr(),
-                              contentPadding: EdgeInsetsDirectional.only(
-                                  bottom: 12, start: 20),
-                              inputType: TextInputType.number,
-                              fontSize: 14,
-                              errorMessage: errors
-                                  .firstWhere(
-                                      (element) =>
-                                          element.field ==
-                                          UserFields.NUMBER_OF_BIRDS.field,
-                                      orElse: () => UserFormsErrors())
-                                  .message);
-                        }),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        // number of farms
-                        Consumer(builder: (_, ref, __) {
-                          final errors = ref.watch(_errorsProvider);
-                          return CustomTextField(
-                              controller: numberOfFarmsController,
-                              hintText: "numberOfFarms".tr(),
-                              contentPadding: EdgeInsetsDirectional.only(
-                                  bottom: 12, start: 20),
-                              inputType: TextInputType.number,
-                              fontSize: 14,
-                              errorMessage: errors
-                                  .firstWhere(
-                                      (element) =>
-                                          element.field ==
-                                          UserFields.NUMBER_OF_FARMS.field,
-                                      orElse: () => UserFormsErrors())
-                                  .message);
-                        }),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        // number of houses
-                        Consumer(builder: (_, ref, __) {
-                          final errors = ref.watch(_errorsProvider);
-                          return CustomTextField(
-                              controller: numberOfHousesController,
-                              hintText: "numberOfHouses".tr(),
-                              contentPadding: EdgeInsetsDirectional.only(
-                                  bottom: 12, start: 20),
-                              inputType: TextInputType.number,
-                              fontSize: 14,
-                              errorMessage: errors
-                                  .firstWhere(
-                                      (element) =>
-                                          element.field ==
-                                          UserFields.NUMBER_OF_HOUSES.field,
-                                      orElse: () => UserFormsErrors())
-                                  .message);
-                        }),
-                        SizedBox(
-                          height: 30,
-                        ),
-
-                        Row(
+                Stack(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height,
+                      color: AppColors.LIGHT_BACKGROUND,
+                      padding: EdgeInsetsDirectional.only(
+                          top: 2, bottom: 70, start: 20, end: 20),
+                      child: SingleChildScrollView(
+                        padding: EdgeInsetsDirectional.symmetric(horizontal: 2),
+                        child: Column(
                           children: [
+                            SizedBox(
+                              height: 20,
+                            ),
                             CustomText(
-                              title: 'Already have an account ?'.tr(),
-                              fontSize: 12,
+                              title: 'You need to register'.tr(),
+                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
                               textColor: AppColors.APP_BLUE,
                             ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {
-                                  ProviderScope.containerOf(context,
-                                          listen: false)
-                                      .read(authViewProvider.notifier)
-                                      .resetState();
-                                  Navigator.of(context).pop();
-                                },
-                                child: CustomText(
-                                  title: 'Sign in'.tr(),
-                                  fontSize: 12,
-                                  textColor: AppColors.Olive_Drab,
-                                  padding: EdgeInsets.symmetric(horizontal: 8),
-                                ),
-                              ),
+                            SizedBox(
+                              height: 20,
                             ),
-                            RichText(
-                              text: TextSpan(
-                                text: '* ',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
+                            buildForm(),
+                            Consumer(builder: (_, ref, __) {
+                              var categoriesViewModelProvider =
+                                  ref.watch(di.categoriesViewModelProvider);
+                              var categories = categoriesViewModelProvider.data;
+                              return buildCategoriesDropDown(categories!);
+                            }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Consumer(builder: (_, ref, __) {
+                              var cityViewModelProvider =
+                                  ref.watch(di.cityViewModelProvider);
+                              var cities = cityViewModelProvider.data;
+                              return buildLocationDropDown(cities!);
+                            }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Consumer(builder: (_, ref, __) {
+                              final errors = ref.watch(_errorsProvider);
+                              return CustomTextField(
+                                  controller: stateController,
+                                  hintText: "state".tr(),
+                                  contentPadding: EdgeInsetsDirectional.only(
+                                      bottom: 12, start: 20),
+                                  inputType: TextInputType.text,
+                                  fontSize: 14,
+                                  errorMessage: errors
+                                      .firstWhere(
+                                          (element) =>
+                                              element.field ==
+                                              UserFields.STATE.field,
+                                          orElse: () => UserFormsErrors())
+                                      .message);
+                            }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // launch datePicker
+                                _selectDate(context);
+                              },
+                              child: Consumer(builder: (_, ref, __) {
+                                final errors = ref.watch(_errorsProvider);
+                                var error = errors.firstWhere(
+                                    (element) =>
+                                        element.field == UserFields.DATE.field,
+                                    orElse: () => UserFormsErrors());
+                                return Container(
+                                  child: CustomTextField(
+                                    isEnabled: false,
+                                    controller: arrivalDateController,
+                                    contentPadding: EdgeInsetsDirectional.only(
+                                        bottom: 12, start: 20),
+                                    hintText: "birth_date".tr(),
+                                    maxLength: 10,
+                                    inputType: TextInputType.none,
+                                    fontSize: 14,
+                                    errorMessage: error.message,
+                                  ),
+                                );
+                              }),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Consumer(builder: (_, ref, __) {
+                              final errors = ref.watch(_errorsProvider);
+                              return CustomTextField(
+                                  controller: flockSizeContoller,
+                                  hintText: "flock_size".tr(),
+                                  contentPadding: EdgeInsetsDirectional.only(
+                                      bottom: 12, start: 20),
+                                  inputType: TextInputType.number,
+                                  fontSize: 14,
+                                  errorMessage: errors
+                                      .firstWhere(
+                                          (element) =>
+                                              element.field ==
+                                              UserFields.FLOCK_SIZE.field,
+                                          orElse: () => UserFormsErrors())
+                                      .message);
+                            }),
+                            SizedBox(
+                              height: 20,
+                            ),
+
+                            //Number of birds / House
+                            Consumer(builder: (_, ref, __) {
+                              final errors = ref.watch(_errorsProvider);
+                              return CustomTextField(
+                                  controller: numberOfBirdsController,
+                                  hintText: "number_of_birds".tr(),
+                                  contentPadding: EdgeInsetsDirectional.only(
+                                      bottom: 12, start: 20),
+                                  inputType: TextInputType.number,
+                                  fontSize: 14,
+                                  errorMessage: errors
+                                      .firstWhere(
+                                          (element) =>
+                                              element.field ==
+                                              UserFields.NUMBER_OF_BIRDS.field,
+                                          orElse: () => UserFormsErrors())
+                                      .message);
+                            }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            // number of farms
+                            Consumer(builder: (_, ref, __) {
+                              final errors = ref.watch(_errorsProvider);
+                              return CustomTextField(
+                                  controller: numberOfFarmsController,
+                                  hintText: "number_of_farms".tr(),
+                                  contentPadding: EdgeInsetsDirectional.only(
+                                      bottom: 12, start: 20),
+                                  inputType: TextInputType.number,
+                                  fontSize: 14,
+                                  errorMessage: errors
+                                      .firstWhere(
+                                          (element) =>
+                                              element.field ==
+                                              UserFields.NUMBER_OF_FARMS.field,
+                                          orElse: () => UserFormsErrors())
+                                      .message);
+                            }),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            // number of houses
+                            Consumer(builder: (_, ref, __) {
+                              final errors = ref.watch(_errorsProvider);
+                              return CustomTextField(
+                                  controller: numberOfHousesController,
+                                  hintText: "number_of_houses".tr(),
+                                  contentPadding: EdgeInsetsDirectional.only(
+                                      bottom: 12, start: 20),
+                                  inputType: TextInputType.number,
+                                  fontSize: 14,
+                                  errorMessage: errors
+                                      .firstWhere(
+                                          (element) =>
+                                              element.field ==
+                                              UserFields.NUMBER_OF_HOUSES.field,
+                                          orElse: () => UserFormsErrors())
+                                      .message);
+                            }),
+                            SizedBox(
+                              height: 30,
+                            ),
+
+                            Row(
+                              children: [
+                                CustomText(
+                                  title: 'Already have an account ?'.tr(),
+                                  fontSize: 12,
+                                  textColor: AppColors.APP_BLUE,
                                 ),
-                                children: [
-                                  TextSpan(
-                                    text: 'indicates required fields'.tr(),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      color: AppColors.APP_BLUE,
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      ProviderScope.containerOf(context,
+                                              listen: false)
+                                          .read(authViewProvider.notifier)
+                                          .resetState();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: CustomText(
+                                      title: 'Sign in'.tr(),
+                                      fontSize: 14,
+                                      textColor: AppColors.Olive_Drab,
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 8),
                                     ),
                                   ),
-                                ],
-                              ),
-                            )
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: '* ',
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: 'indicates required fields'.tr(),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.APP_BLUE,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
                           ],
                         ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        buildButtons(context),
-                      ],
+                      ),
                     ),
-                  ),
+                    buildButtons(context),
+                  ],
                 ),
                 Consumer(
                   builder: (_, watch, __) {
@@ -660,34 +665,40 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
   Category? selectedCategory;
 
   buildButtons(BuildContext context) {
-    return Container(
-      padding: EdgeInsetsDirectional.only(start: 15, end: 15, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.APP_CARDS_BLUE.withAlpha(25),
-                  spreadRadius: 0.5,
-                  blurRadius: 2,
-                  offset: Offset(1, 2),
-                ),
-              ],
-              borderRadius: BorderRadius.circular(30),
-            ),
-            width: MediaQuery.of(context).size.width * 0.35,
-            child: CustomElevatedButton(
-              title: 'Register'.tr(),
-              fontSize: 16,
-              textColor: AppColors.APP_BLUE,
-              backgroundColor: AppColors.white,
-              onPressed: () {
-                hideKeyboard();
-                ProviderScope.containerOf(context, listen: false)
-                    .read(authViewProvider.notifier)
-                    .validateFeilds(
+    return PositionedDirectional(
+      bottom: 0,
+      start: 0,
+      end: 0,
+      child: Container(
+        padding:
+            EdgeInsetsDirectional.only(start: 30, end: 30, top: 20, bottom: 20),
+        decoration: BoxDecoration(color: AppColors.LIGHT_BACKGROUND),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+                    spreadRadius: 0.5,
+                    blurRadius: 2,
+                    offset: Offset(1, 2),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(30),
+              ),
+              width: MediaQuery.of(context).size.width * 0.35,
+              child: CustomElevatedButton(
+                title: 'Register'.tr(),
+                fontSize: 16,
+                textColor: AppColors.APP_BLUE,
+                backgroundColor: AppColors.white,
+                onPressed: () {
+                  hideKeyboard();
+                  ProviderScope.containerOf(context, listen: false)
+                      .read(authViewProvider.notifier)
+                      .validateFeilds(
                         context: context,
                         fullName: nameController.text,
                         phone: phoneController.text,
@@ -700,47 +711,50 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                                 .toList()
                             : [],
                         userState: stateController.text,
-                        flockSize: flockSizeContoller.text);
-                final errors = ProviderScope.containerOf(context, listen: false)
-                    .read(_errorsProvider);
-                print(errors.length);
-                errors.forEach((element) {
-                  print(element.message);
-                });
-              },
+                        flockSize: flockSizeContoller.text,
+                      );
+                  final errors =
+                      ProviderScope.containerOf(context, listen: false)
+                          .read(_errorsProvider);
+                  print(errors.length);
+                  errors.forEach((element) {
+                    print(element.message);
+                  });
+                },
+              ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.APP_CARDS_BLUE.withAlpha(25),
-                  spreadRadius: 0.5,
-                  blurRadius: 2,
-                  offset: Offset(1, 2),
-                ),
-              ],
-              borderRadius: BorderRadius.circular(30),
-            ),
-            width: MediaQuery.of(context).size.width * 0.35,
-            child: CustomElevatedButton(
-                fontSize: 16,
-                title: 'skip'.tr(),
-                textColor: AppColors.APP_BLUE,
-                backgroundColor: AppColors.white,
-                onPressed: () {
-                  if (Navigator.of(context).canPop()) {
-                    print("can pop");
-                    Navigator.of(context).pop();
-                  } else {
-                    print("can't pop");
-                    // AppConstants.navigatorKey.currentContext!
-                    //     .read(di.contentProvider)
-                    //     .state = DrawerItemType.home.index;
-                  }
-                }),
-          )
-        ],
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+                    spreadRadius: 0.5,
+                    blurRadius: 2,
+                    offset: Offset(1, 2),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(30),
+              ),
+              width: MediaQuery.of(context).size.width * 0.35,
+              child: CustomElevatedButton(
+                  fontSize: 16,
+                  title: 'skip'.tr(),
+                  textColor: AppColors.APP_BLUE,
+                  backgroundColor: AppColors.white,
+                  onPressed: () {
+                    if (Navigator.of(context).canPop()) {
+                      print("can pop");
+                      Navigator.of(context).pop();
+                    } else {
+                      print("can't pop");
+                      // AppConstants.navigatorKey.currentContext!
+                      //     .read(di.contentProvider)
+                      //     .state = DrawerItemType.home.index;
+                    }
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

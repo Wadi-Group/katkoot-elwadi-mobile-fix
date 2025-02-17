@@ -87,7 +87,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                 ),
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
-                                        0.05),
+                                        0.03),
                                 buildForm(),
                                 CategoryDropDown(
                                   categories: viewModel.data!.categories ?? [],
@@ -192,7 +192,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   final errors = ref.watch(_errorsProvider);
                                   return CustomTextField(
                                       controller: numberOfBirdsController,
-                                      hintText: "numberOfBirds".tr(),
+                                      hintText: "number_of_birds".tr(),
                                       contentPadding:
                                           EdgeInsetsDirectional.only(
                                               bottom: 12, start: 20),
@@ -215,7 +215,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   final errors = ref.watch(_errorsProvider);
                                   return CustomTextField(
                                       controller: numberOfFarmsController,
-                                      hintText: "numberOfFarms".tr(),
+                                      hintText: "number_of_farms".tr(),
                                       contentPadding:
                                           EdgeInsetsDirectional.only(
                                               bottom: 12, start: 20),
@@ -238,7 +238,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   final errors = ref.watch(_errorsProvider);
                                   return CustomTextField(
                                       controller: numberOfHousesController,
-                                      hintText: "numberOfHouses".tr(),
+                                      hintText: "number_of_houses".tr(),
                                       contentPadding:
                                           EdgeInsetsDirectional.only(
                                               bottom: 12, start: 20),

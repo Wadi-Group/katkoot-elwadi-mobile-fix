@@ -220,15 +220,19 @@ class ApiService {
         hasToken: hasToken);
   }
 
-  Future<BaseApiResult<UserData?>> putUserProfile(
-      {required String fbToken,
-      required String name,
-      required int cityId,
-      required List<int> categoryId,
-      required String birthDate,
-      String? state,
-      String? flockSize,
-      String? phone}) async {
+  Future<BaseApiResult<UserData?>> putUserProfile({
+    required String fbToken,
+    required String name,
+    required int cityId,
+    required List<int> categoryId,
+    required String birthDate,
+    String? state,
+    String? flockSize,
+    String? phone,
+    String? numberOfBirds,
+    String? numberOfFarms,
+    String? numberOfHouses,
+  }) async {
     return await ApiMethods<UserData>().put(ApiUrls.EDIT_PROFILE,
         data: phone != null
             ? {
@@ -241,6 +245,12 @@ class ApiService {
                 "village": state!.isNotEmpty ? state.toString() : null,
                 "flock_size":
                     flockSize!.isNotEmpty ? flockSize.toString() : null,
+                "number_of_birds ":
+                    numberOfBirds!.isEmpty ? null : numberOfBirds,
+                "number_of_farms ":
+                    numberOfFarms!.isEmpty ? null : numberOfFarms,
+                "number_of_houses ":
+                    numberOfHouses!.isEmpty ? null : numberOfHouses
               }
             : {
                 "token": fbToken,
@@ -251,6 +261,12 @@ class ApiService {
                 "village": state!.isNotEmpty ? state.toString() : null,
                 "flock_size":
                     flockSize!.isNotEmpty ? flockSize.toString() : null,
+                "number_of_birds ":
+                    numberOfBirds!.isEmpty ? null : numberOfBirds,
+                "number_of_farms ":
+                    numberOfFarms!.isEmpty ? null : numberOfFarms,
+                "number_of_houses ":
+                    numberOfHouses!.isEmpty ? null : numberOfHouses
               },
         hasToken: true,
         hasLanguage: true);

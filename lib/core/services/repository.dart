@@ -180,23 +180,31 @@ class Repository {
         id: id, deviceId: deviceId, installedAt: installedAt);
   }
 
-  Future<BaseApiResult<UserData?>> putUserProfile(
-      {required String fbToken,
-      required String name,
-      required int cityId,
-      required List<int> categoryId,
-      required String birthDate,
-      String? state,
-      String? flockSize,
-      String? phone}) async {
+  Future<BaseApiResult<UserData?>> putUserProfile({
+    required String fbToken,
+    required String name,
+    required int cityId,
+    required List<int> categoryId,
+    required String birthDate,
+    String? state,
+    String? flockSize,
+    String? phone,
+    String? numberOfBirds,
+    String? numberOfFarms,
+    String? numberOfHouses,
+  }) async {
     return await _apiService.putUserProfile(
-        fbToken: fbToken,
-        name: name,
-        cityId: cityId,
-        categoryId: categoryId,
-        birthDate: birthDate,
-        state: state,
-        flockSize: flockSize);
+      fbToken: fbToken,
+      name: name,
+      cityId: cityId,
+      categoryId: categoryId,
+      birthDate: birthDate,
+      state: state,
+      flockSize: flockSize,
+      numberOfBirds: numberOfBirds,
+      numberOfFarms: numberOfFarms,
+      numberOfHouses: numberOfHouses,
+    );
   }
 
   Future<BaseApiResult<MessagesData?>> getMessages(

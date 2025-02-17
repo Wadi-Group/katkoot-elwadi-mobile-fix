@@ -13,22 +13,29 @@ class User {
   DateTime? creationDate;
   String? state;
   String? flockSize;
+  String? numberOfBirds;
+  String? numberOfFarms;
+  String? numberOfHouses;
 
-  User(
-      {this.name,
-      this.phone,
-      this.email,
-      this.categoryId,
-      this.cityId,
-      this.cachedToolsParameter,
-      this.creationDate,
-      this.notificationToken,
-      this.updatedAt,
-      this.birthDate,
-      this.createdAt,
-      this.id,
-      this.flockSize,
-      this.state});
+  User({
+    this.name,
+    this.phone,
+    this.email,
+    this.categoryId,
+    this.cityId,
+    this.cachedToolsParameter,
+    this.creationDate,
+    this.notificationToken,
+    this.updatedAt,
+    this.birthDate,
+    this.createdAt,
+    this.id,
+    this.flockSize,
+    this.state,
+    this.numberOfBirds,
+    this.numberOfFarms,
+    this.numberOfHouses,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -43,6 +50,9 @@ class User {
     createdAt = json['created_at'];
     state = json["village"];
     flockSize = json["flock_size"];
+    numberOfBirds = json["number_of_birds"];
+    numberOfFarms = json["number_of_farms"];
+    numberOfHouses = json["number_of_houses"];
 
     id = json['id'];
     if (createdAt != null) {
@@ -65,6 +75,9 @@ class User {
     data["village"] = this.state;
     data["flock_size"] = this.flockSize;
     data['id'] = this.id;
+    data["number_of_birds"] = this.numberOfBirds;
+    data["number_of_farms"] = this.numberOfFarms;
+    data["number_of_houses"] = this.numberOfHouses;
 
     return data;
   }

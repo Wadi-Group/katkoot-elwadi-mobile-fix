@@ -88,6 +88,7 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
                             title: 'login'.tr(),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                            textColor: AppColors.APP_BLUE,
                           ),
                           SizedBox(
                             height: 5,
@@ -119,7 +120,8 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
                             children: [
                               CustomText(
                                 title: "Don't have an account ?".tr(),
-                                fontSize: 13,
+                                fontSize: 12,
+                                textColor: AppColors.APP_BLUE,
                               ),
                               InkWell(
                                 onTap: () {
@@ -136,10 +138,9 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
                                 },
                                 child: CustomText(
                                   title: 'Register'.tr(),
-                                  fontSize: 13,
+                                  fontSize: 14,
                                   textColor: AppColors.Olive_Drab,
                                   padding: EdgeInsets.symmetric(horizontal: 8),
-                                  underline: true,
                                 ),
                               ),
                             ],
@@ -226,12 +227,23 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
 
   buildLoginButton() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.3,
+      width: MediaQuery.of(context).size.width * 0.35,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+            spreadRadius: 0.5,
+            blurRadius: 2,
+            offset: Offset(1, 2),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: CustomElevatedButton(
           fontSize: 17,
           title: 'login'.tr(),
-          textColor: AppColors.white,
-          backgroundColor: AppColors.Olive_Drab,
+          textColor: AppColors.APP_BLUE,
+          backgroundColor: AppColors.white,
           onPressed: () {
             hideKeyboard();
             _loginSMS();
@@ -241,12 +253,23 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
 
   buildSkipButton() {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.3,
+      width: MediaQuery.of(context).size.width * 0.35,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+            spreadRadius: 0.5,
+            blurRadius: 2,
+            offset: Offset(1, 2),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(30),
+      ),
       child: CustomElevatedButton(
           fontSize: 17,
           title: 'skip'.tr(),
-          textColor: AppColors.white,
-          backgroundColor: AppColors.calc_bef_btn,
+          textColor: AppColors.APP_BLUE,
+          backgroundColor: AppColors.white,
           onPressed: () {
             if (Navigator.of(context).canPop()) {
               Navigator.of(context).pop();
