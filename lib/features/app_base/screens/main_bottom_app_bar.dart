@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
-import 'package:katkoot_elwady/core/constants/katkoot_elwadi_icons.dart';
-import 'package:katkoot_elwady/features/app_base/screens/custom_drawer.dart';
 import 'package:katkoot_elwady/features/category_management/screens/home_screen.dart';
 import 'package:katkoot_elwady/features/menu_management/screens/edit_profile_screen.dart';
 import 'package:katkoot_elwady/features/menu_management/widgets/navigation_drawer.dart'
     as NDrawer;
 import 'package:katkoot_elwady/features/search_management/screens/base_search_screen.dart';
 import 'package:katkoot_elwady/features/user_management/screens/login_screen.dart';
+
 import '../../../core/di/injection_container.dart' as di;
 
 class MainBottomAppBar extends StatefulWidget {
@@ -87,11 +85,11 @@ class _MainBottomAppBarState extends State<MainBottomAppBar>
       label: '',
       icon: Icon(Icons.person_outlined),
     ),
-    BottomNavigationBarItem(
-      backgroundColor: AppColors.Dark_spring_green,
-      label: '',
-      icon: Icon(Icons.menu_sharp),
-    ),
+    // BottomNavigationBarItem(
+    //   backgroundColor: AppColors.Dark_spring_green,
+    //   label: '',
+    //   icon: Icon(Icons.menu_sharp),
+    // ),
   ];
 
   @override
