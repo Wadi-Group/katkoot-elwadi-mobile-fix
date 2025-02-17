@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
-import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
+import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 
 import '../../menu_management/entities/navigation_item.dart';
 import '../../menu_management/view_models/navigation_view_model.dart';
@@ -90,7 +90,7 @@ class CustomDrawer extends StatelessWidget {
                 icon: "assets/images/share_app.png",
                 title: 'share_app'.tr(),
                 modelView: modelView,
-                navigationItem: NavigationItem.none,
+                navigationItem: NavigationItem.share_app,
               ),
               _buildDrawerItem(
                 context,
@@ -166,6 +166,8 @@ class CustomDrawer extends StatelessWidget {
                             builder: (context) => SendSupportMessageScreen()),
                       );
                     }));
+                  } else if (navigationItem == NavigationItem.share_app) {
+                    modelView?.shareApp();
                   } else {
                     modelView?.redirectToScreen(context, navigationItem!);
                   }

@@ -61,7 +61,7 @@ dependencies:
   youtube_explode_dart: ^2.3.9
   flutter_riverpod: ^2.4.9
   country_picker: ^2.0.16
-
+  share_plus: ^10.1.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
