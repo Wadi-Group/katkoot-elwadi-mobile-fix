@@ -301,5 +301,10 @@
   "number_of_houses": "Number of Houses",
   "numberOfBirds_length": "The number of characters cannot exceed 50 digits",
   "numberOfFarms_length": "The number of characters cannot exceed 50 digits",
-  "numberOfHouses_length": "The number of characters cannot exceed 50 digits"
+  "numberOfHouses_length": "The number of characters cannot exceed 50 digits",
+
+  "facebook" : "Facebook",
+  "linkedin" : "Linkedin",
+  "youtube" : "Youtube",
+  "website" : "Website"
 }

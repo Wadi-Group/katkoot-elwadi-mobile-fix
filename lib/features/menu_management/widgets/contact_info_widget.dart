@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/core/constants/katkoot_elwadi_icons.dart';
@@ -33,40 +34,37 @@ class ContactUsInfoWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                   child: Container(
-                    height: MediaQuery.of(context).orientation ==
-                            Orientation.portrait
-                        ? MediaQuery.of(context).size.height * 0.04
-                        : MediaQuery.of(context).size.height * 0.1,
-                    width: MediaQuery.of(context).orientation ==
-                            Orientation.portrait
-                        ? MediaQuery.of(context).size.height * 0.04
-                        : MediaQuery.of(context).size.height * 0.1,
-                    child: hasIcon
-                        ? mode == ContactMode.SOCIAL_LINK
-                            ? Icon(
-                                getIconFroSocialName() != null
-                                    ? getIconFroSocialName()
-                                    : KatkootELWadyIcons.website,
-                                size: 35,
-                                color: AppColors.Dark_spring_green,
-                              )
-                            : mode == ContactMode.PHONE
-                                ? Icon(
-                                    KatkootELWadyIcons.phone_1,
-                                    size: 35,
-                                    color: AppColors.Dark_spring_green,
-                                  )
-                                : Icon(
-                                    KatkootELWadyIcons.address_1,
-                                    size: 35,
-                                    color: AppColors.Dark_spring_green,
-                                  )
-                        : Container(),
-                  ),
+                      height: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? MediaQuery.of(context).size.height * 0.03
+                          : MediaQuery.of(context).size.height * 0.1,
+                      width: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? MediaQuery.of(context).size.height * 0.04
+                          : MediaQuery.of(context).size.height * 0.1,
+                      child: mode == ContactMode.SOCIAL_LINK
+                          ? Image.asset(
+                              "assets/images/${SocialName!.toLowerCase()}.png",
+                              color: AppColors.APP_BLUE,
+                            )
+                          : mode == ContactMode.PHONE
+                              ? Image.asset(
+                                  "assets/images/contact_us.png",
+                                  color: AppColors.APP_BLUE,
+                                )
+                              : mode == ContactMode.ADDRESS
+                                  ? Image.asset(
+                                      "assets/images/sales.png",
+                                      color: AppColors.APP_BLUE,
+                                    )
+                                  : Image.asset(
+                                      "assets/images/language.png",
+                                      color: AppColors.APP_BLUE,
+                                    )),
                   flex: 1,
                 ),
                 Expanded(
@@ -82,11 +80,11 @@ class ContactUsInfoWidget extends StatelessWidget {
                                     : 0),
                         child: CustomText(
                           textAlign: TextAlign.start,
-                          title: title,
+                          title: getTitle(title),
                           // maxLines: 2,
-                          textColor: AppColors.Liver,
+                          textColor: AppColors.APP_BLUE,
                           fontSize: 17,
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w400,
                         )),
                     flex: 4),
                 Expanded(
@@ -94,8 +92,8 @@ class ContactUsInfoWidget extends StatelessWidget {
                     child: hasIcon
                         ? Icon(
                             Icons.chevron_right_outlined,
-                            color: AppColors.Platinum,
-                            size: MediaQuery.of(context).size.height * 0.05,
+                            color: AppColors.APP_BLUE,
+                            size: MediaQuery.of(context).size.height * 0.04,
                           )
                         : Container(),
                   ),
@@ -108,13 +106,36 @@ class ContactUsInfoWidget extends StatelessWidget {
             ),
             if (hasUnderlineBorder)
               Container(
-                height: 3,
-                color: AppColors.Platinum,
+                height: 1,
+                color: AppColors.APP_BLUE,
               )
           ],
         ),
       ),
     );
+  }
+
+  String getTitle(String title) {
+    switch (title) {
+      case "Facebook":
+        return "facebook".tr();
+      case "Linkedin":
+        return "linkedin".tr();
+      case "Website":
+        return "website".tr();
+      case "Youtube":
+        return "youtube".tr();
+      case "email":
+        return "Email";
+      case "instagram":
+        return "Instagram";
+      case "address":
+        return "Address";
+      case "phone":
+        return "Phone";
+      default:
+        return title;
+    }
   }
 
   IconData? getIconFroSocialName() {

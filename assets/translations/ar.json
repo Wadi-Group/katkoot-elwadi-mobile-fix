@@ -298,10 +298,16 @@
   "received_messages": "الرسائل المستلمة",
   "share_app": "مشاركة التطبيق",
   "language": "اللغة",
-  "number_of_birds" : "مجموع الدواجن",
-  "number_of_farms" : "مجموع المزارع",
-  "number_of_houses" : "مجموع العنابر",
+  "number_of_birds" : "عدد الدواجن",
+  "number_of_farms" : "عدد المحطات",
+  "number_of_houses" : "عدد العنابر",
   "numberOfBirds_length" : "لا يمكن ان يزيد عدد الحروف عن 50 رقمًا",
   "numberOfFarms_length" : "لا يمكن ان يزيد عدد الحروف عن 50 رقمًا",
-  "numberOfHouses_length" : "لا يمكن ان يزيد عدد الحروف عن 50 رقمًا"
+  "numberOfHouses_length" : "لا يمكن ان يزيد عدد الحروف عن 50 رقمًا",
+
+  "facebook" : "الصفحة الرسمية مجموعة الوادي",
+  "linkedin" : "مجموعة الوادى",
+  "youtube" : "قناة كتكوت الوادي",
+    "website" : "موقع كتكوت الوادي"
+
 }
