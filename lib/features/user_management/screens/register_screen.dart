@@ -76,6 +76,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                   padding: EdgeInsetsDirectional.only(
                       top: 2, bottom: 8, start: 20, end: 20),
                   child: SingleChildScrollView(
+                    padding: EdgeInsetsDirectional.symmetric(horizontal: 2),
                     child: Column(
                       children: [
                         SizedBox(
