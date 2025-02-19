@@ -14,21 +14,58 @@ class LiveChatAndNewsSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Expanded(
-          child: ActionButton(
-            title: "live_chat".tr(),
-            onTap: () {
-              // Navigator.of(context).pushNamed(LiveChatScreen.routeName);
-            },
-            image: "assets/images/live_chat.png",
-            borderRadius: context.locale.languageCode == "en"
-                ? const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    bottomLeft: Radius.circular(20),
-                  )
-                : const BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              ActionButton(
+                title: "live_chat".tr(),
+                onTap: () {
+                  // Navigator.of(context).pushNamed(LiveChatScreen.routeName);
+                },
+                image: "assets/images/live_chat.png",
+                borderRadius: context.locale.languageCode == "en"
+                    ? const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                      )
+                    : const BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+              ),
+
+              // Add the "coming soon" label
+              PositionedDirectional(
+                top: 0,
+                start: 0,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
+                  decoration: BoxDecoration(
+                      color: Colors.red.withValues(alpha: 0.7),
+                      borderRadius: context.locale.languageCode == "en"
+                          ? BorderRadius.only(topLeft: Radius.circular(20))
+                          : BorderRadius.only(topRight: Radius.circular(20)),
+                      boxShadow: [
+                        BoxShadow(
+                          color:
+                              AppColors.APP_CARDS_BLUE.withValues(alpha: 0.3),
+                          spreadRadius: 0.5,
+                          blurRadius: 2,
+                          offset: const Offset(1, 2),
+                        ),
+                      ]),
+                  child: Text(
+                    "coming_soon".tr(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12, // Smaller text size
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
+                ),
+              ),
+            ],
           ),
         ),
         SizedBox(width: 15),

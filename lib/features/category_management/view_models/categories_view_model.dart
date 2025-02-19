@@ -66,4 +66,26 @@ class CategoriesViewModel extends StateNotifier<BaseState<List<Category>?>>
       return {};
     }
   }
+
+  // get in app message data
+  Future<Map<String, dynamic>> getInAppMessageData() async {
+    // Set loading state before API call
+    state = BaseState(data: state.data, isLoading: true);
+
+    try {
+      var result = await _repository.getInAppMessageData();
+
+      // After fetching data, update state with new data and stop loading
+      state = BaseState(data: state.data, isLoading: false);
+
+      return result ?? {};
+    } catch (error) {
+      // If an error occurs, stop loading and handle the error
+      state = BaseState(data: state.data, isLoading: false);
+      handleError(
+          errorType: ErrorType.GENERAL_ERROR, errorMessage: error.toString());
+
+      return {};
+    }
+  }
 }

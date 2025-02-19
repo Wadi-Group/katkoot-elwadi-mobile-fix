@@ -306,5 +306,7 @@
   "facebook" : "Facebook",
   "linkedin" : "Linkedin",
   "youtube" : "Youtube",
-  "website" : "Website"
+  "website" : "Website",
+
+  "coming_soon" : "Coming Soon"
 }

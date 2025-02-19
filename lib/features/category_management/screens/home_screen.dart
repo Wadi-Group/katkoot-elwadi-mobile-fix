@@ -44,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen>
   late String? weather = '';
 
   late Map<String, dynamic> homeData = {};
+  late Map<String, dynamic> inAppMessageData = {};
   final List<Map<String, String>> alaafPrices = [];
   // ===================================================== Functions =====================================================
   @override
@@ -111,8 +112,58 @@ class _HomeScreenState extends State<HomeScreen>
         ]);
       }
 
+      inAppMessageData = await categoriesViewModel.getInAppMessageData();
+      print("inAppMessageData: $inAppMessageData");
+
+      showInAppMessage(inAppMessageData);
+
       setState(() {}); // Refresh UI after data is loaded
     });
+  }
+
+  // Show in-app message
+  void showInAppMessage(Map<String, dynamic> inAppMessageData) {
+    if (inAppMessageData.isNotEmpty) {
+      var message = inAppMessageData['title'] ?? '';
+      var imageUrl = inAppMessageData['image'] ?? '';
+
+      if (message.isNotEmpty && imageUrl.isNotEmpty) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.transparent,
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    padding: EdgeInsets.all(0),
+                    margin: EdgeInsets.all(0),
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        )),
+                    child: Icon(
+                      Icons.close,
+                      size: 25,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Image.asset(
+                  "assets/images/onboarding_1.png",
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    }
   }
 
 // Initialize user local data

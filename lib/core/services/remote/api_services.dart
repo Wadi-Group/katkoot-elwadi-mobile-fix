@@ -431,6 +431,15 @@ class ApiService {
 
   // get home data
   Future<Map<String, dynamic>?> getHomeData() async {
-    return await ApiMethods<Map<String, dynamic>>().getRaw(ApiUrls.HOME);
+    return await ApiMethods<Map<String, dynamic>>()
+        .getRaw(ApiUrls.HOME, hasToken: false);
+  }
+
+// get in app message data
+  Future<Map<String, dynamic>?> getInAppMessageData() async {
+    return await ApiMethods<Map<String, dynamic>?>().getRaw(
+      ApiUrls.IN_APP_MESSAGE,
+      hasToken: false,
+    );
   }
 }
