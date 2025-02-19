@@ -287,7 +287,26 @@
   "ps_report_generator" : "PS Report Generator",
   "egp_ton" : "EGP/Ton",
   "egp_kg" : "EGP/Kg",
-  "egp" : "EGP"
+  "egp" : "EGP",
+    "more": "More",
+  "about_us": "About Us",
+  "ask_for_advice": "Ask for Advice",
+  "sales_and_customer_support": "Sales & Customer Support",
+  "received_messages": "Received Messages",
+  "share_app": "Share App",
+  "language": "Language",
 
+  "number_of_birds": "Number of Birds",
+  "number_of_farms": "Number of Farms",
+  "number_of_houses": "Number of Houses",
+  "numberOfBirds_length": "The number of characters cannot exceed 50 digits",
+  "numberOfFarms_length": "The number of characters cannot exceed 50 digits",
+  "numberOfHouses_length": "The number of characters cannot exceed 50 digits",
 
+  "facebook" : "Facebook",
+  "linkedin" : "Linkedin",
+  "youtube" : "Youtube",
+  "website" : "Website",
+
+  "coming_soon" : "Coming Soon"
 }

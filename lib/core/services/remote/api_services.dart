@@ -1,13 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/api/api_methods.dart';
 import 'package:katkoot_elwady/core/api/api_urls.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_api_result.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:katkoot_elwady/features/guides_management/models/faq.dart';
 import 'package:katkoot_elwady/features/guides_management/models/guide.dart';
-import 'package:katkoot_elwady/features/messages_management/models/message.dart';
+import 'package:katkoot_elwady/features/guides_management/models/topic.dart';
+import 'package:katkoot_elwady/features/guides_management/models/video.dart';
 import 'package:katkoot_elwady/features/menu_management/models/contact_us_model.dart';
-import 'package:katkoot_elwady/features/menu_management/models/supplier.dart';
 import 'package:katkoot_elwady/features/menu_management/models/where_to_find_us_data.dart';
 import 'package:katkoot_elwady/features/messages_management/models/messages_data.dart';
 import 'package:katkoot_elwady/features/messages_management/models/read_message_data.dart';
@@ -15,14 +14,12 @@ import 'package:katkoot_elwady/features/messages_management/models/send_message_
 import 'package:katkoot_elwady/features/search_management/models/search_model.dart';
 import 'package:katkoot_elwady/features/tools_management/entities/cycle_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/report_generator/cycle.dart';
-import 'package:katkoot_elwady/features/tools_management/models/tool.dart';
-import 'package:katkoot_elwady/features/guides_management/models/topic.dart';
 import 'package:katkoot_elwady/features/tools_management/models/report_generator/week_data.dart';
+import 'package:katkoot_elwady/features/tools_management/models/tool.dart';
 import 'package:katkoot_elwady/features/user_management/models/city.dart';
 import 'package:katkoot_elwady/features/user_management/models/phone_exist.dart';
 import 'package:katkoot_elwady/features/user_management/models/unseen_notification_count_data.dart';
 import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
-import 'package:katkoot_elwady/features/guides_management/models/video.dart';
 
 import '../../../features/tools_management/entities/cb_cycle_data.dart';
 import '../../../features/tools_management/models/cb_report_generator/cycle.dart';
@@ -223,15 +220,19 @@ class ApiService {
         hasToken: hasToken);
   }
 
-  Future<BaseApiResult<UserData?>> putUserProfile(
-      {required String fbToken,
-      required String name,
-      required int cityId,
-      required List<int> categoryId,
-      required String birthDate,
-      String? state,
-      String? flockSize,
-      String? phone}) async {
+  Future<BaseApiResult<UserData?>> putUserProfile({
+    required String fbToken,
+    required String name,
+    required int cityId,
+    required List<int> categoryId,
+    required String birthDate,
+    String? state,
+    String? flockSize,
+    String? phone,
+    String? numberOfBirds,
+    String? numberOfFarms,
+    String? numberOfHouses,
+  }) async {
     return await ApiMethods<UserData>().put(ApiUrls.EDIT_PROFILE,
         data: phone != null
             ? {
@@ -244,6 +245,12 @@ class ApiService {
                 "village": state!.isNotEmpty ? state.toString() : null,
                 "flock_size":
                     flockSize!.isNotEmpty ? flockSize.toString() : null,
+                "number_of_birds ":
+                    numberOfBirds!.isEmpty ? null : numberOfBirds,
+                "number_of_farms ":
+                    numberOfFarms!.isEmpty ? null : numberOfFarms,
+                "number_of_houses ":
+                    numberOfHouses!.isEmpty ? null : numberOfHouses
               }
             : {
                 "token": fbToken,
@@ -254,6 +261,12 @@ class ApiService {
                 "village": state!.isNotEmpty ? state.toString() : null,
                 "flock_size":
                     flockSize!.isNotEmpty ? flockSize.toString() : null,
+                "number_of_birds ":
+                    numberOfBirds!.isEmpty ? null : numberOfBirds,
+                "number_of_farms ":
+                    numberOfFarms!.isEmpty ? null : numberOfFarms,
+                "number_of_houses ":
+                    numberOfHouses!.isEmpty ? null : numberOfHouses
               },
         hasToken: true,
         hasLanguage: true);
@@ -417,7 +430,16 @@ class ApiService {
   }
 
   // get home data
-  Future<BaseApiResult<Map<String, dynamic>?>> getHomeData() async {
-    return await ApiMethods<Map<String, dynamic>>().get(ApiUrls.HOME);
+  Future<Map<String, dynamic>?> getHomeData() async {
+    return await ApiMethods<Map<String, dynamic>>()
+        .getRaw(ApiUrls.HOME, hasToken: false);
+  }
+
+// get in app message data
+  Future<Map<String, dynamic>?> getInAppMessageData() async {
+    return await ApiMethods<Map<String, dynamic>?>().getRaw(
+      ApiUrls.IN_APP_MESSAGE,
+      hasToken: false,
+    );
   }
 }

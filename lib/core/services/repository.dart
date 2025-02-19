@@ -1,11 +1,11 @@
-import 'package:katkoot_elwady/features/app_base/entities/one_signal.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_api_result.dart';
+import 'package:katkoot_elwady/features/app_base/entities/one_signal.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:katkoot_elwady/features/guides_management/models/faq.dart';
 import 'package:katkoot_elwady/features/guides_management/models/guide.dart';
-import 'package:katkoot_elwady/features/messages_management/models/message.dart';
+import 'package:katkoot_elwady/features/guides_management/models/topic.dart';
+import 'package:katkoot_elwady/features/guides_management/models/video.dart';
 import 'package:katkoot_elwady/features/menu_management/models/contact_us_model.dart';
-import 'package:katkoot_elwady/features/menu_management/models/supplier.dart';
 import 'package:katkoot_elwady/features/menu_management/models/where_to_find_us_data.dart';
 import 'package:katkoot_elwady/features/messages_management/models/messages_data.dart';
 import 'package:katkoot_elwady/features/messages_management/models/read_message_data.dart';
@@ -14,15 +14,12 @@ import 'package:katkoot_elwady/features/search_management/models/search_model.da
 import 'package:katkoot_elwady/features/tools_management/entities/cycle_data.dart';
 import 'package:katkoot_elwady/features/tools_management/entities/parent_flock_management_parameters.dart';
 import 'package:katkoot_elwady/features/tools_management/models/report_generator/cycle.dart';
-import 'package:katkoot_elwady/features/tools_management/models/tool.dart';
-import 'package:katkoot_elwady/features/guides_management/models/topic.dart';
 import 'package:katkoot_elwady/features/tools_management/models/report_generator/week_data.dart';
+import 'package:katkoot_elwady/features/tools_management/models/tool.dart';
 import 'package:katkoot_elwady/features/user_management/models/city.dart';
 import 'package:katkoot_elwady/features/user_management/models/phone_exist.dart';
 import 'package:katkoot_elwady/features/user_management/models/unseen_notification_count_data.dart';
-import 'package:katkoot_elwady/features/user_management/models/user.dart';
 import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
-import 'package:katkoot_elwady/features/guides_management/models/video.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import '../../features/tools_management/models/cb_report_generator/cycle.dart';
@@ -183,23 +180,31 @@ class Repository {
         id: id, deviceId: deviceId, installedAt: installedAt);
   }
 
-  Future<BaseApiResult<UserData?>> putUserProfile(
-      {required String fbToken,
-      required String name,
-      required int cityId,
-      required List<int> categoryId,
-      required String birthDate,
-      String? state,
-      String? flockSize,
-      String? phone}) async {
+  Future<BaseApiResult<UserData?>> putUserProfile({
+    required String fbToken,
+    required String name,
+    required int cityId,
+    required List<int> categoryId,
+    required String birthDate,
+    String? state,
+    String? flockSize,
+    String? phone,
+    String? numberOfBirds,
+    String? numberOfFarms,
+    String? numberOfHouses,
+  }) async {
     return await _apiService.putUserProfile(
-        fbToken: fbToken,
-        name: name,
-        cityId: cityId,
-        categoryId: categoryId,
-        birthDate: birthDate,
-        state: state,
-        flockSize: flockSize);
+      fbToken: fbToken,
+      name: name,
+      cityId: cityId,
+      categoryId: categoryId,
+      birthDate: birthDate,
+      state: state,
+      flockSize: flockSize,
+      numberOfBirds: numberOfBirds,
+      numberOfFarms: numberOfFarms,
+      numberOfHouses: numberOfHouses,
+    );
   }
 
   Future<BaseApiResult<MessagesData?>> getMessages(
@@ -339,9 +344,12 @@ class Repository {
   }
 
   // get home data
-  Future<BaseApiResult<Map<String, dynamic>?>> getHomeData() async {
+  Future<Map<String, dynamic>?> getHomeData() async {
     return await _apiService.getHomeData();
   }
 
-  // CB Report Genrator
+  // get in app message data
+  Future<Map<String, dynamic>?> getInAppMessageData() async {
+    return await _apiService.getInAppMessageData();
+  }
 }
