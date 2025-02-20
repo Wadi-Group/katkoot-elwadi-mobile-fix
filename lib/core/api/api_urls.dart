@@ -1,6 +1,7 @@
 class ApiUrls {
   //static const BASE_URL = 'https://backend.katkootalwadi.com/api/'; //live
-  static const BASE_URL = 'http://10.0.2.2:8000/api/'; //development
+  //static const BASE_URL = 'http://10.0.2.2:8000/api/'; //development
+  static const BASE_URL = 'http://127.0.0.1:8000/api/'; //development
   static const REFRESH_TOKEN = "refresh-token";
   static const CATEGORIES = "categories";
   // static const CATEGORIES = "categories?parent=";

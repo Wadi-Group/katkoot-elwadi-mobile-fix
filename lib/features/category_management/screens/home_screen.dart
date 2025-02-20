@@ -24,6 +24,7 @@ import '../sections/live_chat_and_news_section.dart';
 import '../sections/report_generator_section.dart';
 import '../sections/video_section.dart';
 import '../sections/weather_and_prices_section.dart';
+import '../widgets/in_app_message_pop_up.dart';
 
 class HomeScreen extends StatefulWidget with BaseViewModel {
   static const routeName = "./home";
@@ -115,56 +116,13 @@ class _HomeScreenState extends State<HomeScreen>
       inAppMessageData = await categoriesViewModel.getInAppMessageData();
       print("inAppMessageData: $inAppMessageData");
 
-      showInAppMessage(inAppMessageData);
+      showInAppMessage(inAppMessageData, context);
 
       setState(() {}); // Refresh UI after data is loaded
     });
   }
 
   // Show in-app message
-  void showInAppMessage(Map<String, dynamic> inAppMessageData) {
-    if (inAppMessageData.isNotEmpty) {
-      var message = inAppMessageData['title'] ?? '';
-      var imageUrl = inAppMessageData['image'] ?? '';
-
-      if (message.isNotEmpty && imageUrl.isNotEmpty) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            backgroundColor: Colors.transparent,
-            content: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Container(
-                    padding: EdgeInsets.all(0),
-                    margin: EdgeInsets.all(0),
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                        )),
-                    child: Icon(
-                      Icons.close,
-                      size: 25,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
-                Image.asset(
-                  "assets/images/onboarding_1.png",
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-    }
-  }
 
 // Initialize user local data
   Future initUserLocalData() async {
