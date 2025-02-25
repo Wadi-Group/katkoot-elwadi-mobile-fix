@@ -1,6 +1,6 @@
+import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/core/services/repository.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
-import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:riverpod/riverpod.dart';
@@ -14,7 +14,9 @@ class CategoriesViewModel extends StateNotifier<BaseState<List<Category>?>>
   Future getListOfCategories({required bool mainCategories}) async {
     state = BaseState(data: [], isLoading: true);
 
-    var result = await _repository.getCategories(mainCategories ? AppConstants.MAIN_CATEGORIES : AppConstants.ALL_CATEGORIES);
+    var result = await _repository.getCategories(mainCategories
+        ? AppConstants.MAIN_CATEGORIES
+        : AppConstants.ALL_CATEGORIES);
     List<Category>? categories;
     if (result.data != null) {
       categories = result.data!;

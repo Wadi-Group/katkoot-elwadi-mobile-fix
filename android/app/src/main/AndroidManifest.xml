@@ -13,7 +13,9 @@
         tools:replace="android:label"
         android:requestLegacyExternalStorage="true"
        android:allowBackup="false"
-       android:fullBackupContent="false">
+       android:fullBackupContent="false"
+       android:enableOnBackInvokedCallback="true"
+       >
 
        <meta-data android:name="com.onesignal.BadgeCount" android:value="DISABLE" />
 

@@ -320,6 +320,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
     };
     //
     print("verifyPhoneNumber ---> ${phoneNumber.toString()}");
+    FirebaseAuth.instance.setLanguageCode('en');
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: "$countryCode$phoneNumber",
       codeAutoRetrievalTimeout: autoRetrieve,

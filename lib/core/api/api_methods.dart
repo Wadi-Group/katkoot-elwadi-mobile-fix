@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:katkoot_elwady/core/api/api_config.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_api_result.dart';
 import 'package:katkoot_elwady/features/app_base/models/base_list_response.dart';
 import 'package:katkoot_elwady/features/app_base/models/base_response.dart';
-import 'package:katkoot_elwady/core/api/api_config.dart';
-import 'package:dio/dio.dart';
 
 class ApiMethods<T> {
   Future<BaseApiResult<T>> get(String url,

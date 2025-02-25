@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,20 +8,25 @@ import 'package:flutter/services.dart';
 // import 'package:flutter_facebook_app_links/flutter_facebook_app_links.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 import 'package:katkoot_elwady/core/utils/notification_manager.dart';
 import 'package:katkoot_elwady/core/utils/route_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'core/constants/app_constants.dart';
-import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 
+import 'core/constants/app_constants.dart';
 import 'core/services/local/shared_preferences_service.dart';
 import 'features/app_base/screens/splash_screen.dart';
-import 'dart:io' show Platform;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
+
+  await FirebaseAppCheck.instance.activate(
+    appleProvider: AppleProvider.deviceCheck,
+    androidProvider: AndroidProvider.playIntegrity,
+  );
+
   NotificationManager.initOneSignal();
 
   runApp(ProviderScope(

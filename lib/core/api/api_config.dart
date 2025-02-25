@@ -1,13 +1,14 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:katkoot_elwady/core/api/api_urls.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
-import 'package:katkoot_elwady/core/api/api_urls.dart';
-import 'package:dio/dio.dart';
-import '../di/injection_container.dart' as di;
-import 'package:easy_localization/easy_localization.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../di/injection_container.dart' as di;
 
 const String DONT_INTERCEPT_KEY = "DONT_INTERCEPT_KEY";
 
@@ -32,7 +33,8 @@ class ApiConfig {
 
 class AppInterceptor extends Interceptor {
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     print('on request ${_userData?.token}');
     if (!(options.extra[DONT_INTERCEPT_KEY] ?? false)) {
       if (options.extra["Language"] ?? false) {
@@ -95,7 +97,7 @@ class AppInterceptor extends Interceptor {
           data: options.data,
           options: Options(method: options.method, headers: {
             ...options.headers,
-            "Authorization": "Bearer ${data['token']}"
+            "Authorization": "Bearer ${data['token']}",
           }, extra: {
             DONT_INTERCEPT_KEY: true
           }));

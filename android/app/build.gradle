@@ -4,7 +4,6 @@ buildscript {
         maven { url 'https://plugins.gradle.org/m2/' } // Gradle Plugin Portal
     }
     dependencies {
-        // ...
         // OneSignal-Gradle-Plugin
         classpath "gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.12.10"
     }
@@ -97,8 +96,16 @@ flutter {
 }
 
 dependencies {
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+      // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:31.5.0')
+
+  // Add the dependency for the Firebase Authentication library
+  // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation "androidx.browser:browser:1.2.0"
 
 }
