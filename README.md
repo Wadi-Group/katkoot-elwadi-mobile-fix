@@ -1,17 +1,21 @@
-# katkoot_elwady
+Katkoot Elwady
 
-A new Flutter application.
+A Flutter application for Katkoot Elwady, designed to deliver seamless user experiences with powerful features.
 
-## Getting Started
+🚀 Project Overview
 
-This project is a starting point for a Flutter application.
+This repository contains the source code for the Katkoot Elwady mobile application, developed using Flutter. The app is structured to ensure smooth development, updates, and feature enhancements.
 
-A few resources to get you started if this is your first Flutter project:
+📂 Repository Structure
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+The repository consists of two main branches:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# katkoot-elwadi-mobile
+main branch:
+
+Includes the Android Version SDK and bug fixes related to the update.
+
+sprint-1 branch:
+
+Focuses on the development of new features.
+Used for feature implementation before merging into main.
+
