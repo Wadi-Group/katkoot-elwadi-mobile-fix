@@ -1,14 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 import 'package:katkoot_elwady/core/utils/location_manager.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
-import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
-import 'package:easy_localization/easy_localization.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/pagination_list.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:katkoot_elwady/features/menu_management/entities/where_to_find_us_state.dart';
@@ -80,14 +80,16 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
 
   Future getScreenData() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(_whereToFindUsViewModelProvider.notifier).getScreenData();
+      ProviderScope.containerOf(context, listen: false)
+          .read(_whereToFindUsViewModelProvider.notifier)
+          .getScreenData();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: AppColors.LIGHT_BACKGROUND,
         key: _scaffoldKey,
         appBar: CustomAppBar(
           showNotificationsButton: true,
@@ -128,14 +130,16 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
   Widget _buildMapView() {
     return Consumer(builder: (_, ref, __) {
       var markers = ref.watch(_markersProvider);
-      City? selectedCity = ProviderScope.containerOf(context,
-          listen: false).read(_selectedCityProvider);
-      List<Supplier>? suppliers = ProviderScope.containerOf(context,
-          listen: false).read(_suppliersDataProvider);
+      City? selectedCity = ProviderScope.containerOf(context, listen: false)
+          .read(_selectedCityProvider);
+      List<Supplier>? suppliers =
+          ProviderScope.containerOf(context, listen: false)
+              .read(_suppliersDataProvider);
 
       var bounds = selectedCity == null || (suppliers?.isEmpty ?? true)
           ? markers
-          : ref.watch(_whereToFindUsViewModelProvider.notifier)
+          : ref
+              .watch(_whereToFindUsViewModelProvider.notifier)
               .getSelectedCityMarkers();
 
       LatLng centerLatlng = LatLng(
@@ -179,12 +183,10 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
               alignment: AlignmentDirectional.topEnd,
               child: GestureDetector(
                 onTap: () {
-                  ProviderScope.containerOf(context,
-                      listen: false)
+                  ProviderScope.containerOf(context, listen: false)
                       .read(_whereToFindUsViewModelProvider.notifier)
                       .resetSelectedCity();
-                  ProviderScope.containerOf(context,
-                      listen: false)
+                  ProviderScope.containerOf(context, listen: false)
                       .read(_whereToFindUsViewModelProvider.notifier)
                       .getSuppliers();
                 },
@@ -229,15 +231,16 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
                 return WhereToFindUsSupplierItem(supplier: supplier);
               },
               itemCount: suppliers.length,
-              onLoadMore: () => ProviderScope.containerOf(context,
-                  listen: false)
+              onLoadMore: () =>
+                  ProviderScope.containerOf(context, listen: false)
+                      .read(_whereToFindUsViewModelProvider.notifier)
+                      .getSuppliers(showLoading: false, fromPagination: true),
+              hasMore: ProviderScope.containerOf(context, listen: false)
                   .read(_whereToFindUsViewModelProvider.notifier)
-                  .getSuppliers(showLoading: false, fromPagination: true),
-              hasMore: ProviderScope.containerOf(context,
-                  listen: false).read(_whereToFindUsViewModelProvider.notifier)
                   .hasNext,
-              loading: ProviderScope.containerOf(context,
-                  listen: false).read(_whereToFindUsViewModelProvider).isLoading,
+              loading: ProviderScope.containerOf(context, listen: false)
+                  .read(_whereToFindUsViewModelProvider)
+                  .isLoading,
             );
           }),
           Consumer(builder: (_, ref, __) {
@@ -269,8 +272,7 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
                         .firstWhere((element) => element.id == selectedCity.id)
                     : null,
                 onChange: (city) {
-                  ProviderScope.containerOf(context,
-                      listen: false)
+                  ProviderScope.containerOf(context, listen: false)
                       .read(_whereToFindUsViewModelProvider.notifier)
                       .getSuppliers(city: city);
                 },
@@ -293,8 +295,7 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
                         orElse: () => categories[0])
                     : null,
                 onChange: (category) {
-                  ProviderScope.containerOf(context,
-                      listen: false)
+                  ProviderScope.containerOf(context, listen: false)
                       .read(_whereToFindUsViewModelProvider.notifier)
                       .getSuppliers(categoryId: category.id);
                 },

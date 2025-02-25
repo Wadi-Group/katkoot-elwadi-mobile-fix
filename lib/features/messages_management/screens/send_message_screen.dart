@@ -1,17 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
-import 'package:katkoot_elwady/core/constants/navigation_constants.dart';
+import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/active_button.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
-import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
-import 'package:easy_localization/easy_localization.dart';
-import 'package:katkoot_elwady/features/menu_management/entities/navigation_item.dart';
 import 'package:katkoot_elwady/features/menu_management/view_models/navigation_drawer_mixin.dart';
-import 'package:katkoot_elwady/features/menu_management/widgets/navigation_drawer.dart';
 import 'package:katkoot_elwady/features/messages_management/widgets/custom_message_widget.dart';
 
 class SendSupportMessageScreen extends StatefulWidget
@@ -23,7 +20,8 @@ class SendSupportMessageScreen extends StatefulWidget
       _SendSupportMessageScreenState();
 }
 
-class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> with AutomaticKeepAliveClientMixin {
+class _SendSupportMessageScreenState extends State<SendSupportMessageScreen>
+    with AutomaticKeepAliveClientMixin {
   int val = 1;
   TextEditingController messageTextController = TextEditingController();
   String? msgError;
@@ -37,13 +35,14 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> wit
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).size.width * .06;
     return Scaffold(
+        backgroundColor: AppColors.LIGHT_BACKGROUND,
         key: _scaffoldKey,
         appBar: CustomAppBar(
-            showDrawer: true,
-            showNotificationsButton: true,
-            hasbackButton: true,
-            // onBackClick: () => context.read(di.contentProvider).state =
-            //     DrawerItemType.drawer.index
+          showDrawer: true,
+          showNotificationsButton: true,
+          hasbackButton: true,
+          // onBackClick: () => context.read(di.contentProvider).state =
+          //     DrawerItemType.drawer.index
         ),
         // drawer: NavigationDrawer(),
         body: SafeArea(
@@ -82,7 +81,7 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> wit
                                   )),
                               Consumer(builder: (_, ref, __) {
                                 var categoriesViewModel =
-                                ref.watch(di.categoriesViewModelProvider);
+                                    ref.watch(di.categoriesViewModelProvider);
                                 var categories = categoriesViewModel.data;
 
                                 return ListView.builder(
@@ -92,8 +91,7 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> wit
                                   itemBuilder: (context, index) => Center(
                                     child: Container(
                                       child: ListTile(
-                                        title:
-                                        Text(categories![index].title!),
+                                        title: Text(categories![index].title!),
                                         leading: Radio(
                                           value: categories[index].id!,
                                           groupValue: val,
@@ -103,7 +101,7 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> wit
                                             });
                                           },
                                           activeColor:
-                                          AppColors.Princeton_Orange,
+                                              AppColors.Princeton_Orange,
                                         ),
                                       ),
                                     ),
@@ -117,10 +115,9 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> wit
                         ),
                         Consumer(builder: (_, ref, __) {
                           var messageViewModel =
-                          ref.watch(di.messagesViewModelProvider.notifier);
+                              ref.watch(di.messagesViewModelProvider.notifier);
                           return Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -133,8 +130,7 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> wit
                                   ),
                                   if (msgError != null)
                                     Container(
-                                      width:
-                                      MediaQuery.of(context).size.width,
+                                      width: MediaQuery.of(context).size.width,
                                       padding: EdgeInsetsDirectional.only(
                                           start: 15, end: 15),
                                       child: Text(
@@ -156,43 +152,36 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> wit
                                     start: 15, end: 15),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                      width: MediaQuery.of(context)
-                                          .size
-                                          .width *
+                                      width: MediaQuery.of(context).size.width *
                                           0.3,
                                       child: CustomElevatedButton(
                                         title: "str_send".tr(),
                                         textColor: AppColors.white,
-                                        backgroundColor:
-                                        AppColors.Olive_Drab,
+                                        backgroundColor: AppColors.Olive_Drab,
                                         onPressed: () {
                                           FocusScope.of(context).unfocus();
 
                                           setState(() {
                                             msgError = messageViewModel
                                                 .validateMessage(
-                                                context,
-                                                messageTextController
-                                                    .text,
-                                                val,
-                                                messageTextController);
+                                                    context,
+                                                    messageTextController.text,
+                                                    val,
+                                                    messageTextController);
                                           });
                                         },
                                       ),
                                     ),
                                     Container(
-                                      width: MediaQuery.of(context)
-                                          .size
-                                          .width *
+                                      width: MediaQuery.of(context).size.width *
                                           0.3,
                                       child: CustomElevatedButton(
                                         title: "str_cancel".tr(),
                                         textColor: AppColors.white,
-                                        backgroundColor:
-                                        AppColors.calc_bef_btn,
+                                        backgroundColor: AppColors.calc_bef_btn,
                                         onPressed: () {
                                           //widget.resetDrawerSelection();
                                           Navigator.pop(context);
@@ -233,8 +222,9 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen> wit
 
   Future resetMessages() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(di.messagesViewModelProvider.notifier).resetState();
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.messagesViewModelProvider.notifier)
+          .resetState();
     });
   }
 }

@@ -41,7 +41,7 @@ class _ContactUsScreenState extends State<ContactUsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.LIGHT_BACKGROUND,
       appBar: CustomAppBar(
         showNotificationsButton: true,
         showDrawer: true,

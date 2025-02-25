@@ -12,7 +12,7 @@ class User {
   String? birthDate;
   DateTime? creationDate;
   String? state;
-  int? flockSize;
+  var flockSize;
   int? numberOfBirds;
   int? numberOfFarms;
   int? numberOfHouses;

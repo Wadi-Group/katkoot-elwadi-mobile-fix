@@ -55,14 +55,14 @@ class CustomDrawer extends StatelessWidget {
                 icon: "assets/images/ask_for_advice.png",
                 title: 'ask_for_advice'.tr(),
                 modelView: modelView,
-                navigationItem: NavigationItem.ask_for_advice,
+                navigationItem: NavigationItem.support,
               ),
               _buildDrawerItem(
                 context,
                 icon: "assets/images/sales.png",
                 title: 'sales_and_customer_support'.tr(),
                 modelView: modelView,
-                navigationItem: NavigationItem.support,
+                navigationItem: NavigationItem.where_to_find_us,
               ),
               _buildDrawerItem(
                 context,

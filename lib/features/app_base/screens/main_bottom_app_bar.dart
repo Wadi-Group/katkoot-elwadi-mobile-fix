@@ -85,11 +85,11 @@ class _MainBottomAppBarState extends State<MainBottomAppBar>
       label: '',
       icon: Icon(Icons.person_outlined),
     ),
-    BottomNavigationBarItem(
-      backgroundColor: AppColors.Dark_spring_green,
-      label: '',
-      icon: Icon(Icons.menu_sharp),
-    ),
+    // BottomNavigationBarItem(
+    //   backgroundColor: AppColors.Dark_spring_green,
+    //   label: '',
+    //   icon: Icon(Icons.menu_sharp),
+    // ),
   ];
 
   @override

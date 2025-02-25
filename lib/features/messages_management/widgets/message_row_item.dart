@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/messages_management/models/message.dart';
-import 'package:katkoot_elwady/features/messages_management/screens/message_content_screen.dart';
 
 class MessageRowItem extends StatelessWidget {
   Message message;
@@ -23,14 +22,14 @@ class MessageRowItem extends StatelessWidget {
                   fontSize: 16,
                   maxLines: 2,
                   textOverflow: TextOverflow.ellipsis,
-                  textColor: AppColors.Dark_spring_green,
+                  textColor: AppColors.APP_BLUE,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               CustomText(
                 title: message.schedule ?? '',
                 fontSize: 16,
-                textColor: AppColors.DARK_GREY,
+                textColor: AppColors.APP_BLUE,
                 fontWeight: FontWeight.w500,
                 padding: EdgeInsetsDirectional.only(start: 20),
               ),
@@ -46,7 +45,7 @@ class MessageRowItem extends StatelessWidget {
               fontSize: 16,
               maxLines: 2,
               textOverflow: TextOverflow.ellipsis,
-              textColor: AppColors.Liver,
+              textColor: AppColors.APP_BLUE,
               fontWeight: FontWeight.w500,
             ),
           )

@@ -309,7 +309,11 @@
   "website" : "Website",
 
   "coming_soon" : "Coming Soon",
-  "indicates_required_fields" : "Indicates required fields"
+  "indicates_required_fields" : "Indicates required fields",
+  "str_news" : "News",
+  "wadi": "Wadi",
+  "international": "International",
+  "local": "Local"
 
 
 }

@@ -66,4 +66,6 @@ class AppColors {
   static const Color SPLASH_GREEN = AppColors.APP_BLUE;
   static const Color LIGHT_BACKGROUND = Color(0xffeef0ef);
   static const Color TEXTFIELD_HINT = Color(0xffced5e7);
+  static const Color Tabs_Blue = Color(0xffe2eef3);
+  static const Color Message_seen = Color(0xfff3f3f3);
 }

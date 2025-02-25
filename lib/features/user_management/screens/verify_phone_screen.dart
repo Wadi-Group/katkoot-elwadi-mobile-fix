@@ -5,10 +5,8 @@ import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/core/utils/validator.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
-import 'package:katkoot_elwady/features/app_base/models/redirection_data.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
-import 'package:katkoot_elwady/features/app_base/widgets/active_button.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
@@ -17,6 +15,7 @@ import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
 import 'package:katkoot_elwady/features/user_management/view_models/auth_view_model.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sms_autofill/sms_autofill.dart';
+
 import '../../../core/di/injection_container.dart' as di;
 
 class VerifyPhoneScreen extends StatefulWidget with BaseViewModel {
@@ -82,7 +81,8 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen>
   late final authViewProvider =
       StateNotifierProvider<AuthViewModel, BaseState<List<UserFormsErrors>>>(
           (ref) {
-    return AuthViewModel(ref.read(di.repositoryProvider), nextRoute: widget.nextRoute);
+    return AuthViewModel(ref.read(di.repositoryProvider),
+        nextRoute: widget.nextRoute);
   });
 
   late AnimationController _animationController;
@@ -93,6 +93,7 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.LIGHT_BACKGROUND,
       appBar: CustomAppBar(showDrawer: false, hasbackButton: false),
       body: GestureDetector(
         child: Stack(
@@ -158,7 +159,7 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen>
                                           .toString() ==
                                       "ar") {
                                     ProviderScope.containerOf(context,
-                                        listen: false)
+                                            listen: false)
                                         .read(authViewProvider.notifier)
                                         .loginSMS(
                                             context,
@@ -172,7 +173,7 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen>
                                             registeredUser: widget.currentUser);
                                   } else {
                                     ProviderScope.containerOf(context,
-                                        listen: false)
+                                            listen: false)
                                         .read(authViewProvider.notifier)
                                         .loginSMS(context, value, widget.verId!,
                                             isFromRegisterScreen:
@@ -193,8 +194,8 @@ class _VerifyPhoneScreenState extends State<VerifyPhoneScreen>
                             if (resendVerifyCodeState) {
                               resendVerifyCodeState = false;
                               setState(() {});
-                              ProviderScope.containerOf(context,
-                                  listen: false).read(authViewProvider.notifier)
+                              ProviderScope.containerOf(context, listen: false)
+                                  .read(authViewProvider.notifier)
                                   .validatePhoneFeilds(
                                       context: context,
                                       phone: "${widget.phoneNumber!}",

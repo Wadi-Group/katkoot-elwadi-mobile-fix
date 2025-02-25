@@ -311,6 +311,11 @@
   "website" : "موقع كتكوت الوادي",
 
   "coming_soon" : "قريبًا",
-  "indicates_required_fields" : "هذا الحقل مطلوب"
+  "indicates_required_fields" : "هذا الحقل مطلوب",
+  "str_news" : "الاخبار",
+  "wadi": "الوادي",
+  "international": "دولي",
+  "local": "محلي"
+
 
 }

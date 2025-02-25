@@ -1,19 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:katkoot_elwady/core/constants/app_constants.dart';
+import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 import 'package:katkoot_elwady/core/services/repository.dart';
+import 'package:katkoot_elwady/core/utils/validator.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_api_result.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
-import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/features/app_base/mixins/pagination_mixin.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
-import 'package:katkoot_elwady/features/messages_management/models/message.dart';
-import 'package:katkoot_elwady/core/utils/validator.dart';
-import 'package:flutter/material.dart';
-import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 import 'package:katkoot_elwady/features/menu_management/view_models/navigation_drawer_mixin.dart';
+import 'package:katkoot_elwady/features/messages_management/models/message.dart';
 import 'package:katkoot_elwady/features/messages_management/models/messages_data.dart';
 import 'package:katkoot_elwady/features/messages_management/models/read_message_data.dart';
 import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
-import 'package:riverpod/riverpod.dart';
+
+enum messagesCategory { wadi, international, local }
 
 class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
     with BaseViewModel, NavigationDrawerMixin, PaginationUtils {
@@ -21,6 +22,7 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
 
   MessagesViewModel(this._repository) : super(BaseState(data: []));
 
+  // get messages from api
   Future getMessages(BuildContext context,
       {bool refresh = false, bool showLoading = true}) async {
     if (checkPerformRequest(refresh: refresh)) return;
@@ -32,12 +34,14 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
 
     state = BaseState(data: state.data, isLoading: showLoading);
 
-    bool userIsLoggedIn =
-    ProviderScope.containerOf(context,
-        listen: false).read(di.userViewModelProvider.notifier).isUserLoggedIn();
+    bool userIsLoggedIn = ProviderScope.containerOf(context, listen: false)
+        .read(di.userViewModelProvider.notifier)
+        .isUserLoggedIn();
 
     BaseApiResult<MessagesData?> result;
     if (userIsLoggedIn) {
+      //result = result_;
+
       result = await _repository.getMessages(
           hasToken: true, page: page, limit: limit);
     } else {
@@ -56,16 +60,17 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
     if (result.data != null) {
       messages = result.data?.messages ?? [];
       notificationNotSeenCount = result.data?.notificationNotSeenCount ?? 0;
-      ProviderScope.containerOf(context,
-          listen: false).read(di.unseenNotificationCountProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.unseenNotificationCountProvider.notifier)
           .setLocalUnseenNotificationCount(notificationNotSeenCount);
 
-      var user = ProviderScope.containerOf(context,
-          listen: false).read(di.userViewModelProvider);
+      var user = ProviderScope.containerOf(context, listen: false)
+          .read(di.userViewModelProvider);
       if (user?.user != null) {
         user?.notificationNotSeenCount = notificationNotSeenCount;
-        ProviderScope.containerOf(context,
-            listen: false).read(di.userViewModelProvider.notifier).setLocalUserData(user);
+        ProviderScope.containerOf(context, listen: false)
+            .read(di.userViewModelProvider.notifier)
+            .setLocalUserData(user);
       }
       page++;
       checkHasNext(result.data?.messages ?? []);
@@ -88,9 +93,8 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
     isPerformingRequest = false;
   }
 
-  String? validateMessage(
-      BuildContext context,
-      String? message, int? id, TextEditingController controller) {
+  String? validateMessage(BuildContext context, String? message, int? id,
+      TextEditingController controller) {
     String? errMessgae = Validator.validateMessgae(message!) ?? null;
     print(errMessgae);
     if (errMessgae == null) {
@@ -98,11 +102,11 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
     } else {
       return errMessgae;
     }
+    return null;
   }
 
-  Future postMessage(
-      BuildContext context,
-      String? message, int? id, TextEditingController controller) async {
+  Future postMessage(BuildContext context, String? message, int? id,
+      TextEditingController controller) async {
     state = BaseState(data: [], isLoading: true);
 
     var result = await _repository.postMessage(message: message, id: id);
@@ -140,9 +144,9 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
   void readMessage(int id) async {
     BuildContext? context = AppConstants.navigatorKey.currentContext;
     if (context != null) {
-      bool userIsLoggedIn =
-      ProviderScope.containerOf(context,
-          listen: false).read(di.userViewModelProvider.notifier).isUserLoggedIn();
+      bool userIsLoggedIn = ProviderScope.containerOf(context, listen: false)
+          .read(di.userViewModelProvider.notifier)
+          .isUserLoggedIn();
       BaseApiResult<ReadMessageData?> result;
       if (userIsLoggedIn) {
         if (state.data != null) {
@@ -162,17 +166,17 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
       if (result.data != null) {
         BuildContext? context = AppConstants.navigatorKey.currentContext;
         if (context != null) {
-          UserData? userData = ProviderScope.containerOf(context,
-              listen: false).read(di.userViewModelProvider);
+          UserData? userData = ProviderScope.containerOf(context, listen: false)
+              .read(di.userViewModelProvider);
           if (userData != null) {
             userData.notificationNotSeenCount =
                 result.data?.notificationNotSeenCount;
-            ProviderScope.containerOf(context,
-                listen: false).read(di.userViewModelProvider.notifier)
+            ProviderScope.containerOf(context, listen: false)
+                .read(di.userViewModelProvider.notifier)
                 .setLocalUserData(userData);
           }
-          ProviderScope.containerOf(context,
-              listen: false).read(di.unseenNotificationCountProvider.notifier)
+          ProviderScope.containerOf(context, listen: false)
+              .read(di.unseenNotificationCountProvider.notifier)
               .setLocalUnseenNotificationCount(
                   result.data?.notificationNotSeenCount ?? 0);
         }

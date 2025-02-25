@@ -15,6 +15,7 @@ import 'package:katkoot_elwady/features/messages_management/screens/send_message
 import 'package:share_plus/share_plus.dart';
 
 import '../entities/navigation_item.dart';
+import '../screens/about_us_screen.dart';
 
 class NavigationViewModel extends StateNotifier<BaseState> with BaseViewModel {
   Repository _repository;
@@ -24,6 +25,11 @@ class NavigationViewModel extends StateNotifier<BaseState> with BaseViewModel {
 
   redirectToScreen(BuildContext context, NavigationItem item) {
     switch (item) {
+      case NavigationItem.about_us:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return AboutUsScreen();
+        }));
+        break;
       case NavigationItem.support:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return SendSupportMessageScreen();
