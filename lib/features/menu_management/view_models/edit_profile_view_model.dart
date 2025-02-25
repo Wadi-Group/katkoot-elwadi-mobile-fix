@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/core/services/repository.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
-import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:katkoot_elwady/features/menu_management/models/edit_profile_data.dart';
 import 'package:katkoot_elwady/features/user_management/models/city.dart';
+
 import '../../../core/di/injection_container.dart' as di;
 
 class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
@@ -17,13 +18,14 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
       : super(BaseState(data: EditProdileData()));
 
   Future getCategoriesAndCities(
-      BuildContext context,
-      TextEditingController phoneControoler,
-      TextEditingController nameController,
-      TextEditingController dateController,
-      TextEditingController stateController,
-      TextEditingController flockSizeController, idController,
-      ) async {
+    BuildContext context,
+    TextEditingController phoneControoler,
+    TextEditingController nameController,
+    TextEditingController dateController,
+    TextEditingController stateController,
+    TextEditingController flockSizeController,
+    idController,
+  ) async {
     print("call start");
     BaseState(data: EditProdileData(), isLoading: true);
 
@@ -40,8 +42,14 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
                   categories: value[0].data as List<Category>?),
               isLoading: false);
 
-          getCurrentUserData(context, phoneControoler, nameController,
-              dateController, stateController, flockSizeController,idController);
+          getCurrentUserData(
+              context,
+              phoneControoler,
+              nameController,
+              dateController,
+              stateController,
+              flockSizeController,
+              idController);
         } else if (value[0].errorType == ErrorType.NO_NETWORK_ERROR ||
             value[1].errorType == ErrorType.NO_NETWORK_ERROR) {
           state = BaseState(data: EditProdileData(), hasNoConnection: true);
@@ -51,24 +59,24 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
               errorType: value[0].errorType ?? value[1].errorType,
               errorMessage: value[0].errorMessage ?? value[1].errorMessage,
               keyValueErrors:
-              value[0].keyValueErrors ?? value[1].keyValueErrors);
+                  value[0].keyValueErrors ?? value[1].keyValueErrors);
         }
       }
     });
   }
 
   getCurrentUserData(
-      BuildContext context,
-      TextEditingController phoneControoler,
-      TextEditingController nameController,
-      TextEditingController dateController,
-      TextEditingController stateController,
-      TextEditingController flockSizeController,
-      TextEditingController idController,
-      ) async {
-    var currentUser =
-    ProviderScope.containerOf(context,
-        listen: false).read(di.userViewModelProvider.notifier).getLocalUserData();
+    BuildContext context,
+    TextEditingController phoneControoler,
+    TextEditingController nameController,
+    TextEditingController dateController,
+    TextEditingController stateController,
+    TextEditingController flockSizeController,
+    TextEditingController idController,
+  ) async {
+    var currentUser = ProviderScope.containerOf(context, listen: false)
+        .read(di.userViewModelProvider.notifier)
+        .getLocalUserData();
 
     List<Category>? selectedCategory;
 
@@ -77,7 +85,7 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
     String? userName;
     String? birthDate;
     String? userState;
-    String? flockSize;
+    int? flockSize;
 
     if (currentUser!.user != null) {
       if (currentUser.user!.name != null) {
@@ -97,7 +105,7 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
         print(currentUser.user!.flockSize);
 
         flockSize = currentUser.user!.flockSize!;
-        flockSizeController.text = currentUser.user!.flockSize!;
+        flockSizeController.text = currentUser.user!.flockSize!.toString();
       }
       if (currentUser.user!.birthDate != null) {
         birthDate = currentUser.user!.birthDate!;
@@ -129,22 +137,22 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
         if (state.data!.categories != null) {
           selectedCategory = state.data!.categories!
               .where((element) =>
-              currentUser.user!.categoryId!.contains(element.id))
+                  currentUser.user!.categoryId!.contains(element.id))
               .toList();
         }
       }
       state = BaseState(
           data: EditProdileData(
-              phoneNumber: phoneNumber,
-              userName: userName,
-              categories: state.data!.categories,
-              cities: state.data!.cities,
-              selectedCategory: selectedCategory,
-              birthDate: state.data!.birthDate,
-              selectedCity: selectedCity,
-              state: userState,
-              flockSize: flockSize,
-          ));
+        phoneNumber: phoneNumber,
+        userName: userName,
+        categories: state.data!.categories,
+        cities: state.data!.cities,
+        selectedCategory: selectedCategory,
+        birthDate: state.data!.birthDate,
+        selectedCity: selectedCity,
+        state: userState,
+        flockSize: flockSize,
+      ));
 
       state = BaseState(data: state.data, isLoading: true);
 
@@ -169,7 +177,8 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
             print(remoteUserData.user!.name!);
 
             flockSize = remoteUserData.user!.flockSize!;
-            flockSizeController.text = remoteUserData.user!.flockSize!;
+            flockSizeController.text =
+                remoteUserData.user!.flockSize!.toString();
           }
           if (remoteUserData.user!.birthDate != null) {
             birthDate = remoteUserData.user!.birthDate!;
@@ -199,10 +208,9 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
             if (state.data!.categories != null) {
               selectedCategory = state.data!.categories!
                   .where((element) =>
-                  remoteUserData.user!.categoryId!.contains(element.id))
+                      remoteUserData.user!.categoryId!.contains(element.id))
                   .toList();
             }
-
 
             if (remoteUserData.user?.id != null) {
               print(remoteUserData.user!.id!);
@@ -213,16 +221,17 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
           }
           state = BaseState(
               data: EditProdileData(
-                  phoneNumber: phoneNumber,
-                  userName: userName,
-                  categories: state.data!.categories,
-                  cities: state.data!.cities,
-                  selectedCategory: selectedCategory,
-                  birthDate: state.data!.birthDate,
-                  selectedCity: selectedCity,
-                  state: userState,
-                  flockSize: flockSize,
-                  userId: currentUser.user?.id,));
+            phoneNumber: phoneNumber,
+            userName: userName,
+            categories: state.data!.categories,
+            cities: state.data!.cities,
+            selectedCategory: selectedCategory,
+            birthDate: state.data!.birthDate,
+            selectedCity: selectedCity,
+            state: userState,
+            flockSize: flockSize,
+            userId: currentUser.user?.id,
+          ));
         } else {
           if (result.errorType == ErrorType.NO_NETWORK_ERROR) {
             state = BaseState(data: state.data, hasNoConnection: true);
@@ -241,17 +250,16 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
   changeCurrentCategory(List<Category> category) {
     state = BaseState(
         data: EditProdileData(
-            phoneNumber: state.data?.phoneNumber,
-            userName: state.data?.userName,
-            selectedCategory: category,
-            categories: state.data!.categories,
-            cities: state.data!.cities,
-            birthDate: state.data!.birthDate,
-            state: state.data!.state,
-            flockSize: state.data!.flockSize,
-            selectedCity: state.data?.selectedCity,
-
-           ));
+      phoneNumber: state.data?.phoneNumber,
+      userName: state.data?.userName,
+      selectedCategory: category,
+      categories: state.data!.categories,
+      cities: state.data!.cities,
+      birthDate: state.data!.birthDate,
+      state: state.data!.state,
+      flockSize: state.data!.flockSize,
+      selectedCity: state.data?.selectedCity,
+    ));
   }
 
   changeCurrentCity(City city) {
@@ -266,7 +274,6 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
             state: state.data!.state,
             flockSize: state.data!.flockSize,
             selectedCategory: state.data?.selectedCategory,
-            selectedCity: city
-         ));
+            selectedCity: city));
   }
 }

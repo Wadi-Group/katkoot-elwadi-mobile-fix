@@ -280,7 +280,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: 'indicates required fields'.tr(),
+                                        text: 'indicates_required_fields'.tr(),
                                         style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.normal,

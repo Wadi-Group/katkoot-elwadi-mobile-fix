@@ -148,8 +148,8 @@ class CustomTextField extends StatelessWidget {
                 ),
               ),
               if (isMandatory)
-                Positioned(
-                  left: prefixIcon == null ? 10 : 60,
+                PositionedDirectional(
+                  start: prefixIcon == null ? 10 : 60,
                   top: 10,
                   child: Text(
                     '*',

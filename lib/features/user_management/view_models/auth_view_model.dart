@@ -38,7 +38,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
     var result = await _repository.putUserProfile(
       fbToken: fbToken,
       name: updatedUser.user!.name!,
-      cityId: updatedUser.user!.cityId,
+      cityId: updatedUser.user!.cityId!,
       birthDate: updatedUser.user!.birthDate!,
       phone: changePhone ? updatedUser.user!.phone : null,
       categoryId: updatedUser.user!.categoryId!,
@@ -468,8 +468,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         "categories": user!.categoryId!,
         "birth_date": user!.birthDate.toString(),
         "village": user!.state!.isNotEmpty ? user!.state.toString() : null,
-        "flock_size":
-            user!.flockSize!.isNotEmpty ? user!.flockSize.toString() : null,
+        "flock_size": user!.flockSize!,
       };
 
       String? formattedDate;

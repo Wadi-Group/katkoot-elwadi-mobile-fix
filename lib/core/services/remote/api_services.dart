@@ -227,11 +227,11 @@ class ApiService {
     required List<int> categoryId,
     required String birthDate,
     String? state,
-    String? flockSize,
+    int? flockSize,
     String? phone,
-    String? numberOfBirds,
-    String? numberOfFarms,
-    String? numberOfHouses,
+    int? numberOfBirds,
+    int? numberOfFarms,
+    int? numberOfHouses,
   }) async {
     return await ApiMethods<UserData>().put(ApiUrls.EDIT_PROFILE,
         data: phone != null
@@ -243,14 +243,10 @@ class ApiService {
                 "phone": phone,
                 "birth_date": birthDate,
                 "village": state!.isNotEmpty ? state.toString() : null,
-                "flock_size":
-                    flockSize!.isNotEmpty ? flockSize.toString() : null,
-                "number_of_birds ":
-                    numberOfBirds!.isEmpty ? null : numberOfBirds,
-                "number_of_farms ":
-                    numberOfFarms!.isEmpty ? null : numberOfFarms,
-                "number_of_houses ":
-                    numberOfHouses!.isEmpty ? null : numberOfHouses
+                "flock_size": flockSize,
+                "number_of_birds ": numberOfBirds,
+                "number_of_farms ": numberOfFarms,
+                "number_of_houses ": numberOfHouses
               }
             : {
                 "token": fbToken,
@@ -259,14 +255,10 @@ class ApiService {
                 "birth_date": birthDate,
                 "categories": categoryId,
                 "village": state!.isNotEmpty ? state.toString() : null,
-                "flock_size":
-                    flockSize!.isNotEmpty ? flockSize.toString() : null,
-                "number_of_birds ":
-                    numberOfBirds!.isEmpty ? null : numberOfBirds,
-                "number_of_farms ":
-                    numberOfFarms!.isEmpty ? null : numberOfFarms,
-                "number_of_houses ":
-                    numberOfHouses!.isEmpty ? null : numberOfHouses
+                "flock_size": flockSize,
+                "number_of_birds ": numberOfBirds,
+                "number_of_farms ": numberOfFarms,
+                "number_of_houses ": numberOfHouses
               },
         hasToken: true,
         hasLanguage: true);

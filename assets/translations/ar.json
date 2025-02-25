@@ -310,6 +310,7 @@
   "youtube" : "قناة كتكوت الوادي",
   "website" : "موقع كتكوت الوادي",
 
-  "coming_soon" : "قريبًا"
+  "coming_soon" : "قريبًا",
+  "indicates_required_fields" : "هذا الحقل مطلوب"
 
 }

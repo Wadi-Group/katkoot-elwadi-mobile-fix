@@ -3,19 +3,19 @@ class User {
   String? phone;
   String? email;
   var categoryId;
-  var cityId;
+  int? cityId;
   String? cachedToolsParameter;
-  String? notificationToken;
+  int? notificationToken;
   String? updatedAt;
   String? createdAt;
   int? id;
   String? birthDate;
   DateTime? creationDate;
   String? state;
-  String? flockSize;
-  String? numberOfBirds;
-  String? numberOfFarms;
-  String? numberOfHouses;
+  int? flockSize;
+  int? numberOfBirds;
+  int? numberOfFarms;
+  int? numberOfHouses;
 
   User({
     this.name,

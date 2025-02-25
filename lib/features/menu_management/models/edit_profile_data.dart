@@ -9,21 +9,20 @@ class EditProdileData {
   String? userName;
   String? birthDate;
   String? state;
-  String? flockSize;
+  int? flockSize;
   List<City>? cities;
   List<Category>? categories;
   int? userId;
-  EditProdileData(
-      {
-
-        this.phoneNumber,
-      this.selectedCategory,
-      this.selectedCity,
-      this.categories,
-      this.birthDate,
-      this.cities,
-      this.flockSize,
-      this.state,
-      this.userName,
-      this.userId,});
+  EditProdileData({
+    this.phoneNumber,
+    this.selectedCategory,
+    this.selectedCity,
+    this.categories,
+    this.birthDate,
+    this.cities,
+    this.flockSize,
+    this.state,
+    this.userName,
+    this.userId,
+  });
 }

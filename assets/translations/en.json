@@ -308,5 +308,8 @@
   "youtube" : "Youtube",
   "website" : "Website",
 
-  "coming_soon" : "Coming Soon"
+  "coming_soon" : "Coming Soon",
+  "indicates_required_fields" : "Indicates required fields"
+
+
 }
