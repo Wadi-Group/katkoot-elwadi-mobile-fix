@@ -227,11 +227,11 @@ class ApiService {
     required List<int> categoryId,
     required String birthDate,
     String? state,
-    int? flockSize,
+    String? flockSize,
     String? phone,
-    int? numberOfBirds,
-    int? numberOfFarms,
-    int? numberOfHouses,
+    String? numberOfBirds,
+    String? numberOfFarms,
+    String? numberOfHouses,
   }) async {
     return await ApiMethods<UserData>().put(ApiUrls.EDIT_PROFILE,
         data: phone != null

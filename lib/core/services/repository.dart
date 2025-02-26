@@ -187,11 +187,11 @@ class Repository {
     required List<int> categoryId,
     required String birthDate,
     String? state,
-    int? flockSize,
+    String? flockSize,
     String? phone,
-    int? numberOfBirds,
-    int? numberOfFarms,
-    int? numberOfHouses,
+    String? numberOfBirds,
+    String? numberOfFarms,
+    String? numberOfHouses,
   }) async {
     return await _apiService.putUserProfile(
       fbToken: fbToken,

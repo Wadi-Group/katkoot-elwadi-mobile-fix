@@ -9,7 +9,7 @@ class EditProdileData {
   String? userName;
   String? birthDate;
   String? state;
-  int? flockSize;
+  String? flockSize;
   List<City>? cities;
   List<Category>? categories;
   int? userId;

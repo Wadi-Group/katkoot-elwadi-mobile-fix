@@ -5,17 +5,17 @@ class User {
   var categoryId;
   int? cityId;
   String? cachedToolsParameter;
-  int? notificationToken;
+  String? notificationToken;
   String? updatedAt;
   String? createdAt;
   int? id;
   String? birthDate;
   DateTime? creationDate;
   String? state;
-  var flockSize;
-  int? numberOfBirds;
-  int? numberOfFarms;
-  int? numberOfHouses;
+  String? flockSize;
+  String? numberOfBirds;
+  String? numberOfFarms;
+  String? numberOfHouses;
 
   User({
     this.name,

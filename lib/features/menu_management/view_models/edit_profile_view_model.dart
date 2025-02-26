@@ -85,7 +85,7 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
     String? userName;
     String? birthDate;
     String? userState;
-    int? flockSize;
+    String? flockSize;
 
     if (currentUser!.user != null) {
       if (currentUser.user!.name != null) {
