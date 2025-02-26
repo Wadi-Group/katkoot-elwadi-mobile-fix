@@ -23,6 +23,7 @@ import 'package:katkoot_elwady/features/user_management/view_models/auth_view_mo
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../../../core/di/injection_container.dart' as di;
+import '../../app_base/screens/custom_drawer.dart';
 
 class EditProfileScreen extends StatefulWidget with NavigationDrawerMixin {
   static const routeName = "./edit_profile";
@@ -41,6 +42,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
   @override
   Widget build(BuildContext context, {bool isAuth = false}) {
     return Scaffold(
+      drawer: CustomDrawer(),
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: CustomAppBar(

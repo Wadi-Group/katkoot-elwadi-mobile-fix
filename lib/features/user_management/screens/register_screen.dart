@@ -22,6 +22,7 @@ import 'package:katkoot_elwady/features/user_management/view_models/auth_view_mo
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 import '../../../core/di/injection_container.dart' as di;
+import '../../app_base/screens/custom_drawer.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = "./RegisterScreen";
@@ -56,6 +57,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: CustomAppBar(
         showDrawer: false,
         showNotificationsButton: true,

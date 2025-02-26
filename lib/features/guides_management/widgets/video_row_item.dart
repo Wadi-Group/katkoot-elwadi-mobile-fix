@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
@@ -47,12 +48,16 @@ class VideoRowItem extends StatelessWidget {
                   color: AppColors.white_smoke,
                   child: Stack(
                     children: [
-                      Image.network(
-                        video?.url?.image ?? '',
-                        fit: BoxFit.fill,
-                        width: videoImageHeight,
-                        height: videoImageHeight,
-                      ),
+                      CachedNetworkImage(
+                          imageUrl: video?.url?.image ?? '',
+                          width: videoImageHeight,
+                          height: videoImageHeight),
+                      // Image.network(
+                      //   video?.url?.image ?? '',
+                      //   fit: BoxFit.fill,
+                      //   width: videoImageHeight,
+                      //   height: videoImageHeight,
+                      // ),
                       Center(
                           child: Container(
                         child: ImageIcon(

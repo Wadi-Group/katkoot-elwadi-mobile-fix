@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
@@ -6,16 +7,17 @@ import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/search_management/screens/serach_screen.dart';
 import 'package:katkoot_elwady/features/search_management/widgets/search_placeholer.dart';
+
 import '../../../../core/di/injection_container.dart' as di;
-import 'package:easy_localization/easy_localization.dart';
+import '../../app_base/screens/custom_drawer.dart';
 
 class BaseSearchScreen extends StatefulWidget {
   @override
   _BaseSearchScreenState createState() => _BaseSearchScreenState();
 }
 
-class _BaseSearchScreenState extends State<BaseSearchScreen> with AutomaticKeepAliveClientMixin,TickerProviderStateMixin {
-
+class _BaseSearchScreenState extends State<BaseSearchScreen>
+    with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -34,9 +36,12 @@ class _BaseSearchScreenState extends State<BaseSearchScreen> with AutomaticKeepA
   getSearchData() async {
     Future.delayed(Duration(microseconds: 0), () {
       ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-          listen: false).read(di.searchViewModelProvider.notifier)
-          .getsearchResult(ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-          listen: false).read(di.searchContentProvider));
+              listen: false)
+          .read(di.searchViewModelProvider.notifier)
+          .getsearchResult(ProviderScope.containerOf(
+                  AppConstants.navigatorKey.currentContext!,
+                  listen: false)
+              .read(di.searchContentProvider));
     });
   }
 
@@ -51,19 +56,20 @@ class _BaseSearchScreenState extends State<BaseSearchScreen> with AutomaticKeepA
     super.build(context);
 
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: CustomAppBar(
           hasbackButton: false,
           isSearchAppBar: true,
-          onSearchSubmit: (){
+          onSearchSubmit: () {
             tabController.animateTo(0);
             getSearchData();
-          }
-      ),
+          }),
       body: Consumer(builder: (_, ref, __) {
         var viewModel = ref.watch(di.searchViewModelProvider);
         var data = viewModel.data;
 
-        tabController = TabController(vsync: this, length: data?.numberOfAvailableSections ?? 0);
+        tabController = TabController(
+            vsync: this, length: data?.numberOfAvailableSections ?? 0);
         return Stack(
           children: [
             SearchScreen(
@@ -88,8 +94,7 @@ class _BaseSearchScreenState extends State<BaseSearchScreen> with AutomaticKeepA
             ),
           ],
         );
-      }
-      ),
+      }),
     );
   }
 }

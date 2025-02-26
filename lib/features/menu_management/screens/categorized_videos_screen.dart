@@ -7,7 +7,6 @@ import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
-import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:katkoot_elwady/features/menu_management/view_models/menu_categorized_videos_view_model.dart';
 import 'package:katkoot_elwady/features/menu_management/widgets/menu_category_with_videos_item.dart';
@@ -36,6 +35,7 @@ class _MenuCategorizedVideosScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: AppColors.LIGHT_BACKGROUND,
         key: _scaffoldKey,
         appBar: CustomAppBar(
           showNotificationsButton: true,
@@ -53,7 +53,7 @@ class _MenuCategorizedVideosScreenState
               height: MediaQuery.of(context).size.height,
               child: Padding(
                 padding:
-                    EdgeInsetsDirectional.only(start: 15, end: 15, top: 20),
+                    EdgeInsetsDirectional.only(start: 25, end: 25, top: 25),
                 child: Consumer(builder: (_, ref, __) {
                   var videosViewModel =
                       ref.watch(_categorizedVideosViewModelProvider);
@@ -62,20 +62,11 @@ class _MenuCategorizedVideosScreenState
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (categories != null && categories.isNotEmpty)
-                        Container(
-                          padding: EdgeInsetsDirectional.only(bottom: 15),
-                          child: CustomText(
-                            title: "str_videos".tr(),
-                            textColor: AppColors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                       Expanded(
                           child: Container(
                         width: MediaQuery.of(context).size.width,
                         child: ListView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 2),
                           itemCount: categories?.length ?? 0,
                           itemBuilder: (context, index) => Padding(
                             padding: EdgeInsets.only(bottom: 10),

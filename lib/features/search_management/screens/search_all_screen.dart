@@ -1,3 +1,5 @@
+import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
@@ -12,9 +14,8 @@ import 'package:katkoot_elwady/features/menu_management/widgets/where_to_find_us
 import 'package:katkoot_elwady/features/search_management/models/search_model.dart';
 import 'package:katkoot_elwady/features/search_management/widgets/searct_title_widget.dart';
 import 'package:katkoot_elwady/features/tools_management/widgets/tool_row_item.dart';
+
 import '../../../../core/di/injection_container.dart' as di;
-import 'package:easy_localization/easy_localization.dart';
-import 'package:collection/collection.dart';
 
 class SearchAllScreen extends StatefulWidget {
   TabController controller;
@@ -152,7 +153,7 @@ class _SearchAllScreenState extends State<SearchAllScreen> {
                                 isElite: (e.type == ToolTypes.PS_RG ||
                                     e.type == ToolTypes.CB_PO),
                                 onTap: () => ProviderScope.containerOf(context,
-                                    listen: false)
+                                        listen: false)
                                     .read(di.toolsViewModelProvider.notifier)
                                     .openToolDetails(
                                         context,

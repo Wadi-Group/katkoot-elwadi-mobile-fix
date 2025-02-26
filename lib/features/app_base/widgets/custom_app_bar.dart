@@ -1,18 +1,16 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:katkoot_elwady/core/constants/app_constants.dart';
-import 'package:katkoot_elwady/features/menu_management/view_models/navigation_drawer_mixin.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
+import 'package:katkoot_elwady/features/menu_management/view_models/navigation_drawer_mixin.dart';
 import 'package:katkoot_elwady/features/messages_management/screens/messages_list_screen.dart';
 import 'package:katkoot_elwady/features/search_management/widgets/search_widget.dart';
 import 'package:katkoot_elwady/features/tools_management/widgets/report_generator/custom_toggle.dart';
-import '../../../main.dart';
-import '../view_models/app_bar_tabs_view_model.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 
+import '../view_models/app_bar_tabs_view_model.dart';
 import 'tabbar/app_tabbar.dart';
 import 'tabbar/tabbar_data.dart';
 
@@ -78,6 +76,7 @@ class _CustomAppBarState extends State<CustomAppBar>
       iconTheme: IconThemeData(
         color: AppColors.white,
       ),
+      toolbarHeight: 70,
       centerTitle: widget.isSearchAppBar ? false : !widget.showToggle,
       backgroundColor: AppColors.DARK_SPRING_GREEN,
       title: widget.isSearchAppBar
@@ -90,8 +89,13 @@ class _CustomAppBarState extends State<CustomAppBar>
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 )
-              : Image.asset("assets/images/home_logo.png",
-                  fit: BoxFit.fill, height: 50),
+              : SizedBox(
+                  height: 70, // Set a fixed height to avoid extra padding
+                  child: Image.asset(
+                    "assets/images/home_logo.png",
+                    fit: BoxFit.fill, // Adjust as needed
+                  ),
+                ),
       automaticallyImplyLeading: true,
       actions: widget.showToggle
           ? [
@@ -208,13 +212,11 @@ class _CustomAppBarState extends State<CustomAppBar>
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: SizedBox(
-                  height: 30,
-                  width: 30,
+                  height: 20,
+                  width: 20,
                   child: Image.asset(
                     "assets/images/menu.png",
-                    fit: BoxFit.fitHeight,
-                    height: 30,
-                    width: 30,
+                    fit: BoxFit.fitWidth,
                     color: Colors.white,
                   ),
                 ),

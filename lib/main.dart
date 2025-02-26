@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 // import 'package:flutter_facebook_app_links/flutter_facebook_app_links.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 import 'package:katkoot_elwady/core/utils/notification_manager.dart';
 import 'package:katkoot_elwady/core/utils/route_generator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'core/constants/app_constants.dart';
-import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 
+import 'core/constants/app_constants.dart';
 import 'core/services/local/shared_preferences_service.dart';
 import 'features/app_base/screens/splash_screen.dart';
 

@@ -26,6 +26,8 @@ import '../sections/video_section.dart';
 import '../sections/weather_and_prices_section.dart';
 import '../widgets/in_app_message_pop_up.dart';
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class HomeScreen extends StatefulWidget with BaseViewModel {
   static const routeName = "./home";
 
@@ -37,7 +39,6 @@ class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // ===================================================== Variables =====================================================
   late String? date = '';

@@ -1,20 +1,21 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
+import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/pagination_list.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
-import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
-import 'package:easy_localization/easy_localization.dart';
 import 'package:katkoot_elwady/features/guides_management/models/video.dart';
 import 'package:katkoot_elwady/features/guides_management/view_models/videos_view_model.dart';
 import 'package:katkoot_elwady/features/guides_management/widgets/video_row_item.dart';
 import 'package:katkoot_elwady/features/search_management/widgets/search_placeholer.dart';
+
 import 'video_player_youtube_iframe_screen.dart';
 
 class CategoryVideosScreen extends StatefulWidget {
@@ -104,13 +105,14 @@ class _CategoryVideosScreenState extends State<CategoryVideosScreen> {
                         onLoadMore: () => getVideos(showLoading: false),
                         onRefresh: () =>
                             getVideos(showLoading: true, refresh: true),
-                        hasMore: ProviderScope.containerOf(context,
-                            listen: false)
-                            .read(videosViewModelProvider.notifier)
-                            .hasNext,
+                        hasMore:
+                            ProviderScope.containerOf(context, listen: false)
+                                .read(videosViewModelProvider.notifier)
+                                .hasNext,
                         loading:
-                        ProviderScope.containerOf(context,
-                            listen: false).read(videosViewModelProvider).isLoading,
+                            ProviderScope.containerOf(context, listen: false)
+                                .read(videosViewModelProvider)
+                                .isLoading,
                       );
                     }),
                   ),
@@ -127,8 +129,10 @@ class _CategoryVideosScreenState extends State<CategoryVideosScreen> {
               noDataMessage: "str_no_data".tr(),
               onDeviceReconnected: () => getVideos(
                   showLoading: true,
-                  refresh: ProviderScope.containerOf(context,
-                      listen: false).read(videosViewModelProvider).data != null),
+                  refresh: ProviderScope.containerOf(context, listen: false)
+                          .read(videosViewModelProvider)
+                          .data !=
+                      null),
               noDataWidget: NoDataWidget(),
             );
           },
@@ -159,17 +163,21 @@ class _CategoryVideosScreenState extends State<CategoryVideosScreen> {
       print("call categoryGuideViewModel");
       if (!widget.searchScreen) {
         ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-            listen: false).read(videosViewModelProvider.notifier)
+                listen: false)
+            .read(videosViewModelProvider.notifier)
             .getVideos(widget.category.id!,
                 refresh: refresh, showLoading: showLoading);
       } else {
         ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-            listen: false).read(videosViewModelProvider.notifier)
+                listen: false)
+            .read(videosViewModelProvider.notifier)
             .getVideos(0,
                 refresh: refresh,
                 showLoading: showLoading,
-                searchText: ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-                    listen: false).read(di.searchContentProvider));
+                searchText: ProviderScope.containerOf(
+                        AppConstants.navigatorKey.currentContext!,
+                        listen: false)
+                    .read(di.searchContentProvider));
       }
     });
   }

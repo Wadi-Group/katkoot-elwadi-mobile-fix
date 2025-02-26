@@ -17,6 +17,7 @@ import 'package:katkoot_elwady/features/user_management/entities/user_forms_erro
 import 'package:katkoot_elwady/features/user_management/screens/register_screen.dart';
 
 import '../../../core/di/injection_container.dart' as di;
+import '../../app_base/screens/custom_drawer.dart';
 import '../view_models/auth_view_model.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -56,6 +57,7 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
       builder: (_, ref, __) {
         userModelViewProvider = ref.watch(authViewProvider.notifier);
         return Scaffold(
+          drawer: CustomDrawer(),
           appBar: CustomAppBar(
             showDrawer: false,
             hasbackButton: false,

@@ -41,7 +41,7 @@ class _MessagesListScreenState extends State<MessagesListScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.LIGHT_BACKGROUND,
+      backgroundColor: AppColors.white_smoke,
       key: _scaffoldKey,
       appBar: CustomAppBar(
         showDrawer: true,
@@ -51,49 +51,62 @@ class _MessagesListScreenState extends State<MessagesListScreen>
         child: Column(
           children: [
             // Category Tab Bar
-            TabBar(
-              labelPadding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
-              controller: _tabController,
-              labelColor: AppColors.APP_BLUE,
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: AppColors.APP_BLUE,
-              indicator: BoxDecoration(
-                color: AppColors.Tabs_Blue.withValues(
-                    alpha: 1), // Background color for selected tab
-                borderRadius: BorderRadius.circular(30),
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.APP_CARDS_BLUE.withValues(alpha: 0.3),
+                    spreadRadius: 0.5,
+                    blurRadius: .5,
+                    offset: const Offset(.5, .5),
+                  ),
+                ],
+                color: AppColors.white,
               ),
-              tabs: MessagesCategory.values
-                  .map((category) => SizedBox(
-                        height: 45,
-                        child: Tab(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              CustomText(
-                                title: getCategoryLocalizedName(category),
-                                textColor: AppColors.APP_BLUE,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                lineSpacing: 0,
-                              ),
-                              CustomText(
-                                title: "str_news".tr(),
-                                textColor: AppColors.APP_BLUE,
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                lineSpacing: 0,
-                              ),
-                            ],
-                          ),
-                        )),
-                      ))
-                  .toList(),
+              child: TabBar(
+                labelPadding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
+                controller: _tabController,
+                labelColor: AppColors.APP_BLUE,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: AppColors.APP_BLUE,
+                indicator: BoxDecoration(
+                  color: AppColors.Tabs_Blue.withValues(
+                      alpha: 1), // Background color for selected tab
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                tabs: MessagesCategory.values
+                    .map((category) => SizedBox(
+                          height: 45,
+                          child: Tab(
+                              child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CustomText(
+                                  title: getCategoryLocalizedName(category),
+                                  textColor: AppColors.APP_BLUE,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  lineSpacing: 0,
+                                ),
+                                CustomText(
+                                  title: "str_news".tr(),
+                                  textColor: AppColors.APP_BLUE,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  lineSpacing: 0,
+                                ),
+                              ],
+                            ),
+                          )),
+                        ))
+                    .toList(),
+              ),
             ),
             Expanded(
               child: Consumer(
