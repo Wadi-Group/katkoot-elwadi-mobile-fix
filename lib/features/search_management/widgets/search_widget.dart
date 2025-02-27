@@ -45,13 +45,14 @@ class _SearchWidgetState extends State<SearchWidget> {
                   .state = searchController.text;
               if (widget.onSearchSubmit != null) widget.onSearchSubmit!();
             },
+            contentPadding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
             controller: searchController,
             backgroundColor: AppColors.white,
             fillColor: AppColors.white,
             textInputAction: TextInputAction.search,
             hintText: "search".tr(),
             prefixIcon: Icon(Icons.search),
-            hintColor: AppColors.GREY_DARK_BLUE,
+            hintColor: AppColors.TEXTFIELD_HINT,
           )),
           GestureDetector(
             onTap: () {
