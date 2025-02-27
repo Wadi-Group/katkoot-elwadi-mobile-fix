@@ -315,7 +315,8 @@
   "str_news" : "الاخبار",
   "wadi": "الوادي",
   "international": "دولي",
-  "local": "محلي"
+  "local": "محلي",
+    "write_comment" : "اكتب تعليقك..."
 
 
 }

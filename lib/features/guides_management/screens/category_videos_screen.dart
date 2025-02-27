@@ -34,8 +34,6 @@ class CategoryVideosScreen extends StatefulWidget {
 }
 
 class _CategoryVideosScreenState extends State<CategoryVideosScreen> {
-  bool _startInit = false;
-
   final videosViewModelProvider =
       StateNotifierProvider<VideosViewModel, BaseState<List<Video>?>>((ref) {
     return VideosViewModel(ref.read(di.repositoryProvider));

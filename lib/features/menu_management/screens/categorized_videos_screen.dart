@@ -48,12 +48,12 @@ class _MenuCategorizedVideosScreenState
         body: SafeArea(
           child: Stack(children: [
             Container(
-              color: AppColors.Snow,
+              color: AppColors.LIGHT_BACKGROUND,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Padding(
                 padding:
-                    EdgeInsetsDirectional.only(start: 25, end: 25, top: 25),
+                    EdgeInsetsDirectional.only(start: 20, end: 20, top: 25),
                 child: Consumer(builder: (_, ref, __) {
                   var videosViewModel =
                       ref.watch(_categorizedVideosViewModelProvider);

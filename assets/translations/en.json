@@ -313,7 +313,8 @@
   "str_news" : "News",
   "wadi": "Wadi",
   "international": "International",
-  "local": "Local"
+  "local": "Local",
+  "write_comment" : "Write Comment ..."
 
 
 }

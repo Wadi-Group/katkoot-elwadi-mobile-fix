@@ -1,17 +1,14 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
-import 'package:katkoot_elwady/features/category_management/screens/category_details_screen.dart';
 import 'package:katkoot_elwady/features/guides_management/entities/guides_tab_bar_item.dart';
 import 'package:katkoot_elwady/features/guides_management/widgets/guides_tab_bar_view_model.dart';
 import 'package:katkoot_elwady/features/guides_management/widgets/guides_tab_bar_widget.dart';
-import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
-import 'package:katkoot_elwady/features/tools_management/screens/tools_screen.dart';
 
+import 'category_videos_screen.dart';
 import 'faqs_screen.dart';
 import 'topics_screen.dart';
-import 'category_videos_screen.dart';
 
 class CategoryGuidesScreen extends StatefulWidget {
   static const routeName = "./category_guides";
@@ -40,8 +37,8 @@ class _CategoryGuidesScreenState extends State<CategoryGuidesScreen>
 
   Future initViewModel() async {
     await Future.delayed(Duration.zero, () {
-      viewModel = ProviderScope.containerOf(context,
-          listen: false).read(di.guidesTabBarViewModelProvider.notifier);
+      viewModel = ProviderScope.containerOf(context, listen: false)
+          .read(di.guidesTabBarViewModelProvider.notifier);
       viewModel.resetState();
     });
   }
@@ -63,7 +60,7 @@ class _CategoryGuidesScreenState extends State<CategoryGuidesScreen>
           child: Consumer(builder: (_, ref, __) {
             var modelView = ref.watch(di.guidesTabBarViewModelProvider);
             var modelViewActions =
-            ref.watch(di.guidesTabBarViewModelProvider.notifier);
+                ref.watch(di.guidesTabBarViewModelProvider.notifier);
             var tabs = modelViewActions.getTabs(
                 modelView.data!.guidesTabBarItem as GuidesTabBarItem,
                 widget.category);
@@ -121,6 +118,7 @@ class _CategoryGuidesScreenState extends State<CategoryGuidesScreen>
 
   void _handleTabSelection() {
     if (_tabController.previousIndex != _tabController.index)
-      viewModel.changeTabSelection(viewModel.state.data!.tabs![_tabController.index].key);
+      viewModel.changeTabSelection(
+          viewModel.state.data!.tabs![_tabController.index].key);
   }
 }
