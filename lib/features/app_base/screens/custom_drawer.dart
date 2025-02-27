@@ -127,7 +127,7 @@ class CustomDrawer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Image.asset(
                 icon,
-                color: title == 'login'.tr()
+                color: title == 'login'.tr() || title == 'str_sign_out'.tr()
                     ? AppColors.APPLE_GREEN
                     : AppColors.APP_BLUE,
                 width: 25,
@@ -138,7 +138,7 @@ class CustomDrawer extends StatelessWidget {
               title: title,
               fontSize: 16,
               fontWeight: FontWeight.w500,
-              textColor: title == 'login'.tr()
+              textColor: title == 'login'.tr() || title == 'str_sign_out'.tr()
                   ? AppColors.APPLE_GREEN
                   : AppColors.APP_BLUE,
             ),

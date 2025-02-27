@@ -71,11 +71,12 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
             child: SafeArea(
               child: Stack(
                 children: [
-                  Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Image.asset("assets/images/bg_image.png")),
+                  // Positioned(
+                  //     bottom: 0,
+                  //     left: 0,
+                  //     right: 0,
+                  //     child: Image.asset("assets/images/bg_image.png")),
+
                   Container(
                     height: MediaQuery.of(context).size.height,
                     padding: EdgeInsetsDirectional.only(
@@ -183,7 +184,7 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
             controller: phoneController,
             hintText: "phone_number".tr().toUpperCase(),
             inputType: TextInputType.phone,
-            fontWeight: FontWeight.w300,
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
             inputFormatter: [IntegerTextInputFormatter()],
             fontSize: 14,
             prefixIcon: buildCountryDialog(),

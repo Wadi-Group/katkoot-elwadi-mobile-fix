@@ -122,9 +122,12 @@ class _MenuVideoRowItemState extends State<MenuVideoRowItem> {
           Padding(
             padding: context.locale.languageCode == "en"
                 ? const EdgeInsets.only(right: 45)
-                : const EdgeInsets.only(right: 45.0),
+                : const EdgeInsets.only(left: 45.0),
             child: CustomTextField(
               borderRadius: 30,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
               hintText: "write_comment".tr(),
               controller: _commentController,
               fontWeight: FontWeight.w400,

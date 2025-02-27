@@ -54,10 +54,10 @@ class _CityDropDownState extends State<CityDropDown> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+            padding: EdgeInsets.symmetric(horizontal: 7, vertical: 0),
             decoration: BoxDecoration(
                 color: AppColors.white,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.APP_CARDS_BLUE.withAlpha(25),
@@ -72,7 +72,7 @@ class _CityDropDownState extends State<CityDropDown> {
                   value: value,
                   child: CustomText(
                     title: value.name!,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w400,
                     fontSize: 13,
                     textAlign: TextAlign.start,
                     padding: EdgeInsetsDirectional.only(start: 10),

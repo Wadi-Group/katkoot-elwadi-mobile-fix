@@ -67,10 +67,10 @@ class _CategoryDropDownState extends State<CategoryDropDown> {
             onTap: () => _showMultiSelect(context, categoriesList),
             child: Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                   color: AppColors.white,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.APP_CARDS_BLUE.withAlpha(25),
@@ -84,14 +84,25 @@ class _CategoryDropDownState extends State<CategoryDropDown> {
                       padding: widget.selectedCategories!.isEmpty
                           ? EdgeInsetsDirectional.only(top: 10, bottom: 10)
                           : null,
-                      child: CustomText(
-                        title: 'choose_category'.tr(),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        textColor: AppColors.Liver,
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                    )
+                      child: RichText(
+                        text: TextSpan(
+                          text: '* ',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'choose_category'.tr(),
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.TEXTFIELD_HINT,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
                   : SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(

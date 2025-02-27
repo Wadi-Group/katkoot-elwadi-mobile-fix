@@ -119,8 +119,6 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                               return CustomTextField(
                                   controller: stateController,
                                   hintText: "state".tr(),
-                                  contentPadding: EdgeInsetsDirectional.only(
-                                      bottom: 12, start: 20),
                                   inputType: TextInputType.text,
                                   fontSize: 14,
                                   errorMessage: errors
@@ -149,8 +147,6 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                                   child: CustomTextField(
                                     isEnabled: false,
                                     controller: arrivalDateController,
-                                    contentPadding: EdgeInsetsDirectional.only(
-                                        bottom: 12, start: 20),
                                     hintText: "birth_date".tr(),
                                     maxLength: 10,
                                     inputType: TextInputType.none,
@@ -168,8 +164,6 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                               return CustomTextField(
                                   controller: flockSizeContoller,
                                   hintText: "flock_size".tr(),
-                                  contentPadding: EdgeInsetsDirectional.only(
-                                      bottom: 12, start: 20),
                                   inputType: TextInputType.number,
                                   fontSize: 14,
                                   errorMessage: errors
@@ -190,8 +184,6 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                               return CustomTextField(
                                   controller: numberOfBirdsController,
                                   hintText: "number_of_birds".tr(),
-                                  contentPadding: EdgeInsetsDirectional.only(
-                                      bottom: 12, start: 20),
                                   inputType: TextInputType.number,
                                   fontSize: 14,
                                   errorMessage: errors
@@ -211,8 +203,6 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                               return CustomTextField(
                                   controller: numberOfFarmsController,
                                   hintText: "number_of_farms".tr(),
-                                  contentPadding: EdgeInsetsDirectional.only(
-                                      bottom: 12, start: 20),
                                   inputType: TextInputType.number,
                                   fontSize: 14,
                                   errorMessage: errors
@@ -232,8 +222,6 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                               return CustomTextField(
                                   controller: numberOfHousesController,
                                   hintText: "number_of_houses".tr(),
-                                  contentPadding: EdgeInsetsDirectional.only(
-                                      bottom: 12, start: 20),
                                   inputType: TextInputType.number,
                                   fontSize: 14,
                                   errorMessage: errors
@@ -362,7 +350,6 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               controller: nameController,
               isMandatory: true,
               hintText: "name".tr(),
-              contentPadding: EdgeInsetsDirectional.only(bottom: 12, start: 20),
               inputType: TextInputType.text,
               fontSize: 14,
               errorMessage: errors
@@ -382,8 +369,9 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               hintText: "phone_number".tr(),
               inputType: TextInputType.phone,
               fontSize: 14,
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
               inputFormatter: [IntegerTextInputFormatter()],
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w400,
               prefixIcon: buildCountryDialog(),
               errorMessage: errors
                   .firstWhere(
@@ -453,7 +441,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
             onTap: () => _showMultiSelect(context, categoriesList),
             child: Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(10),
@@ -482,7 +470,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                               text: 'choose_category'.tr(),
                               style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w400,
                                 color: AppColors.TEXTFIELD_HINT,
                               ),
                             ),
@@ -604,7 +592,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(10),
@@ -623,7 +611,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                   child: CustomText(
                     title: value.name!,
                     fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w400,
                     textAlign: TextAlign.start,
                     padding: EdgeInsetsDirectional.only(start: 10),
                   ),
@@ -644,7 +632,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               hint: CustomText(
                 title: 'choose_city'.tr(),
                 fontSize: 13,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w400,
                 textColor: AppColors.TEXTFIELD_HINT,
                 padding: EdgeInsets.symmetric(horizontal: 8),
               ),

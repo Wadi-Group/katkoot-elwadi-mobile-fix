@@ -16,7 +16,6 @@ import '../entities/navigation_item.dart';
 import '../view_models/navigation_view_model.dart';
 
 class NavigationDrawer extends StatefulWidget {
-
   NavigationDrawer({Key? key}) : super(key: key);
 
   @override
@@ -33,9 +32,11 @@ class NavigationDrawerState extends State<NavigationDrawer> with BaseViewModel {
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (_, ref, __){
-        var modelView = ref.watch(di.navigationDrawerViewModelProvider.notifier);
-        userIsLoggedIn = ref.watch(di.userViewModelProvider.notifier).isUserLoggedIn();
+      builder: (_, ref, __) {
+        var modelView =
+            ref.watch(di.navigationDrawerViewModelProvider.notifier);
+        userIsLoggedIn =
+            ref.watch(di.userViewModelProvider.notifier).isUserLoggedIn();
         return Container(
           width: MediaQuery.of(context).size.width,
           child: Drawer(
@@ -47,7 +48,7 @@ class NavigationDrawerState extends State<NavigationDrawer> with BaseViewModel {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).orientation ==
-                          Orientation.portrait
+                              Orientation.portrait
                           ? MediaQuery.of(context).size.height
                           : MediaQuery.of(context).size.height * 1.5,
                       child: Column(
@@ -58,7 +59,7 @@ class NavigationDrawerState extends State<NavigationDrawer> with BaseViewModel {
                           Container(
                             width: MediaQuery.of(context).size.width,
                             padding:
-                            EdgeInsetsDirectional.fromSTEB(35, 15, 0, 35),
+                                EdgeInsetsDirectional.fromSTEB(35, 15, 0, 35),
                             child: CustomText(
                               title: "str_more".tr(),
                               fontSize: 26,
@@ -168,7 +169,7 @@ class NavigationDrawerState extends State<NavigationDrawer> with BaseViewModel {
           onTap: () {
             if (isAuth) {
               if (!userIsLoggedIn) {
-                Navigator.push(context, MaterialPageRoute(builder: (context){
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return LoginScreen();
                 }));
               } else {
@@ -176,10 +177,11 @@ class NavigationDrawerState extends State<NavigationDrawer> with BaseViewModel {
               }
             } else {
               if (!userIsLoggedIn) {
-                if(navigationItem == NavigationItem.support){
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                if (navigationItem == NavigationItem.support) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return LoginScreen(
-                      nextRoute: MaterialPageRoute(builder: (context) => SendSupportMessageScreen()),
+                      nextRoute: MaterialPageRoute(
+                          builder: (context) => SendSupportMessageScreen()),
                     );
                   }));
                 } else {

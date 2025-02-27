@@ -76,11 +76,18 @@ class MyApp extends ConsumerWidget {
       title: 'katkot al wadi',
       initialRoute: SplashScreen.routeName,
       theme: ThemeData(
+        useMaterial3: false,
+        dialogTheme: DialogTheme(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
         snackBarTheme: SnackBarThemeData(
             contentTextStyle: TextStyle(
                 fontFamily:
                     context.locale.toString() == 'en' ? "Arial" : "GE_SS_Two")),
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.blueGrey,
         fontFamily: context.locale.toString() == 'en' ? "Arial" : "GE_SS_Two",
       ),
       navigatorKey: AppConstants.navigatorKey,

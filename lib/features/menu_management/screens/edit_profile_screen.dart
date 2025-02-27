@@ -120,9 +120,6 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   return CustomTextField(
                                       controller: stateController,
                                       hintText: "state".tr(),
-                                      contentPadding:
-                                          EdgeInsetsDirectional.only(
-                                              start: 20, bottom: 12),
                                       inputType: TextInputType.text,
                                       fontSize: 14,
                                       errorMessage: errors
@@ -152,9 +149,6 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                       child: CustomTextField(
                                         isEnabled: false,
                                         controller: arrivalDateController,
-                                        contentPadding:
-                                            EdgeInsetsDirectional.only(
-                                                start: 20, bottom: 12),
                                         hintText: "birth_date".tr(),
                                         maxLength: 10,
                                         inputType: TextInputType.none,
@@ -172,9 +166,6 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   return CustomTextField(
                                       controller: flockSizeContoller,
                                       hintText: "flock_size".tr(),
-                                      contentPadding:
-                                          EdgeInsetsDirectional.only(
-                                              start: 20, bottom: 12),
                                       inputType: TextInputType.number,
                                       fontSize: 14,
                                       errorMessage: errors
@@ -195,9 +186,6 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   return CustomTextField(
                                       controller: numberOfBirdsController,
                                       hintText: "number_of_birds".tr(),
-                                      contentPadding:
-                                          EdgeInsetsDirectional.only(
-                                              bottom: 12, start: 20),
                                       inputType: TextInputType.number,
                                       fontSize: 14,
                                       errorMessage: errors
@@ -218,9 +206,6 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   return CustomTextField(
                                       controller: numberOfFarmsController,
                                       hintText: "number_of_farms".tr(),
-                                      contentPadding:
-                                          EdgeInsetsDirectional.only(
-                                              bottom: 12, start: 20),
                                       inputType: TextInputType.number,
                                       fontSize: 14,
                                       errorMessage: errors
@@ -241,9 +226,6 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                   return CustomTextField(
                                       controller: numberOfHousesController,
                                       hintText: "number_of_houses".tr(),
-                                      contentPadding:
-                                          EdgeInsetsDirectional.only(
-                                              bottom: 12, start: 20),
                                       inputType: TextInputType.number,
                                       fontSize: 14,
                                       errorMessage: errors
@@ -270,6 +252,10 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                     // var test = data!.userName;
                                     return TextButton(
                                       child: Text("delete_account".tr()),
+                                      style: TextButton.styleFrom(
+                                          textStyle: TextStyle(
+                                        color: AppColors.APP_BLUE,
+                                      )),
                                       onPressed: () {
                                         // You can use `ref` here.
                                         showDialog(
@@ -277,8 +263,12 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                           builder: (context) {
                                             return AlertDialog(
                                               title: Text(
-                                                  "delete_account_message"
-                                                      .tr()),
+                                                "delete_account_message".tr(),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 18,
+                                                    color: AppColors.APP_BLUE),
+                                              ),
                                               // title: Text(data!.userName.toString()),
                                               content: Text(
                                                   data!.phoneNumber.toString()),
@@ -288,6 +278,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                                 CustomElevatedButton(
                                                   title: "str_cancel".tr(),
                                                   textColor: AppColors.white,
+                                                  fontSize: 16,
                                                   backgroundColor:
                                                       AppColors.APP_GREEN,
                                                   onPressed: () =>
@@ -297,6 +288,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                                 CustomElevatedButton(
                                                   title: "delete".tr(),
                                                   textColor: AppColors.white,
+                                                  fontSize: 16,
                                                   backgroundColor:
                                                       AppColors.CADMIUM_RED,
                                                   onPressed: () => ProviderScope
@@ -305,7 +297,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                                           .userViewModelProvider
                                                           .notifier)
                                                       .deleteUser(int.tryParse(
-                                                          data!.userId
+                                                          data.userId
                                                               .toString())),
                                                   // onPressed: () => Navigator.pop(context, 'OK'),
 
@@ -472,13 +464,12 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
       children: [
         Consumer(builder: (_, ref, __) {
           final errors = ref.watch(_errorsProvider);
-
           return CustomTextField(
               controller: nameController,
+              isMandatory: true,
               hintText: "name".tr(),
               inputType: TextInputType.text,
               fontSize: 14,
-              contentPadding: EdgeInsetsDirectional.only(bottom: 12, start: 12),
               errorMessage: errors
                   .firstWhere(
                       (element) => element.field == UserFields.NAME.field,
@@ -492,9 +483,11 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
           final errors = ref.watch(_errorsProvider);
           return CustomTextField(
               controller: phoneController,
+              isMandatory: true,
               hintText: "phone_number".tr(),
               inputType: TextInputType.phone,
               fontSize: 14,
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
               inputFormatter: [IntegerTextInputFormatter()],
               prefixIcon: buildCountryDialog(),
               errorMessage: errors
@@ -526,7 +519,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
             countryListTheme: CountryListThemeData(
               flagSize: 30,
               backgroundColor: Colors.white,
-              bottomSheetHeight: MediaQuery.of(context).size.height - 150,
+              bottomSheetHeight: MediaQuery.of(context).size.height - 100,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20.0),
                 topRight: Radius.circular(20.0),
