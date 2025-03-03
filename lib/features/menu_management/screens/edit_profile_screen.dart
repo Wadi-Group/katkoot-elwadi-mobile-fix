@@ -505,7 +505,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
 
   buildCountryDialog() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
       child: GestureDetector(
         onTap: () {
           showCountryPicker(

@@ -369,7 +369,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               hintText: "phone_number".tr(),
               inputType: TextInputType.phone,
               fontSize: 14,
-              contentPadding: EdgeInsets.symmetric(horizontal: 10),
+              contentPadding: EdgeInsets.symmetric(horizontal: 5),
               inputFormatter: [IntegerTextInputFormatter()],
               fontWeight: FontWeight.w400,
               prefixIcon: buildCountryDialog(),
@@ -388,7 +388,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
 
   buildCountryDialog() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
       child: GestureDetector(
         onTap: () {
           showCountryPicker(
