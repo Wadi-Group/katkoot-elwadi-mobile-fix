@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/messages_management/screens/messages_list_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/reusable_container_widget.dart';
 
@@ -20,7 +21,7 @@ class LiveChatAndNewsSection extends StatelessWidget {
               ActionButton(
                 title: "live_chat".tr(),
                 onTap: () {
-                  // Navigator.of(context).pushNamed(LiveChatScreen.routeName);
+                  openWhatsapp();
                 },
                 image: "assets/images/live_chat.png",
                 borderRadius: context.locale.languageCode == "en"
@@ -35,36 +36,36 @@ class LiveChatAndNewsSection extends StatelessWidget {
               ),
 
               // Add the "coming soon" label
-              PositionedDirectional(
-                top: 0,
-                start: 0,
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
-                  decoration: BoxDecoration(
-                      color: Colors.red.withValues(alpha: 0.7),
-                      borderRadius: context.locale.languageCode == "en"
-                          ? BorderRadius.only(topLeft: Radius.circular(20))
-                          : BorderRadius.only(topRight: Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color:
-                              AppColors.APP_CARDS_BLUE.withValues(alpha: 0.3),
-                          spreadRadius: 0.5,
-                          blurRadius: 2,
-                          offset: const Offset(1, 2),
-                        ),
-                      ]),
-                  child: Text(
-                    "coming_soon".tr(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12, // Smaller text size
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ),
+              // PositionedDirectional(
+              //   top: 0,
+              //   start: 0,
+              //   child: Container(
+              //     padding:
+              //         const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
+              //     decoration: BoxDecoration(
+              //         color: Colors.red.withValues(alpha: 0.7),
+              //         borderRadius: context.locale.languageCode == "en"
+              //             ? BorderRadius.only(topLeft: Radius.circular(20))
+              //             : BorderRadius.only(topRight: Radius.circular(20)),
+              //         boxShadow: [
+              //           BoxShadow(
+              //             color:
+              //                 AppColors.APP_CARDS_BLUE.withValues(alpha: 0.3),
+              //             spreadRadius: 0.5,
+              //             blurRadius: 2,
+              //             offset: const Offset(1, 2),
+              //           ),
+              //         ]),
+              //     child: Text(
+              //       "coming_soon".tr(),
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 12, // Smaller text size
+              //         fontWeight: FontWeight.normal,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -146,5 +147,23 @@ class ActionButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+void openWhatsapp() async {
+  // Replace with your WhatsApp number
+  String phoneNumber = "+201148730069";
+
+  // Replace with your WhatsApp message
+  String message = "Hello, I need help!";
+
+  // Open WhatsApp with the specified number and message
+  String url =
+      "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  } else {
+    throw 'Could not launch $url';
   }
 }

@@ -251,7 +251,15 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                         .isUserLoggedIn();
                                     // var test = data!.userName;
                                     return TextButton(
-                                      child: Text("delete_account".tr()),
+                                      child: Text(
+                                        "delete_account".tr(),
+                                        style: TextStyle(
+                                          fontFamily:
+                                              context.locale == Locale("en")
+                                                  ? "Arial"
+                                                  : "Almarai",
+                                        ),
+                                      ),
                                       style: TextButton.styleFrom(
                                           textStyle: TextStyle(
                                         color: AppColors.APP_BLUE,
