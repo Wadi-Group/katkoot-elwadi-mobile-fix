@@ -107,7 +107,7 @@ flutter:
         - asset: assets/fonts/Arial-Bold.ttf
         - weight: 700
 
-    - family: GE_SS_Two
+    - family: Almarai
       fonts:
         - asset: assets/fonts/Almarai-Regular.ttf
         - weight: 400

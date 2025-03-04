@@ -99,7 +99,7 @@ class _CategoryDropDownState extends State<CategoryDropDown> {
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.TEXTFIELD_HINT,
                                 fontFamily: context.locale == Locale('ar')
-                                    ? 'GE_SS_Two'
+                                    ? 'Almarai'
                                     : 'Arial',
                               ),
                             ),

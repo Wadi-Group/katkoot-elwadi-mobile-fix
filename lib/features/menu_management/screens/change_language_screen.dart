@@ -17,10 +17,10 @@ class ChangeLanguageScreen extends StatefulWidget {
     // TODO: implement createState
     return ChangeLanguageState();
   }
-
 }
 
-class ChangeLanguageState extends State<ChangeLanguageScreen> with NavigationDrawerMixin, BaseViewModel, AutomaticKeepAliveClientMixin {
+class ChangeLanguageState extends State<ChangeLanguageScreen>
+    with NavigationDrawerMixin, BaseViewModel, AutomaticKeepAliveClientMixin {
   final _isOnBoardingComplete = StreamProvider.autoDispose<bool>((ref) {
     return Stream.fromFuture(ref
         .read(di.changeLanguageViewModelProvider.notifier)
@@ -37,31 +37,39 @@ class ChangeLanguageState extends State<ChangeLanguageScreen> with NavigationDra
   Widget build(BuildContext context) {
     super.build(context);
     return Consumer(
-      builder: (_, ref, __){
+      builder: (_, ref, __) {
         return Scaffold(
           key: _scaffoldKey,
           backgroundColor: Colors.white,
           appBar: ref.watch(_isOnBoardingComplete).when(
-            data: (onBoardingShown) => onBoardingShown
-                ? CustomAppBar(
-              showDrawer: true,
-              hasbackButton: true,
-              // onBackClick: () {
-              //   _performBackAction();
-              // }
-            )
-                : null,
-            error: (Object error, StackTrace? stackTrace) {},
-            loading: () {},
-          ),
+                data: (onBoardingShown) => onBoardingShown
+                    ? CustomAppBar(
+                        showDrawer: true,
+                        hasbackButton: true,
+                        // onBackClick: () {
+                        //   _performBackAction();
+                        // }
+                      )
+                    : null,
+                error: (Object error, StackTrace? stackTrace) {
+                  return null;
+                },
+                loading: () {
+                  return null;
+                },
+              ),
           // drawer: NavigationDrawer(),
           body: ref.watch(_isOnBoardingComplete).when(
-            data: (onBoardingShown) => onBoardingShown
-                ? _changeLanguageContent(context, ref)
-                : _changeLanguageContent(context, ref),
-            error: (Object error, StackTrace? stackTrace) {},
-            loading: () {},
-          ),
+                data: (onBoardingShown) => onBoardingShown
+                    ? _changeLanguageContent(context, ref)
+                    : _changeLanguageContent(context, ref),
+                error: (Object error, StackTrace? stackTrace) {
+                  return null;
+                },
+                loading: () {
+                  return null;
+                },
+              ),
         );
       },
     );
@@ -69,7 +77,8 @@ class ChangeLanguageState extends State<ChangeLanguageScreen> with NavigationDra
 
   Widget _changeLanguageContent(BuildContext context, WidgetRef ref) {
     var modelView = ref.watch(di.changeLanguageViewModelProvider);
-    var modelViewFunctions = ref.watch(di.changeLanguageViewModelProvider.notifier);
+    var modelViewFunctions =
+        ref.watch(di.changeLanguageViewModelProvider.notifier);
     return Container(
       height: MediaQuery.of(context).size.height,
       child: Stack(
@@ -89,31 +98,34 @@ class ChangeLanguageState extends State<ChangeLanguageScreen> with NavigationDra
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   ref.watch(_isOnBoardingComplete).when(
-                    data: (onBoardingShown) => !onBoardingShown
-                        ? Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.width * .14),
-                      child: Image.asset("assets/images/black_logo.png",
-                          fit: BoxFit.contain,
-                          height: MediaQuery.of(context).size.width * .2),
-                    )
-                        : SizedBox(
-                      height: 0,
-                      width: 0,
-                    ),
-                    error: (Object error, StackTrace? stackTrace) {
-                      return SizedBox(height: 0, width: 0);
-                    },
-                    loading: () {
-                      return Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.width * .14),
-                        child: Image.asset("assets/images/black_logo.png",
-                            fit: BoxFit.contain,
-                            height: MediaQuery.of(context).size.width * .2),
-                      );
-                    },
-                  ),
+                        data: (onBoardingShown) => !onBoardingShown
+                            ? Container(
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.width *
+                                        .14),
+                                child: Image.asset(
+                                    "assets/images/black_logo.png",
+                                    fit: BoxFit.contain,
+                                    height:
+                                        MediaQuery.of(context).size.width * .2),
+                              )
+                            : SizedBox(
+                                height: 0,
+                                width: 0,
+                              ),
+                        error: (Object error, StackTrace? stackTrace) {
+                          return SizedBox(height: 0, width: 0);
+                        },
+                        loading: () {
+                          return Container(
+                            margin: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.width * .14),
+                            child: Image.asset("assets/images/black_logo.png",
+                                fit: BoxFit.contain,
+                                height: MediaQuery.of(context).size.width * .2),
+                          );
+                        },
+                      ),
                   SizedBox(
                     height: MediaQuery.of(context).size.width * .14,
                   ),
@@ -130,7 +142,7 @@ class ChangeLanguageState extends State<ChangeLanguageScreen> with NavigationDra
                     textColor: AppColors.Liver,
                     title: "اختر لغه التطبيق",
                     fontSize: 16,
-                    fontFamily: "GE_SS_Two",
+                    fontFamily: "Almarai",
                   ),
                   SizedBox(
                     height: 50,
@@ -187,5 +199,4 @@ class ChangeLanguageState extends State<ChangeLanguageScreen> with NavigationDra
       ),
     );
   }
-
 }

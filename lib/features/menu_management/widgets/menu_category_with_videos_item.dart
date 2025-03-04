@@ -63,7 +63,7 @@ class _MenuCategoryWithVideosItemState
                             fontWeight: FontWeight.bold,
                             fontFamily: context.locale.toString() == 'en'
                                 ? "Arial"
-                                : "GE_SS_Two",
+                                : "Almarai",
                           ),
                         ),
                       ],

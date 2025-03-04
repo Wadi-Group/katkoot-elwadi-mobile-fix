@@ -86,9 +86,9 @@ class MyApp extends ConsumerWidget {
         snackBarTheme: SnackBarThemeData(
             contentTextStyle: TextStyle(
                 fontFamily:
-                    context.locale.toString() == 'en' ? "Arial" : "GE_SS_Two")),
+                    context.locale.toString() == 'en' ? "Arial" : "Almarai")),
         primarySwatch: Colors.blueGrey,
-        fontFamily: context.locale.toString() == 'en' ? "Arial" : "GE_SS_Two",
+        fontFamily: context.locale.toString() == 'en' ? "Arial" : "Almarai",
       ),
       navigatorKey: AppConstants.navigatorKey,
       onGenerateRoute: (_) => RouteGenerator.generateRoute(_, context),

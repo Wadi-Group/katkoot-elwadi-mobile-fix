@@ -27,111 +27,110 @@ class CustomSlider extends ConsumerWidget with BaseViewModel {
         sliderViewModelProviderActions =
             ref.watch(di.customSliderViewModelProvider.notifier);
 
-        return (
-            (sliderViewModelProvider.data.sliderIntervals != null && sliderViewModelProvider.data.sliderIntervals.isNotEmpty) &&
-                (sliderViewModelProvider.data.sliderIcons != null && sliderViewModelProvider.data.sliderIcons.isNotEmpty) ||
-            isNumeric)
+        return ((sliderViewModelProvider.data.sliderIntervals != null &&
+                        sliderViewModelProvider
+                            .data.sliderIntervals.isNotEmpty) &&
+                    (sliderViewModelProvider.data.sliderIcons != null &&
+                        sliderViewModelProvider.data.sliderIcons.isNotEmpty) ||
+                isNumeric)
             ? Container(
-            padding: EdgeInsets.only(
-                top: !isNumeric ? 30 : 0, right: 10, left: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              FlutterSlider(
-              handlerWidth: 50,
-              handlerHeight: 50,
-              tooltip: FlutterSliderTooltip(
-                positionOffset: FlutterSliderTooltipPositionOffset(
-                    top: isNumeric ? 15 : -20),
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontFamily: context.locale.toString() == 'en'
-                        ? "Arial"
-                        : "GE_SS_Two",
-                    //height: .6,
-                    fontSize: 14,
-                    color: AppColors.Dark_spring_green),
-                boxStyle: FlutterSliderTooltipBox(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: AppColors.Dim_gray.withOpacity(.3),
-                        width: 1),
-                    color: AppColors.white,
-                  ),
-                ),
-                format: (value) {
-                  return "${sliderViewModelProvider.data
-                      .duration} ${(sliderViewModelProvider.data.current)
-                      .toInt()
-                      .toString()}";
-                },
-                alwaysShowTooltip: isNumeric ? false : true,
-              ),
-              values: [sliderViewModelProvider.data.current],
-              max: sliderViewModelProvider.data.max,
-              min: sliderViewModelProvider.data.min,
-              rtl: locale == 'ar' ? true : false,
-              trackBar: FlutterSliderTrackBar(
-                  activeTrackBar: BoxDecoration(
-                      color: detectSliderTrackColor() ??
-                          AppColors.Olive_Drab,
-                      shape: BoxShape.rectangle,
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(30))),
-                  activeTrackBarHeight: 5),
-              step: FlutterSliderStep(
-                  step: sliderViewModelProvider.data.step),
-              handler: FlutterSliderHandler(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 2,
-                      color: detectSliderTrackColor() ??
-                          AppColors.Olive_Drab,
+                padding: EdgeInsets.only(
+                    top: !isNumeric ? 30 : 0, right: 10, left: 10),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FlutterSlider(
+                        handlerWidth: 50,
+                        handlerHeight: 50,
+                        tooltip: FlutterSliderTooltip(
+                          positionOffset: FlutterSliderTooltipPositionOffset(
+                              top: isNumeric ? 15 : -20),
+                          textStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontFamily: context.locale.toString() == 'en'
+                                  ? "Arial"
+                                  : "Almarai",
+                              //height: .6,
+                              fontSize: 14,
+                              color: AppColors.Dark_spring_green),
+                          boxStyle: FlutterSliderTooltipBox(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: AppColors.Dim_gray.withOpacity(.3),
+                                  width: 1),
+                              color: AppColors.white,
+                            ),
+                          ),
+                          format: (value) {
+                            return "${sliderViewModelProvider.data.duration} ${(sliderViewModelProvider.data.current).toInt().toString()}";
+                          },
+                          alwaysShowTooltip: isNumeric ? false : true,
+                        ),
+                        values: [sliderViewModelProvider.data.current],
+                        max: sliderViewModelProvider.data.max,
+                        min: sliderViewModelProvider.data.min,
+                        rtl: locale == 'ar' ? true : false,
+                        trackBar: FlutterSliderTrackBar(
+                            activeTrackBar: BoxDecoration(
+                                color: detectSliderTrackColor() ??
+                                    AppColors.Olive_Drab,
+                                shape: BoxShape.rectangle,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30))),
+                            activeTrackBarHeight: 5),
+                        step: FlutterSliderStep(
+                            step: sliderViewModelProvider.data.step),
+                        handler: FlutterSliderHandler(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 2,
+                                color: detectSliderTrackColor() ??
+                                    AppColors.Olive_Drab,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              color: AppColors.white),
+                          child: Center(
+                              child: !isNumeric
+                                  ? Container(
+                                      padding: EdgeInsetsDirectional.all(5),
+                                      child: detectSliderIcon(),
+                                    )
+                                  : getSliderTextWidget()),
+                        ),
+                        onDragging: (handlerIndex, lowerValue, upperValue) =>
+                            onDrag(lowerValue),
+                      ),
+                      if (isNumeric)
+                        Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(20, 0, 20, 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              getSliderDurationTextWidget(),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              getSliderMaxTextWidget(),
+                            ],
+                          ),
+                        )
+                    ]),
+                decoration: new BoxDecoration(
+                  color: AppColors.white,
+                  boxShadow: [
+                    new BoxShadow(
+                      color: AppColors.white_smoke,
+                      blurRadius: 5.0,
                     ),
-                    borderRadius:
-                    BorderRadius.all(Radius.circular(30)),
-                    color: AppColors.white),
-                child: Center(
-                    child: !isNumeric
-                        ? Container(
-                      padding: EdgeInsetsDirectional.all(5),
-                      child: detectSliderIcon(),
-                    )
-                        : getSliderTextWidget()),
-              ),
-              onDragging: (handlerIndex, lowerValue, upperValue) =>
-                  onDrag(lowerValue),
-            ),
-            if (isNumeric)
-        Padding(
-          padding:
-          EdgeInsetsDirectional.fromSTEB(20, 0, 20, 10),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-              getSliderDurationTextWidget(),
-          SizedBox(
-            width: 20,
-          ),
-                getSliderMaxTextWidget(),
-          ],
-        ),
-        )
-        ]),
-        decoration: new BoxDecoration(
-        color: AppColors.white,
-        boxShadow: [
-        new BoxShadow(
-        color: AppColors.white_smoke,
-        blurRadius: 5.0,
-        ),
-        ],
-        ),
-        )
+                  ],
+                ),
+              )
             : CircularProgressIndicator(
-        color: AppColors.OLIVE_DRAB,
-        );
-        },
+                color: AppColors.OLIVE_DRAB,
+              );
+      },
     );
   }
 
@@ -177,8 +176,7 @@ class CustomSlider extends ConsumerWidget with BaseViewModel {
         fontSize: 14,
         fontWeight: FontWeight.w400,
         maxLines: 1,
-        title: sliderViewModelProvider.data.max.toInt()
-            .toString());
+        title: sliderViewModelProvider.data.max.toInt().toString());
   }
 
   Color? detectSliderTrackColor() {

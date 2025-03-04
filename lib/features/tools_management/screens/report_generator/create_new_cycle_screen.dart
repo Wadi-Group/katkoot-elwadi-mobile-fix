@@ -53,7 +53,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
       appBar: CustomAppBar(
         showDrawer: false,
         title: 'create_new_cycle'.tr(),
-        onBackClick: () => Navigator.of(context).pop(),//widget.tool!.title
+        onBackClick: () => Navigator.of(context).pop(), //widget.tool!.title
       ),
       body: GestureDetector(
         onTap: () {
@@ -135,7 +135,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
           title: "str_room_name".tr(),
           padding: const EdgeInsets.only(top: 15, bottom: 10),
         ),
-        Consumer(builder: (_,ref, __) {
+        Consumer(builder: (_, ref, __) {
           final errors = ref.watch(_errorsProvider);
           return CustomTextField(
               controller: roomNameController,
@@ -194,7 +194,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
           title: "str_female_number".tr(),
           padding: const EdgeInsets.only(top: 15, bottom: 10),
         ),
-        Consumer(builder: (_,ref, __) {
+        Consumer(builder: (_, ref, __) {
           final errors = ref.watch(_errorsProvider);
           return CustomTextField(
               controller: femaleNumController,
@@ -218,7 +218,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
           title: "str_male_number".tr(),
           padding: const EdgeInsets.only(top: 15, bottom: 10),
         ),
-        Consumer(builder: (_,ref, __) {
+        Consumer(builder: (_, ref, __) {
           final errors = ref.watch(_errorsProvider);
           return CustomTextField(
               controller: maleNumController,
@@ -247,7 +247,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
             child: CustomElevatedButton(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
-                fontFamily: "GE_SS_Two",
+                fontFamily: "Almarai",
                 title: 'str_create_cycle'.tr(),
                 textColor: AppColors.white,
                 backgroundColor: AppColors.Olive_Drab,
@@ -255,8 +255,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
                 onPressed: () {
                   hideKeyboard();
                   if (widget.tool?.id != null) {
-                    ProviderScope.containerOf(context,
-                        listen: false)
+                    ProviderScope.containerOf(context, listen: false)
                         .read(di.createCycleViewModelProvider.notifier)
                         .checkCycleFields(
                             context: context,
@@ -278,7 +277,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
                 title: 'str_cancel'.tr(),
-                fontFamily: "GE_SS_Two",
+                fontFamily: "Almarai",
                 textColor: AppColors.white,
                 backgroundColor: AppColors.calc_bef_btn,
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -304,7 +303,8 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
               ),
               textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  textStyle: TextStyle(color: AppColors.Dark_spring_green), // button text color
+                  textStyle: TextStyle(
+                      color: AppColors.Dark_spring_green), // button text color
                 ),
               ),
             ),
@@ -322,8 +322,9 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      ProviderScope.containerOf(context,
-          listen: false).read(di.createCycleViewModelProvider.notifier).resetState();
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.createCycleViewModelProvider.notifier)
+          .resetState();
     });
 
     super.initState();

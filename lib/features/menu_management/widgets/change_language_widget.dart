@@ -25,52 +25,45 @@ class ChangeLanguageWidget extends StatelessWidget {
         width: 180,
         margin: EdgeInsets.all(8),
         padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                    color: isSelected ? AppColors.Tea_green : AppColors.LIGHT_GREY,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(50)),
-                  color: isSelected ? AppColors.Tea_green : AppColors.white
-              ),
-
-
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-
-                    // Radio(
-                    //   value: value,
-                    //   groupValue: groupValue,
-                    //   onChanged: (value) {
-                    //     onChanged();
-                    //   },
-                    //   activeColor: AppColors.Liver,
-                    // ),
-                    Image.asset(
-                      imagePath,
-                      height: 16,
-                      width: 16,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    CustomText(
-                        textColor: AppColors.Liver,
-                        title: title,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: value == 'en' ? 'Arial' : 'GE_SS_Two',),
-
-                  ],
-                ),
-
-
-          ),
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: isSelected ? AppColors.Tea_green : AppColors.LIGHT_GREY,
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(50)),
+            color: isSelected ? AppColors.Tea_green : AppColors.white),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Radio(
+            //   value: value,
+            //   groupValue: groupValue,
+            //   onChanged: (value) {
+            //     onChanged();
+            //   },
+            //   activeColor: AppColors.Liver,
+            // ),
+            Image.asset(
+              imagePath,
+              height: 16,
+              width: 16,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            CustomText(
+              textColor: AppColors.Liver,
+              title: title,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              fontFamily: value == 'en' ? 'Arial' : 'Almarai',
+            ),
+          ],
+        ),
+      ),
     );
-
 
     //     SizedBox(
     //       height: 5,

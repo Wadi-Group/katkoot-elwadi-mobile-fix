@@ -275,7 +275,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                                           fontSize: 12,
                                           fontFamily:
                                               context.locale == Locale('ar')
-                                                  ? 'GE_SS_Two'
+                                                  ? 'Almarai'
                                                   : 'Arial',
                                           fontWeight: FontWeight.normal,
                                           color: AppColors.APP_BLUE,
@@ -477,7 +477,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.TEXTFIELD_HINT,
                                 fontFamily: context.locale == Locale('ar')
-                                    ? 'GE_SS_Two'
+                                    ? 'Almarai'
                                     : 'Arial',
                               ),
                             ),
