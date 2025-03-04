@@ -38,6 +38,7 @@ class WeatherAndPricesSection extends StatelessWidget {
               _buildWeatherInfo(),
               SizedBox(height: 20),
               _buildPriceCard(
+                isImageWhite: true,
                 title: "live_broilers".tr(),
                 price: liveBroilersPrice ?? "N/A",
                 unit: "egp_kg".tr(),
@@ -134,6 +135,7 @@ class WeatherAndPricesSection extends StatelessWidget {
     required String price,
     required String unit,
     required String imagePath,
+    bool? isImageWhite = false,
     bool isBottomRounded = false,
     bool isTopRounded = false,
   }) {
@@ -151,7 +153,7 @@ class WeatherAndPricesSection extends StatelessWidget {
             imagePath,
             width: 20,
             height: 20,
-            color: AppColors.APP_BLUE,
+            color: isImageWhite ?? false ? AppColors.APP_BLUE : null,
           ),
           SizedBox(width: 5),
           CustomText(
