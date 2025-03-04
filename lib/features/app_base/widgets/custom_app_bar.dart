@@ -118,39 +118,48 @@ class _CustomAppBarState extends State<CustomAppBar>
                       return ref.watch(_unseenNotificationCountProvider).when(
                           data: (unseenNotificationCount) => Stack(
                                 children: [
-                                  IconButton(
-                                      padding: EdgeInsetsDirectional.only(
-                                          end: unseenNotificationCount != 0
-                                              ? 10
-                                              : 0),
-                                      onPressed: () {
-                                        // navigateToRoute(
-                                        //     NavigationItem.received_messages);
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return MessagesListScreen();
-                                        }));
-                                      },
-                                      icon: Container(
-                                        child: Icon(
-                                          Icons.mail,
-                                          color: Colors.white,
-                                          size: 28,
-                                        ),
-                                        margin: EdgeInsetsDirectional.only(
-                                            end: 10, top: 10),
-                                      )),
+                                  Center(
+                                    child: IconButton(
+                                        padding: EdgeInsetsDirectional.only(
+                                            end: unseenNotificationCount != 0
+                                                ? 20
+                                                : 20),
+                                        onPressed: () {
+                                          // navigateToRoute(
+                                          //     NavigationItem.received_messages);
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return MessagesListScreen();
+                                          }));
+                                        },
+                                        icon: Container(
+                                          width: 25,
+                                          height: 30,
+                                          padding: EdgeInsetsDirectional.all(5),
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: AssetImage(
+                                                  "assets/images/notification.png"),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        )),
+                                  ),
                                   unseenNotificationCount != 0
                                       ? PositionedDirectional(
-                                          end: 12,
-                                          top: 5,
+                                          end: 8,
+                                          top: 12,
                                           child: GestureDetector(
                                             child: Container(
                                               padding:
                                                   EdgeInsetsDirectional.all(5),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    color: AppColors.white,
+                                                    width: 1.5,
+                                                  ),
                                                   color: AppColors.Gamboge),
                                               child: Text(
                                                 unseenNotificationCount > 99

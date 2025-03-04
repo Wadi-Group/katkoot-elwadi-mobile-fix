@@ -7,21 +7,23 @@ import '../../app_base/widgets/custom_text.dart';
 import '../widgets/reusable_container_widget.dart';
 
 class WeatherAndPricesSection extends StatelessWidget {
-  final String city;
-  final String date;
-  final String weather;
-  final String liveBroilersPrice;
-  final String eggTrayPrice;
-  final String katkootPrice;
+  final String? city;
+  final String? date;
+  final String? weather;
+  final String? liveBroilersPrice;
+  final String? whiteEggTrayPrice;
+  final String? brownEggTrayPrice;
+  final String? katkootPrice;
 
   const WeatherAndPricesSection({
     Key? key,
-    required this.city,
-    required this.date,
-    required this.weather,
-    required this.liveBroilersPrice,
-    required this.eggTrayPrice,
-    required this.katkootPrice,
+    this.city,
+    this.date,
+    this.weather,
+    this.liveBroilersPrice,
+    this.whiteEggTrayPrice,
+    this.katkootPrice,
+    this.brownEggTrayPrice,
   }) : super(key: key);
 
   @override
@@ -34,19 +36,27 @@ class WeatherAndPricesSection extends StatelessWidget {
           child: Column(
             children: [
               _buildWeatherInfo(),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               _buildPriceCard(
                 title: "live_broilers".tr(),
-                price: liveBroilersPrice,
+                price: liveBroilersPrice ?? "N/A",
                 unit: "egp_kg".tr(),
                 imagePath: "assets/images/live_broilers.png",
+                isTopRounded: true,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               _buildPriceCard(
-                title: "egg_tray".tr(),
-                price: eggTrayPrice,
+                title: "white_egg_tray".tr(),
+                price: whiteEggTrayPrice ?? "N/A",
                 unit: "egp".tr(),
-                imagePath: "assets/images/egg_tray.png",
+                imagePath: "assets/images/white_egg_tray.png",
+                isBottomRounded: false,
+              ),
+              _buildPriceCard(
+                title: "brown_egg_tray".tr(),
+                price: brownEggTrayPrice ?? "N/A",
+                unit: "egp".tr(),
+                imagePath: "assets/images/red_egg_tray.png",
                 isBottomRounded: true,
               ),
             ],
@@ -73,7 +83,7 @@ class WeatherAndPricesSection extends StatelessWidget {
             child: Row(
               children: [
                 CustomText(
-                  title: "🌤${double.tryParse(weather)?.ceil() ?? ''}°",
+                  title: "🌤${double.tryParse(weather ?? "0")?.ceil() ?? ''}°",
                   fontSize: 22,
                   fontWeight: FontWeight.w400,
                   textColor: AppColors.APP_BLUE,
@@ -97,13 +107,13 @@ class WeatherAndPricesSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      title: date,
+                      title: date ?? "",
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       textColor: AppColors.APP_BLUE,
                     ),
                     CustomText(
-                      title: city,
+                      title: city ?? "",
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       textColor: AppColors.APP_BLUE,
@@ -125,12 +135,13 @@ class WeatherAndPricesSection extends StatelessWidget {
     required String unit,
     required String imagePath,
     bool isBottomRounded = false,
+    bool isTopRounded = false,
   }) {
     return ReusableContainer(
       boxShadow: [_buildShadow()],
       padding: EdgeInsets.symmetric(horizontal: 10),
       borderRadius: BorderRadius.vertical(
-        top: isBottomRounded ? Radius.zero : Radius.circular(20),
+        top: isTopRounded ? Radius.circular(20) : Radius.zero,
         bottom: isBottomRounded ? Radius.circular(20) : Radius.zero,
       ),
       height: 50,
@@ -174,7 +185,7 @@ class WeatherAndPricesSection extends StatelessWidget {
                 bottomLeft: Radius.circular(15),
               ),
         boxShadow: [_buildShadow()],
-        height: 200,
+        height: 245,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -194,7 +205,7 @@ class WeatherAndPricesSection extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 15),
-            _buildPriceText(katkootPrice, "egp".tr()),
+            _buildPriceText(katkootPrice ?? "N/A", "egp".tr()),
           ],
         ),
       ),

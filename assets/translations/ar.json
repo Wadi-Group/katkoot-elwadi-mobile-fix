@@ -275,9 +275,10 @@
   "delete_account_message": "هل انت متأكد انك تريد حذف حسابك؟",
 
 
-  "live_broilers": "الدواجن الحية",
-  "egg_tray": "طبق البيض",
-  "katkot_alwadi_broilers_doc_price": "سعر كتكوت الوادي للدواجن",
+  "live_broilers":"بورصة اللحم",
+  "white_egg_tray": "طبق البيض الأبيض",
+  "brown_egg_tray": "طبق البيض الأحمر",
+  "katkot_alwadi_broilers_doc_price": "سعر كتكوت الوادي",
   "alaf_alwadi_price": "أسعار أعلاف الوادي",
   "starter_feed": "علف بادئ",
   "grower_feed": "علف نامي",
@@ -287,11 +288,11 @@
   "videos": "الفيديوهات",
   "cb_report_generator": "مولد تقرير CB",
   "ps_report_generator": "مولد تقرير PS",
-  "egp_ton" : "جنيه/طن",
-  "egp_kg" :"جنيه/كجم",
-  "egp" : "جنيه",
+  "egp_ton" : "ج.م./طن",
+  "egp_kg" :"ج.م./كجم",
+  "egp" : "ج.م.",
 
-     "more": "المزيد",
+  "more": "المزيد",
   "about_us": "معلومات عنا",
   "ask_for_advice": "طلب نصيحة",
   "sales_and_customer_support": "المبيعات والدعم الفني",
@@ -316,7 +317,7 @@
   "wadi": "الوادي",
   "international": "دولي",
   "local": "محلي",
-    "write_comment" : "اكتب تعليقك..."
+  "write_comment" : "اكتب تعليقك..."
 
 
 }

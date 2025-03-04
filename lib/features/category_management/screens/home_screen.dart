@@ -174,101 +174,96 @@ class _HomeScreenState extends State<HomeScreen>
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: homeData.isEmpty
-                    ? SizedBox.shrink()
-                    : Column(
-                        children: [
-                          Consumer(builder: (_, ref, __) {
-                            var categoriesViewModel =
-                                ref.watch(di.categoriesViewModelProvider);
-                            var categories = categoriesViewModel.data;
+                child: Column(
+                  children: [
+                    Consumer(builder: (_, ref, __) {
+                      var categoriesViewModel =
+                          ref.watch(di.categoriesViewModelProvider);
+                      var categories = categoriesViewModel.data;
 
-                            return Column(children: [
-                              //  WeatherAndPricesSection
-                              WeatherAndPricesSection(
-                                city: city ?? "Cairo",
-                                date: date ?? '',
-                                weather: weather ?? "",
-                                liveBroilersPrice:
-                                    homeData["live_broilers_price"],
-                                eggTrayPrice: homeData["egg_tray_price"],
-                                katkootPrice:
-                                    homeData["katkoot_alwadi_broilers_price"],
+                      return Column(children: [
+                        //  WeatherAndPricesSection
+                        WeatherAndPricesSection(
+                          city: city ?? "Cairo",
+                          date: date ?? '',
+                          weather: weather ?? "",
+                          liveBroilersPrice: homeData["live_broilers_price"],
+                          whiteEggTrayPrice: homeData["white_egg_tray_price"],
+                          brownEggTrayPrice: homeData["brown_egg_tray_price"],
+                          katkootPrice:
+                              homeData["katkoot_alwadi_broilers_price"],
+                        ),
+                        _sizedBox,
+
+                        // CategoriesSection
+
+                        ListView.builder(
+                          itemCount: categories!.length,
+                          itemBuilder: (context, index) => Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: CategoryTabWidget(
+                                category: categories[index],
                               ),
-                              _sizedBox,
+                            ),
+                          ),
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                        ),
 
-                              // CategoriesSection
+                        //  AlafAlWadiPricesSection
+                        AlafAlWadiPrices(
+                          prices: alaafPrices,
+                        ),
+                        _sizedBox,
+                      ]);
+                    }),
 
-                              ListView.builder(
-                                itemCount: categories!.length,
-                                itemBuilder: (context, index) => Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: CategoryTabWidget(
-                                      category: categories[index],
-                                    ),
-                                  ),
-                                ),
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                              ),
+                    //  AutoScrollingTextSection
+                    Consumer(builder: (_, ref, __) {
+                      var messagesViewModel =
+                          ref.watch(di.messagesViewModelProvider);
+                      var messages = messagesViewModel.data;
 
-                              //  AlafAlWadiPricesSection
-                              AlafAlWadiPrices(
-                                prices: alaafPrices,
-                              ),
-                              _sizedBox,
-                            ]);
-                          }),
+                      if (messages == null || messages.isEmpty) {
+                        // Show a placeholder message when there are no messages
+                        return AutoScrollingTextSection(
+                          rotatingTexts: [
+                            Message(
+                                id: 1, content: "No messages available".tr()),
+                          ],
+                        );
+                      }
+                      return AutoScrollingTextSection(rotatingTexts: messages);
+                    }),
+                    _sizedBox,
 
-                          //  AutoScrollingTextSection
-                          Consumer(builder: (_, ref, __) {
-                            var messagesViewModel =
-                                ref.watch(di.messagesViewModelProvider);
-                            var messages = messagesViewModel.data;
+                    //  LiveChatAndNewsSection
+                    LiveChatAndNewsSection(),
+                    _sizedBox,
 
-                            if (messages == null || messages.isEmpty) {
-                              // Show a placeholder message when there are no messages
-                              return AutoScrollingTextSection(
-                                rotatingTexts: [
-                                  Message(
-                                      id: 1,
-                                      content: "No messages available".tr()),
-                                ],
-                              );
-                            }
-                            return AutoScrollingTextSection(
-                                rotatingTexts: messages);
-                          }),
-                          _sizedBox,
-
-                          //  LiveChatAndNewsSection
-                          LiveChatAndNewsSection(),
-                          _sizedBox,
-
-                          // VideoSection
-                          Consumer(builder: (_, ref, __) {
-                            if (homeData.isEmpty) return SizedBox.shrink();
-                            var homeVideo = Category(
+                    // VideoSection
+                    Consumer(builder: (_, ref, __) {
+                      if (homeData.isEmpty) return SizedBox.shrink();
+                      var homeVideo = Category(
+                          id: 0,
+                          imageUrl: homeData["video_image"],
+                          videosList: [
+                            Video(
                                 id: 0,
-                                imageUrl: homeData["video_image"],
-                                videosList: [
-                                  Video(
-                                      id: 0,
-                                      title: homeData["video_title"],
-                                      url: Url(
-                                          url: homeData["home_page_video"],
-                                          provider:
-                                              AppConstants.YOUTUBE_PROVIDER))
-                                ]);
-                            return VideoSection(video: homeVideo);
-                          }),
-                          _sizedBox,
+                                title: homeData["video_title"],
+                                url: Url(
+                                    url: homeData["home_page_video"],
+                                    provider: AppConstants.YOUTUBE_PROVIDER))
+                          ]);
+                      return VideoSection(video: homeVideo);
+                    }),
+                    _sizedBox,
 
-                          // ReportGeneratorSection
-                          ReportGeneratorSection(),
-                        ],
-                      ),
+                    // ReportGeneratorSection
+                    ReportGeneratorSection(),
+                  ],
+                ),
               ),
             ),
           ),

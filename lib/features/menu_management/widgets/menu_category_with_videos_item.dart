@@ -66,18 +66,6 @@ class _MenuCategoryWithVideosItemState
                                 : "GE_SS_Two",
                           ),
                         ),
-                        TextSpan(
-                          text: " ${'str_videos'.tr()}", // Translated string
-                          style: TextStyle(
-                            color: AppColors.Dark_spring_green,
-                            fontSize: 16,
-                            fontWeight:
-                                FontWeight.normal, // Adjust weight if needed
-                            fontFamily: context.locale.toString() == 'en'
-                                ? "Arial"
-                                : "GE_SS_Two",
-                          ),
-                        ),
                       ],
                     ),
                   ),

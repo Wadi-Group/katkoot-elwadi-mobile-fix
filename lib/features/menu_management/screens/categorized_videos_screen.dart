@@ -11,6 +11,8 @@ import 'package:katkoot_elwady/features/category_management/models/category.dart
 import 'package:katkoot_elwady/features/menu_management/view_models/menu_categorized_videos_view_model.dart';
 import 'package:katkoot_elwady/features/menu_management/widgets/menu_category_with_videos_item.dart';
 
+import '../../app_base/widgets/custom_text.dart';
+
 class MenuCategorizedVideosScreen extends StatefulWidget {
   static const routeName = "./menu_categorized_videos_screen";
 
@@ -60,8 +62,18 @@ class _MenuCategorizedVideosScreenState
                   var categories = videosViewModel.data;
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      CustomText(
+                        title: 'videos'.tr(),
+                        fontSize: 22,
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        fontWeight: FontWeight.bold,
+                        textColor: AppColors.APP_BLUE,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Expanded(
                           child: Container(
                         width: MediaQuery.of(context).size.width,

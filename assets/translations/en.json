@@ -274,7 +274,8 @@
   "delete_account_message": "Are you sure you want to delete your account?",
 
   "live_broilers": "Live Broilers",
-  "egg_tray": "Egg Tray",
+  "white_egg_tray": "White Egg Tray",
+  "brown_egg_tray": "Brown Egg Tray",
   "katkot_alwadi_broilers_doc_price": "Katkot Alwadi Broilers DOC Price",
   "alaf_alwadi_price" : "A’laf Al Wadi Prices",
   "starter_feed" : "Starter Feed",
