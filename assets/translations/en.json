@@ -315,7 +315,8 @@
   "wadi": "Wadi",
   "international": "International",
   "local": "Local",
-  "write_comment" : "Write Comment ..."
+  "write_comment" : "Write Comment ...",
+  "latest_videos" : "Latest Videos"
 
 
 }
