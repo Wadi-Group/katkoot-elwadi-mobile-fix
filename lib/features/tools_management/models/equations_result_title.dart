@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'pullet.g.dart'; // Required for Hive code generation
+part 'equations_result_title.g.dart'; // Required for Hive code generation
 
-@HiveType(typeId: 5) // Ensure a unique typeId across models
-class Pullet extends HiveObject {
+@HiveType(typeId: 15) // Ensure a unique typeId across models
+class EquationsResultTitle extends HiveObject {
   @HiveField(0)
   String? broilersPerYear;
 
@@ -19,20 +19,30 @@ class Pullet extends HiveObject {
   @HiveField(4)
   String? broilersPerWeek;
 
-  Pullet({
+  @HiveField(5)
+  String? chickenPlacedBeforeDeath;
+
+  @HiveField(6)
+  String? pullets;
+
+  EquationsResultTitle({
     this.broilersPerYear,
-    this.hen,
     this.placedEggs,
-    this.broilersPerWeek,
     this.hatchingEggs,
+    this.hen,
+    this.broilersPerWeek,
+    this.chickenPlacedBeforeDeath,
+    this.pullets,
   });
 
-  factory Pullet.fromJson(Map<String, dynamic> json) {
-    return Pullet(
+  factory EquationsResultTitle.fromJson(Map<String, dynamic> json) {
+    return EquationsResultTitle(
       broilersPerYear: json["broilers_per_year"],
       placedEggs: json["placed_eggs"],
       hatchingEggs: json["hatching_egg"],
       hen: json["hen"],
+      chickenPlacedBeforeDeath: json["chicken_placed_before_death"],
+      pullets: json["pullets"],
       broilersPerWeek: json["broilers_per_week"],
     );
   }
@@ -43,6 +53,8 @@ class Pullet extends HiveObject {
       "placed_eggs": placedEggs,
       "hatching_egg": hatchingEggs,
       "hen": hen,
+      "chicken_placed_before_death": chickenPlacedBeforeDeath,
+      "pullets": pullets,
       "broilers_per_week": broilersPerWeek,
     };
   }

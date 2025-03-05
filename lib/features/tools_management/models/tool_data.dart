@@ -1,16 +1,20 @@
+import 'package:hive/hive.dart';
+import 'tool_section.dart';
 
-import 'package:katkoot_elwady/features/tools_management/models/tool_section.dart';
+part 'tool_data.g.dart'; // This file will be generated
 
-class ToolData {
+@HiveType(typeId: 19) // Ensure the typeId is unique
+class ToolData extends HiveObject {
+  @HiveField(0)
   int? durationFrom;
+
+  @HiveField(1)
   int? durationTo;
+
+  @HiveField(2)
   List<ToolSection>? sections;
 
-  ToolData(
-      {this.durationFrom,
-        this.durationTo,
-        this.sections,
-      });
+  ToolData({this.durationFrom, this.durationTo, this.sections});
 
   ToolData.fromJson(Map<String, dynamic> json) {
     durationFrom = json['duration_from'];
@@ -22,17 +26,15 @@ class ToolData {
         sections!.add(ToolSection.fromJson(v));
       });
     }
-
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['duration_from'] = this.durationFrom;
-    data['duration_to'] = this.durationTo;
-    if (this.sections != null) {
-      data['data'] = this.sections!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = {};
+    data['duration_from'] = durationFrom;
+    data['duration_to'] = durationTo;
+    if (sections != null) {
+      data['data'] = sections!.map((v) => v.toJson()).toList();
     }
-
     return data;
   }
 }

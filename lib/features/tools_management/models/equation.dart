@@ -1,39 +1,51 @@
 import 'dart:convert';
-
+import 'package:hive/hive.dart';
 import 'package:katkoot_elwady/features/tools_management/models/defaults.dart';
 import 'package:katkoot_elwady/features/tools_management/models/equations.dart';
-import 'package:katkoot_elwady/features/tools_management/models/equations_results_title.dart';
+import 'package:katkoot_elwady/features/tools_management/models/equations_result_title.dart';
 
-class Equation {
+part 'equation.g.dart'; // Required for the generated Hive adapter
+
+@HiveType(typeId: 1) // Unique ID for this model
+class Equation extends HiveObject {
+  @HiveField(0)
   List<String>? parameters;
+
+  @HiveField(1)
   Equations? equations;
+
+  @HiveField(2)
   Defaults? defaults;
+
+  @HiveField(3)
   EquationsResultTitle? resultTitle;
 
   Equation({this.parameters, this.equations, this.defaults, this.resultTitle});
 
-  Equation.fromJson(Map<String, dynamic> json) {
-    if (json['parameters'] != null) {
-      parameters = [];
-      json['parameters'].forEach((v) {
-        parameters!.add(v);
-      });
-    }
-    equations = json['equations'] == null
-        ? null
-        : Equations.fromJson(Map<String, dynamic>.from(json['equations']));
-    defaults =
-        json['defaults'] == null ? null : Defaults.fromJson(Map<String, dynamic>.from(json["defaults"]));
-    resultTitle = json['results_title'] == null
-        ? null
-        : EquationsResultTitle.fromJson(Map<String, dynamic>.from(json["results_title"]));
+  factory Equation.fromJson(Map<String, dynamic> json) {
+    return Equation(
+      parameters: json['parameters'] != null
+          ? List<String>.from(json['parameters'])
+          : null,
+      equations: json['equations'] != null
+          ? Equations.fromJson(Map<String, dynamic>.from(json['equations']))
+          : null,
+      defaults: json['defaults'] != null
+          ? Defaults.fromJson(Map<String, dynamic>.from(json['defaults']))
+          : null,
+      resultTitle: json['results_title'] != null
+          ? EquationsResultTitle.fromJson(
+              Map<String, dynamic>.from(json['results_title']))
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['parameters'] = jsonEncode(this.parameters!);
-    data['equations'] = this.equations!.toJson();
-    data['defaults'] = this.defaults!.toJson();
-    return data;
+    return {
+      'parameters': parameters,
+      'equations': equations?.toJson(),
+      'defaults': defaults?.toJson(),
+      'results_title': resultTitle?.toJson(),
+    };
   }
 }

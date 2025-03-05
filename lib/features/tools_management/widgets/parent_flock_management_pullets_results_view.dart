@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:katkoot_elwady/core/utils/numbers_manager.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/tools_management/entities/parent_flock_management_pullets_state.dart';
-import 'package:katkoot_elwady/features/tools_management/models/equations_results_title.dart';
+import 'package:katkoot_elwady/features/tools_management/models/equations_result_title.dart';
 
 class ParentFlockManagementPulletsResultsView extends StatelessWidget {
   final ParentFlockManagementPulletsState? broilerData;

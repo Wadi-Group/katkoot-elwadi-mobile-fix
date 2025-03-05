@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'hatch.g.dart'; // Required for Hive code generation
+part 'broiler_livability.g.dart'; // Required for Hive code generation
 
-@HiveType(typeId: 13) // Ensure a unique typeId across models
-class Hatch extends HiveObject {
+@HiveType(typeId: 14) // Ensure a unique typeId across models
+class BroilerLivability extends HiveObject {
   @HiveField(0)
   String? unit;
 
@@ -22,7 +22,7 @@ class Hatch extends HiveObject {
   @HiveField(5)
   int? step;
 
-  Hatch({
+  BroilerLivability({
     this.unit,
     this.defaultValue,
     this.maxValue,
@@ -31,8 +31,8 @@ class Hatch extends HiveObject {
     this.title,
   });
 
-  factory Hatch.fromJson(Map<String, dynamic> json) {
-    return Hatch(
+  factory BroilerLivability.fromJson(Map<String, dynamic> json) {
+    return BroilerLivability(
       unit: json['unit'],
       title: json['name'],
       minValue: json["min-value"],

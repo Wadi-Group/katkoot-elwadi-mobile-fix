@@ -77,10 +77,10 @@ class _ToolsScreenState extends State<ToolsScreen> {
                                 margin: EdgeInsetsDirectional.only(bottom: 18),
                                 child: ToolRowItem(
                                   hasTitle: widget.searchScreen,
-                                  isElite:
-                                      (tools![index].type == ToolTypes.PS_RG ||
-                                          tools[index].type == ToolTypes.CB_PO ||
-                                          tools[index].type == ToolTypes.CB_RG),
+                                  isElite: (tools![index].type ==
+                                          ToolTypes.PS_RG ||
+                                      tools[index].type == ToolTypes.CB_PO ||
+                                      tools[index].type == ToolTypes.CB_RG),
                                   tool: tools[index],
                                   onTap: () => ProviderScope.containerOf(
                                           context,

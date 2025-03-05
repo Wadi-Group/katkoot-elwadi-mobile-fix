@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'hatch.g.dart'; // Required for Hive code generation
+part 'pullet_livability_to_cap.g.dart'; // Required for Hive code generation
 
-@HiveType(typeId: 13) // Ensure a unique typeId across models
-class Hatch extends HiveObject {
+@HiveType(typeId: 9) // Ensure a unique typeId across models
+class PulletLivabilityToCap extends HiveObject {
   @HiveField(0)
   String? unit;
 
@@ -22,23 +22,22 @@ class Hatch extends HiveObject {
   @HiveField(5)
   int? step;
 
-  Hatch({
-    this.unit,
-    this.defaultValue,
-    this.maxValue,
-    this.minValue,
-    this.step,
-    this.title,
-  });
+  PulletLivabilityToCap(
+      {this.unit,
+      this.defaultValue,
+      this.maxValue,
+      this.minValue,
+      this.step,
+      this.title});
 
-  factory Hatch.fromJson(Map<String, dynamic> json) {
-    return Hatch(
+  factory PulletLivabilityToCap.fromJson(Map<String, dynamic> json) {
+    return PulletLivabilityToCap(
       unit: json['unit'],
       title: json['name'],
       minValue: json["min-value"],
       maxValue: json["max-value"],
-      defaultValue: json["default-value"],
       step: json["step"],
+      defaultValue: json["default-value"],
     );
   }
 
@@ -48,8 +47,8 @@ class Hatch extends HiveObject {
       "name": title,
       "min-value": minValue,
       "max-value": maxValue,
-      "default-value": defaultValue,
       "step": step,
+      "default-value": defaultValue,
     };
   }
 }

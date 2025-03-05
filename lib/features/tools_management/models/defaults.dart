@@ -1,18 +1,36 @@
-import 'package:katkoot_elwady/features/tools_management/models/broiler_per_week.dart';
-import 'package:katkoot_elwady/features/tools_management/models/brolier_livabilty.dart';
-import 'package:katkoot_elwady/features/tools_management/models/hatch.dart';
-import 'package:katkoot_elwady/features/tools_management/models/hatching_hen.dart';
-import 'package:katkoot_elwady/features/tools_management/models/pullet_livibality_to_cap.dart';
-import 'package:katkoot_elwady/features/tools_management/models/pullets.dart';
+import 'package:hive/hive.dart';
+import 'broiler_per_week.dart';
+import 'broiler_livability.dart';
+import 'hatch.dart';
+import 'hatching_hen.dart';
+import 'pullet_livability_to_cap.dart';
+import 'pullets.dart';
 
-class Defaults {
+part 'defaults.g.dart'; // Required for Hive code generation
+
+@HiveType(typeId: 8) // Ensure a unique typeId across models
+class Defaults extends HiveObject {
+  @HiveField(0)
   double? feedWeight;
+
+  @HiveField(1)
   PulletLivabilityToCap? pulletLivabilityToCap;
+
+  @HiveField(2)
   BroilerPerWeek? broilerPerWeek;
+
+  @HiveField(3)
   Pullets? pullets;
+
+  @HiveField(4)
   HatchingHen? hatchedHen;
+
+  @HiveField(5)
   Hatch? hatch;
+
+  @HiveField(6)
   BroilerLivability? broilerLivability;
+
   Defaults(
       {this.feedWeight,
       this.broilerLivability,
@@ -22,33 +40,43 @@ class Defaults {
       this.hatchedHen,
       this.pulletLivabilityToCap});
 
-  Defaults.fromJson(Map<String, dynamic> json) {
-    feedWeight = json["feed_weight"];
-    pulletLivabilityToCap = json['pullet_livability_to_cap'] == null
-        ? null
-        : PulletLivabilityToCap.fromJson(Map<String, dynamic>.from(json["pullet_livability_to_cap"]));
-    hatchedHen = json['hatching_hen'] == null
-        ? null
-        : HatchingHen.fromJson(Map<String, dynamic>.from(json['hatching_hen']));
-    broilerPerWeek = json['broiler_per_week'] == null
-        ? null
-        : BroilerPerWeek.fromJson(Map<String, dynamic>.from(json['broiler_per_week']));
-    pullets =
-        json['pullets'] == null ? null : Pullets.fromJson(Map<String, dynamic>.from(json['pullets']));
-    hatch = json['hatch'] == null ? null : Hatch.fromJson(Map<String, dynamic>.from(json["hatch"]));
-    broilerLivability = json['broiler_livability'] == null
-        ? null
-        : BroilerLivability.fromJson(Map<String, dynamic>.from(json["broiler_livability"]));
+  factory Defaults.fromJson(Map<String, dynamic> json) {
+    return Defaults(
+      feedWeight: json["feed_weight"],
+      pulletLivabilityToCap: json['pullet_livability_to_cap'] == null
+          ? null
+          : PulletLivabilityToCap.fromJson(
+              Map<String, dynamic>.from(json["pullet_livability_to_cap"])),
+      hatchedHen: json['hatching_hen'] == null
+          ? null
+          : HatchingHen.fromJson(
+              Map<String, dynamic>.from(json['hatching_hen'])),
+      broilerPerWeek: json['broiler_per_week'] == null
+          ? null
+          : BroilerPerWeek.fromJson(
+              Map<String, dynamic>.from(json['broiler_per_week'])),
+      pullets: json['pullets'] == null
+          ? null
+          : Pullets.fromJson(Map<String, dynamic>.from(json['pullets'])),
+      hatch: json['hatch'] == null
+          ? null
+          : Hatch.fromJson(Map<String, dynamic>.from(json["hatch"])),
+      broilerLivability: json['broiler_livability'] == null
+          ? null
+          : BroilerLivability.fromJson(
+              Map<String, dynamic>.from(json["broiler_livability"])),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pullet_livability_to_cap'] = this.pulletLivabilityToCap;
-    data['broiler_per_week'] = this.broilerPerWeek;
-    data['pullets'] = this.pullets;
-    data['hatching_hen'] = this.hatchedHen;
-    data['hatch'] = this.hatch;
-    data['broiler_livability'] = this.broilerLivability;
-    return data;
+    return {
+      "feed_weight": feedWeight,
+      "pullet_livability_to_cap": pulletLivabilityToCap?.toJson(),
+      "broiler_per_week": broilerPerWeek?.toJson(),
+      "pullets": pullets?.toJson(),
+      "hatching_hen": hatchedHen?.toJson(),
+      "hatch": hatch?.toJson(),
+      "broiler_livability": broilerLivability?.toJson(),
+    };
   }
 }
