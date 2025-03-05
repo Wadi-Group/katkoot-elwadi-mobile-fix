@@ -4,7 +4,7 @@ import 'package:katkoot_elwady/features/guides_management/models/video.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_constants.dart';
-import '../screens/video_player_youtube_iframe_screen.dart';
+import '../../guides_management/screens/video_player_youtube_iframe_screen.dart';
 
 class CarouselSliderVideosSection extends StatelessWidget {
   final List<Video> videos;

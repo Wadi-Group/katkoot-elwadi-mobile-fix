@@ -38,7 +38,7 @@ class _MenuVideoRowItemState extends State<MenuVideoRowItem> {
         borderRadius: BorderRadius.circular(0),
       ),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width * 0.85,
+      height: MediaQuery.of(context).size.width * 0.7,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -100,50 +100,51 @@ class _MenuVideoRowItemState extends State<MenuVideoRowItem> {
                   ),
                 ),
               ),
-              SizedBox(width: 5),
-              IconColumn(
-                onLikeTap: () {
-                  print("onLikeTap");
-                },
-                onCommentTap: () {
-                  print("onCommentTap");
-                  _commentFocusNode.requestFocus();
-                },
-                onShareTap: () {
-                  print("onShareTap");
-                  Share.share(widget.video?.url?.url ?? '',
-                      subject: widget.video?.title.toString() ?? '');
-                },
-              ),
+              // like share and comment
+              // SizedBox(width: 5),
+              // IconColumn(
+              //   onLikeTap: () {
+              //     print("onLikeTap");
+              //   },
+              //   onCommentTap: () {
+              //     print("onCommentTap");
+              //     _commentFocusNode.requestFocus();
+              //   },
+              //   onShareTap: () {
+              //     print("onShareTap");
+              //     Share.share(widget.video?.url?.url ?? '',
+              //         subject: widget.video?.title.toString() ?? '');
+              //   },
+              // ),
             ],
           ),
-          SizedBox(height: 10),
-          // add comment
-          Padding(
-            padding: context.locale.languageCode == "en"
-                ? const EdgeInsets.only(right: 45)
-                : const EdgeInsets.only(left: 45.0),
-            child: CustomTextField(
-              borderRadius: 30,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              hintText: "write_comment".tr(),
-              controller: _commentController,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              focusNode: _commentFocusNode,
-              endWidget: IconButton(
-                icon: Icon(
-                  Icons.send,
-                  color: AppColors.APP_BLUE,
-                ),
-                onPressed: () {
-                  print(_commentController.text);
-                },
-              ),
-            ),
-          ),
+          // SizedBox(height: 10),
+          // // add comment
+          // Padding(
+          //   padding: context.locale.languageCode == "en"
+          //       ? const EdgeInsets.only(right: 45)
+          //       : const EdgeInsets.only(left: 45.0),
+          //   child: CustomTextField(
+          //     borderRadius: 30,
+          //     contentPadding: EdgeInsets.symmetric(
+          //       horizontal: 20,
+          //     ),
+          //     hintText: "write_comment".tr(),
+          //     controller: _commentController,
+          //     fontWeight: FontWeight.w400,
+          //     fontSize: 14,
+          //     focusNode: _commentFocusNode,
+          //     endWidget: IconButton(
+          //       icon: Icon(
+          //         Icons.send,
+          //         color: AppColors.APP_BLUE,
+          //       ),
+          //       onPressed: () {
+          //         print(_commentController.text);
+          //       },
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
