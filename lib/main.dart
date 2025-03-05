@@ -18,6 +18,8 @@ import 'package:katkoot_elwady/features/tools_management/models/hatch.dart';
 import 'package:katkoot_elwady/features/tools_management/models/hatching_hen.dart';
 import 'package:katkoot_elwady/features/tools_management/models/pullet_livability_to_cap.dart';
 import 'package:katkoot_elwady/features/tools_management/models/pullets.dart';
+import 'package:katkoot_elwady/features/tools_management/models/report_generator/cycle.dart';
+import 'package:katkoot_elwady/features/tools_management/models/report_generator/week_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/slider_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/tool_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/tool_section.dart';
@@ -61,6 +63,8 @@ Future<void> initHive() async {
   Hive.registerAdapter(ToolDataAdapter());
   Hive.registerAdapter(ToolSectionAdapter());
   Hive.registerAdapter(SliderDataAdapter());
+  Hive.registerAdapter(CycleAdapter());
+  Hive.registerAdapter(WeekDataAdapter());
 }
 
 void main() async {

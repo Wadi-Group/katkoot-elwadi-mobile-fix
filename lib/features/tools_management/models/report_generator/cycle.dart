@@ -1,16 +1,37 @@
+import 'package:hive/hive.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/features/tools_management/models/report_generator/week_data.dart';
 
-class Cycle {
+part 'cycle.g.dart'; // Ensure this part directive is present
+
+@HiveType(typeId: 21) // Unique typeId for Hive
+class Cycle extends HiveObject {
+  @HiveField(0)
   int? id;
+
+  @HiveField(1)
   String? name;
+
+  @HiveField(2)
   String? farmName;
+
+  @HiveField(3)
   String? arrivalDate;
+
+  @HiveField(4)
   String? location;
+
+  @HiveField(5)
   int? male;
+
+  @HiveField(6)
   int? female;
+
+  @HiveField(7)
   List<int>? durations;
+
+  @HiveField(8)
   List<WeekData>? weeksList;
 
   Cycle({
@@ -81,6 +102,7 @@ class Cycle {
         return value;
       }
     }
+    return null;
   }
 
   int? getMaxRearingWeek() {
@@ -91,6 +113,7 @@ class Cycle {
         return value;
       }
     }
+    return null;
   }
 
   bool weekIsExists(int week) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:katkoot_elwady/core/services/repository.dart';
+import 'package:katkoot_elwady/core/utils/check_internet_connection.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/features/app_base/mixins/pagination_mixin.dart';
@@ -15,37 +17,63 @@ class CyclesListViewModel extends StateNotifier<BaseState<List<Cycle>?>>
 
   CyclesListViewModel(this._repository) : super(BaseState(data: []));
 
-  Future getCycles({bool refresh = false, bool showLoading = true}) async {
+  Future<void> getCycles(
+      {bool refresh = false, bool showLoading = true}) async {
     if (checkPerformRequest(refresh: refresh)) return;
 
     isPerformingRequest = true;
-
     if (refresh) {
       reset();
     }
 
     state = BaseState(data: state.data, isLoading: showLoading);
 
+    // Check network status
+    bool isOnline = await checkInternetConnection();
+
+    // Open Hive box for caching cycles
+    var box = await Hive.openBox<Cycle>('psCyclesBox');
+
+    if (!isOnline) {
+      // No internet: Load cycles from Hive
+      print("No internet connection. Loading cycles from local storage...");
+      List<Cycle> cachedCycles = box.values.toList();
+      state = BaseState(
+          data: cachedCycles,
+          isLoading: false,
+          hasNoData: cachedCycles.isEmpty);
+      isPerformingRequest = false;
+      return;
+    }
+
+    // Internet is available: Fetch from API
+    print("Fetching cycles from API...");
     var result = await _repository.getCycles(page, limit);
+
     if (result.data != null) {
       page++;
       checkHasNext(result.data ?? []);
 
-      List<Cycle>? cycles =
-          refresh ? result.data : [...state.data!, ...result.data!];
-      state = BaseState(data: cycles, hasNoData: cycles!.isEmpty);
+      List<Cycle> cycles =
+          refresh ? result.data! : [...state.data ?? [], ...result.data!];
+
+      // Save new cycles to Hive
+      await box.clear(); // Clear old cycles
+      await box.addAll(cycles);
+
+      state = BaseState(data: cycles, hasNoData: cycles.isEmpty);
     } else {
-      if (result.errorType == ErrorType.NO_NETWORK_ERROR &&
-          (state.data?.isEmpty ?? true)) {
-        state = BaseState(data: [], hasNoConnection: true);
-      } else {
-        state = BaseState(data: state.data);
-        handleError(
-            errorType: result.errorType,
-            errorMessage: result.errorMessage,
-            keyValueErrors: result.keyValueErrors);
-      }
+      state = BaseState(
+        data: state.data,
+        hasNoConnection: result.errorType == ErrorType.NO_NETWORK_ERROR,
+      );
+      handleError(
+        errorType: result.errorType,
+        errorMessage: result.errorMessage,
+        keyValueErrors: result.keyValueErrors,
+      );
     }
+
     isPerformingRequest = false;
   }
 

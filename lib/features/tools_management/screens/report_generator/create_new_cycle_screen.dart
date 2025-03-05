@@ -49,7 +49,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.LIGHT_BACKGROUND,
       appBar: CustomAppBar(
         showDrawer: false,
         title: 'create_new_cycle'.tr(),

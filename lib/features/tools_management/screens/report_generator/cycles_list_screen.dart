@@ -50,8 +50,8 @@ class _CyclesScreenState extends State<CyclesScreen>
   Future getListOfCycles(
       {bool showLoading = false, bool refresh = false}) async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(_cyclesListViewModelProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(_cyclesListViewModelProvider.notifier)
           .getCycles(refresh: refresh, showLoading: showLoading);
     });
   }
@@ -99,9 +99,10 @@ class _CyclesScreenState extends State<CyclesScreen>
                           child: Stack(
                             children: [
                               Consumer(builder: (_, ref, __) {
-                                var cycles =
-                                    ref.watch(_cyclesListViewModelProvider).data ??
-                                        [];
+                                var cycles = ref
+                                        .watch(_cyclesListViewModelProvider)
+                                        .data ??
+                                    [];
                                 return PaginationList(
                                   padding: EdgeInsets.symmetric(
                                       vertical: padding * 2,
@@ -111,30 +112,35 @@ class _CyclesScreenState extends State<CyclesScreen>
                                   onRefresh: () => getListOfCycles(
                                       showLoading: true, refresh: true),
                                   hasMore: ProviderScope.containerOf(context,
-                                      listen: false).read(
+                                          listen: false)
+                                      .read(
                                           _cyclesListViewModelProvider.notifier)
                                       .hasNext,
                                   placeholderHeight: 50,
                                   loading: ProviderScope.containerOf(context,
-                                      listen: false)
+                                          listen: false)
                                       .read(_cyclesListViewModelProvider)
                                       .isLoading,
                                   itemCount: cycles.length,
                                   itemBuilder: (context, index) => Padding(
                                       padding: EdgeInsets.only(top: 10),
                                       child: CycleRowItem(
-                                        onDelete: () => ProviderScope.containerOf(context,
-                                            listen: false)
+                                        onDelete: () => ProviderScope
+                                                .containerOf(context,
+                                                    listen: false)
                                             .read(_cyclesListViewModelProvider
                                                 .notifier)
                                             .deleteCycle(cycles[index].id ?? 0),
                                         cycle: cycles[index],
-                                        onViewData: () => ProviderScope.containerOf(context,
-                                            listen: false)
-                                            .read(_cyclesListViewModelProvider
-                                                .notifier)
-                                            .navigateToCycleGraph(
-                                                cycles[index]),
+                                        onViewData: () =>
+                                            ProviderScope.containerOf(
+                                                    context,
+                                                    listen: false)
+                                                .read(
+                                                    _cyclesListViewModelProvider
+                                                        .notifier)
+                                                .navigateToCycleGraph(
+                                                    cycles[index]),
                                         onTap: (cycle) {
                                           openManageCycleScreenForResult(cycle);
                                         },
@@ -149,8 +155,10 @@ class _CyclesScreenState extends State<CyclesScreen>
                                     noDataMessage: "str_no_data".tr(),
                                     onDeviceReconnected: () => getListOfCycles(
                                         showLoading: true,
-                                        refresh: ProviderScope.containerOf(context,
-                                            listen: false).read(
+                                        refresh: ProviderScope.containerOf(
+                                                    context,
+                                                    listen: false)
+                                                .read(
                                                     _cyclesListViewModelProvider)
                                                 .data !=
                                             null),
