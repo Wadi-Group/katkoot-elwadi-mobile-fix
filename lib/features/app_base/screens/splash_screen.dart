@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> with BaseViewModel {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 3), () async {
+    Future.delayed(Duration(seconds: 4), () async {
       if (!di.appRedirectedFromNotificationNotifier.value) {
         if (await ProviderScope.containerOf(context, listen: false)
             .read(di.changeLanguageViewModelProvider.notifier)
