@@ -9,7 +9,7 @@ import 'file_row_item.dart';
 class TopicRowItem extends StatelessWidget {
   final Topic topic;
   final Function previewPdf;
-  const TopicRowItem({required this.topic,required this.previewPdf}) ;
+  const TopicRowItem({required this.topic, required this.previewPdf});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class TopicRowItem extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        if(topic.guides != null && topic.guides!.isNotEmpty)
+        if (topic.guides != null && topic.guides!.isNotEmpty)
           Container(
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
@@ -42,10 +42,12 @@ class TopicRowItem extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: topic.guides?.length,
               itemBuilder: (context, index) => Padding(
-                  padding: EdgeInsetsDirectional.only(top:10),
-
-                  child: FileRowItem(onTap: previewPdf ,guide: topic.guides != null ? topic.guides![index] : new Guide())
-              ),
+                  padding: EdgeInsetsDirectional.only(top: 10),
+                  child: FileRowItem(
+                      onTap: previewPdf,
+                      guide: topic.guides != null
+                          ? topic.guides![index]
+                          : new Guide())),
             ),
           ),
       ],

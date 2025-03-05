@@ -94,11 +94,12 @@ class _TopicsScreenState extends State<TopicsScreen> with BaseViewModel {
                     onLoadMore: () => getTopics(showLoading: false),
                     onRefresh: () =>
                         getTopics(showLoading: true, refresh: true),
-                    hasMore:
-                    ProviderScope.containerOf(context,
-                        listen: false).read(topicsViewModelProvider.notifier).hasNext,
-                    loading: ProviderScope.containerOf(context,
-                        listen: false).read(topicsViewModelProvider).isLoading,
+                    hasMore: ProviderScope.containerOf(context, listen: false)
+                        .read(topicsViewModelProvider.notifier)
+                        .hasNext,
+                    loading: ProviderScope.containerOf(context, listen: false)
+                        .read(topicsViewModelProvider)
+                        .isLoading,
                   );
                 }),
               ),
@@ -114,8 +115,10 @@ class _TopicsScreenState extends State<TopicsScreen> with BaseViewModel {
             noDataMessage: "str_no_data".tr(),
             onDeviceReconnected: () => getTopics(
                 showLoading: true,
-                refresh: ProviderScope.containerOf(context,
-                    listen: false).read(topicsViewModelProvider).data != null),
+                refresh: ProviderScope.containerOf(context, listen: false)
+                        .read(topicsViewModelProvider)
+                        .data !=
+                    null),
             noDataWidget: NoDataWidget(),
           );
         },
@@ -131,11 +134,10 @@ class _TopicsScreenState extends State<TopicsScreen> with BaseViewModel {
 
   Future getTopics({bool showLoading = false, bool refresh = false}) async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(topicsViewModelProvider.notifier).getTopics(
-          widget.category.id!,
-          refresh: refresh,
-          showLoading: showLoading);
+      ProviderScope.containerOf(context, listen: false)
+          .read(topicsViewModelProvider.notifier)
+          .getTopics(widget.category.id!,
+              refresh: refresh, showLoading: showLoading);
     });
   }
 }

@@ -1,25 +1,18 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:katkoot_elwady/core/constants/app_colors.dart';
-import 'package:katkoot_elwady/core/constants/app_constants.dart';
-import 'package:katkoot_elwady/core/constants/katkoot_elwadi_icons.dart';
-import 'package:katkoot_elwady/features/app_base/screens/main_bottom_app_bar.dart';
-import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
-import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
-import 'package:katkoot_elwady/features/guides_management/mixins/pdf_mixin.dart';
-import 'package:katkoot_elwady/features/menu_management/screens/change_language_screen.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../../../core/di/injection_container.dart' as di;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../core/constants/katkoot_elwadi_icons.dart';
 
 class PdfViewer extends StatefulWidget {
   static const routeName = "./pdf-viewer";
 
   final String previewUrl;
   final String printUrl;
-  bool isLoading = false;
-  bool showPrintBtn = false;
-  bool showErrorMsg = false;
 
   PdfViewer({required this.previewUrl, required this.printUrl});
 
@@ -27,129 +20,149 @@ class PdfViewer extends StatefulWidget {
   _PdfViewerState createState() => _PdfViewerState();
 }
 
-class _PdfViewerState extends State<PdfViewer> with PdfMixin, BaseViewModel {
+class _PdfViewerState extends State<PdfViewer> {
+  String? _localFilePath;
+  bool _isLoading = true;
+  bool _hasError = false;
+  bool _isDownloading = false;
+  bool _showPrintBtn = false;
+
   @override
   void initState() {
-    togglePrintVisibility(false);
     super.initState();
+    _loadPdf();
+  }
+
+  /// Generate a unique filename based on the URL
+  Future<File> _getLocalFile() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final fileName =
+        widget.previewUrl.split('/').last; // Extract filename from URL
+    return File('${directory.path}/$fileName');
+  }
+
+  /// Load the PDF (Check local storage first)
+  Future<void> _loadPdf() async {
+    try {
+      final connectivityResult = await Connectivity().checkConnectivity();
+      final localFile = await _getLocalFile();
+
+      if (localFile.existsSync()) {
+        setState(() {
+          _localFilePath = localFile.path;
+          _isLoading = false;
+          _showPrintBtn = true;
+        });
+      } else if (connectivityResult != ConnectivityResult.none) {
+        await _downloadPdf(widget.previewUrl, localFile);
+      } else {
+        setState(() {
+          _hasError = true;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _hasError = true;
+        _isLoading = false;
+      });
+    }
+  }
+
+  /// Download the PDF and save it locally
+  Future<void> _downloadPdf(String url, File file) async {
+    try {
+      setState(() {
+        _isDownloading = true;
+      });
+
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        await file.writeAsBytes(response.bodyBytes);
+        setState(() {
+          _localFilePath = file.path;
+          _isLoading = false;
+          _showPrintBtn = true;
+        });
+      } else {
+        setState(() {
+          _hasError = true;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _hasError = true;
+        _isLoading = false;
+      });
+    } finally {
+      setState(() {
+        _isDownloading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillPop,
-      child: Scaffold(
-          // appBar: BackAppBar(),
-          body: SafeArea(
-            child: Container(
-                color: AppColors.white,
-                child: Stack(
-                  alignment: AlignmentDirectional.topEnd,
-                  children: [
-                    (!widget.showErrorMsg)
-                        ? SfPdfViewer.network(
-                            widget.previewUrl,
-                            canShowScrollHead: false,
-                            canShowScrollStatus: true,
-                            canShowPaginationDialog: true,
-                            pageLayoutMode: PdfPageLayoutMode.continuous,
-                            enableDoubleTapZooming: true,
-                            onDocumentLoadFailed: (error) {
-                              toggleShowErrorMsg();
-                              togglePrintVisibility(false);
-                            },
-                            onDocumentLoaded: (document) {
-                              togglePrintVisibility(true);
-                            },
-                          )
-                        : Center(
-                            child: CustomText(
-                              textAlign: TextAlign.center,
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: AppColors.white,
+          child: Stack(
+            alignment: AlignmentDirectional.topEnd,
+            children: [
+              _isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : _hasError
+                      ? Center(
+                          child: Text(
+                            'str_general_error'.tr(),
+                            style: TextStyle(
                               fontSize: 18,
-                              textColor: AppColors.APPLE_GREEN.withOpacity(0.6),
-                              title: 'str_general_error'.tr(),
-                              maxLines: 10,
                               fontWeight: FontWeight.bold,
-                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              color:
+                                  AppColors.APPLE_GREEN.withValues(alpha: 0.6),
                             ),
+                            textAlign: TextAlign.center,
                           ),
-                    IconButton(
-                        onPressed: () async {
-                          if (await onWillPop()) {
-                            Navigator.pop(context);
-                          }
-                        },
-                        icon: Container(
-                          padding: EdgeInsetsDirectional.all(2),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.Pastel_gray.withOpacity(0.5)),
-                          child: Icon(
-                            Icons.close_rounded,
-                            color: Colors.white,
-                          ),
-                        )),
-                  ],
-                )),
-          ),
-          floatingActionButton: widget.showPrintBtn
-              ? FloatingActionButton(
-                  child: !widget.isLoading
-                      ? Icon(
-                          KatkootELWadyIcons.print,
-                          size: 25,
-                          color: AppColors.white_smoke,
                         )
-                      : CircularProgressIndicator(
-                          color: AppColors.white_smoke,
-                        ),
-                  onPressed: () {
-                    if (widget.isLoading) return;
-                    togglePrintBtnState();
-                    downloadPdf();
-                  },
-                  backgroundColor: AppColors.DARK_SPRING_GREEN,
-                )
-              : Container()),
+                      : SfPdfViewer.file(File(_localFilePath!)),
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: Container(
+                  padding: EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.Pastel_gray.withValues(alpha: 0.6),
+                  ),
+                  child: Icon(
+                    Icons.close_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      floatingActionButton: _showPrintBtn
+          ? FloatingActionButton(
+              child: !_isDownloading
+                  ? Icon(
+                      KatkootELWadyIcons.print,
+                      size: 25,
+                      color: AppColors.white_smoke,
+                    )
+                  : CircularProgressIndicator(color: AppColors.white_smoke),
+              onPressed: () async {
+                if (!_isDownloading) {
+                  final localFile = await _getLocalFile();
+                  await _downloadPdf(widget.printUrl, localFile);
+                }
+              },
+              backgroundColor: AppColors.DARK_SPRING_GREEN,
+            )
+          : null,
     );
-  }
-
-  Future downloadPdf() async {
-    await downloadPdfAndPrint(widget.printUrl);
-    togglePrintBtnState();
-  }
-
-  void togglePrintBtnState() {
-    setState(() {
-      widget.isLoading = !widget.isLoading;
-    });
-  }
-
-  void togglePrintVisibility(bool status) {
-    setState(() {
-      widget.showPrintBtn = status;
-    });
-  }
-
-  void toggleShowErrorMsg() {
-    setState(() {
-      widget.showErrorMsg = !widget.showErrorMsg;
-    });
-  }
-
-  Future<bool> onWillPop() async {
-    if (di.appRedirectedFromNotificationNotifier.value) {
-      if (await ProviderScope.containerOf(context,
-          listen: false).read(di.changeLanguageViewModelProvider.notifier)
-          .isOnBoardingComplete()) {
-        navigateToScreen(MainBottomAppBar.routeName, removeTop: true);
-      } else {
-        navigateToScreen(ChangeLanguageScreen.routeName, removeTop: true);
-      }
-      di.appRedirectedFromNotificationNotifier.value = false;
-      return Future.value(false);
-    } else {
-      return Future.value(true);
-    }
   }
 }
