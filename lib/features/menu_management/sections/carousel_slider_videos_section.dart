@@ -19,6 +19,7 @@ class CarouselSliderVideosSection extends StatelessWidget {
         height: 180.0,
         autoPlay: true,
         enlargeCenterPage: true,
+        enableInfiniteScroll: false,
         clipBehavior: Clip.antiAlias,
       ),
       items: videos.map((video) {

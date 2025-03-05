@@ -10,10 +10,15 @@ import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:katkoot_elwady/features/menu_management/view_models/menu_categorized_videos_view_model.dart';
 import 'package:katkoot_elwady/features/menu_management/widgets/menu_category_with_videos_item.dart';
-
 import '../../app_base/widgets/custom_text.dart';
 import '../../guides_management/models/video.dart';
 import '../sections/carousel_slider_videos_section.dart';
+
+// Provider using the new CategorizedVideosState model
+final _categorizedVideosViewModelProvider = StateNotifierProvider<
+    MenuCategorizedVideosViewModel, BaseState<CategorizedVideosState>>((ref) {
+  return MenuCategorizedVideosViewModel(ref.read(di.repositoryProvider));
+});
 
 class MenuCategorizedVideosScreen extends StatefulWidget {
   static const routeName = "./menu_categorized_videos_screen";
@@ -26,11 +31,6 @@ class MenuCategorizedVideosScreen extends StatefulWidget {
 class _MenuCategorizedVideosScreenState
     extends State<MenuCategorizedVideosScreen>
     with AutomaticKeepAliveClientMixin {
-  final _categorizedVideosViewModelProvider = StateNotifierProvider<
-      MenuCategorizedVideosViewModel, BaseState<List<Category>?>>((ref) {
-    return MenuCategorizedVideosViewModel(ref.read(di.repositoryProvider));
-  });
-
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -38,92 +38,100 @@ class _MenuCategorizedVideosScreenState
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-        backgroundColor: AppColors.LIGHT_BACKGROUND,
-        key: _scaffoldKey,
-        appBar: CustomAppBar(
-          showNotificationsButton: true,
-          showDrawer: true,
-          hasbackButton: true,
-          // onBackClick: () => context.read(di.contentProvider).state =
-          //     DrawerItemType.drawer.index
-        ),
-        // drawer: NavigationDrawer(),
-        body: SafeArea(
-          child: Stack(children: [
+      backgroundColor: AppColors.LIGHT_BACKGROUND,
+      key: _scaffoldKey,
+      appBar: CustomAppBar(
+        showNotificationsButton: true,
+        showDrawer: true,
+        hasbackButton: true,
+      ),
+      body: SafeArea(
+        child: Stack(
+          children: [
             Container(
               color: AppColors.LIGHT_BACKGROUND,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Consumer(builder: (_, ref, __) {
-                var videosViewModel =
-                    ref.watch(_categorizedVideosViewModelProvider);
-                var categories = videosViewModel.data;
-                List<Video> videos = (categories?.isNotEmpty ?? false)
-                    ? categories![0].videosList ?? []
-                    : [];
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 25,
-                      ),
-                      CustomText(
-                        title: 'videos'.tr(),
-                        fontSize: 22,
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        fontWeight: FontWeight.bold,
-                        textColor: AppColors.APP_BLUE,
-                      ),
+              child: Consumer(
+                builder: (_, ref, __) {
+                  var state = ref.watch(_categorizedVideosViewModelProvider);
+                  var categorizedVideosState = state.data;
 
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.builder(
-                          padding: EdgeInsetsDirectional.only(
-                              start: 20, end: 20, top: 15),
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: categories?.length ?? 0,
-                          itemBuilder: (context, index) => Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: MenuCategoryWithVideosItem(
-                              category: categories?[index],
+                  if (state.isLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  if (categorizedVideosState.hasNoData) {
+                    return Center(child: NoDataWidget());
+                  }
+
+                  List<Category> categories =
+                      categorizedVideosState.categories ?? [];
+                  List<Video> latestVideos =
+                      categorizedVideosState.videos ?? [];
+
+                  return SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 25),
+                        CustomText(
+                          title: 'videos'.tr(),
+                          fontSize: 22,
+                          padding: EdgeInsets.symmetric(vertical: 5),
+                          fontWeight: FontWeight.bold,
+                          textColor: AppColors.APP_BLUE,
+                        ),
+
+                        // Display Categories with Videos
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: ListView.builder(
+                            padding: EdgeInsetsDirectional.only(
+                                start: 20, end: 20, top: 15),
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: categories.length,
+                            itemBuilder: (context, index) => Padding(
+                              padding: EdgeInsets.only(bottom: 10),
+                              child: MenuCategoryWithVideosItem(
+                                category: categories[index],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      // latest videos
-                      Align(
-                        alignment: AlignmentDirectional.topStart,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 20),
-                          child: CustomText(
-                            title: 'latest_videos'.tr(),
-                            fontSize: 22,
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            fontWeight: FontWeight.bold,
-                            textColor: AppColors.APP_BLUE,
+
+                        // Latest Videos Section
+                        if (latestVideos.isNotEmpty) ...[
+                          Align(
+                            alignment: AlignmentDirectional.topStart,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 20),
+                              child: CustomText(
+                                title: 'latest_videos'.tr(),
+                                fontSize: 22,
+                                padding: EdgeInsets.symmetric(vertical: 5),
+                                fontWeight: FontWeight.bold,
+                                textColor: AppColors.APP_BLUE,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      videos.isNotEmpty
-                          ? CarouselSliderVideosSection(
-                              videos: videos,
-                            )
-                          : Container(),
-                      SizedBox(
-                        height: 30,
-                      )
-                    ],
-                  ),
-                );
-              }),
+                          CarouselSliderVideosSection(videos: latestVideos),
+                        ],
+
+                        SizedBox(height: 30),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
             Consumer(
-              builder: (_, watch, __) {
+              builder: (_, ref, __) {
                 return ScreenHandler(
                   screenProvider: _categorizedVideosViewModelProvider,
                   noDataMessage: "str_no_data".tr(),
@@ -132,8 +140,10 @@ class _MenuCategorizedVideosScreenState
                 );
               },
             ),
-          ]),
-        ));
+          ],
+        ),
+      ),
+    );
   }
 
   @override

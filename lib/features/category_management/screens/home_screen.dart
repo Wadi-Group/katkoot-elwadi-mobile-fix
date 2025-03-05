@@ -56,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen>
     initUserLocalData();
     getListOfCategories();
     getNews();
-    getAllVideos();
   }
 
   //  Fetch weather data from the API
@@ -141,19 +140,6 @@ class _HomeScreenState extends State<HomeScreen>
       ProviderScope.containerOf(context, listen: false)
           .read(di.messagesViewModelProvider.notifier)
           .getMessages(context, refresh: refresh, showLoading: showLoading);
-    });
-  }
-
-  // Get latest video
-  final _categorizedVideosViewModelProvider = StateNotifierProvider<
-      MenuCategorizedVideosViewModel, BaseState<List<Category>?>>((ref) {
-    return MenuCategorizedVideosViewModel(ref.read(di.repositoryProvider));
-  });
-  Future getAllVideos() async {
-    await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context, listen: false)
-          .read(_categorizedVideosViewModelProvider.notifier)
-          .getVideos();
     });
   }
 

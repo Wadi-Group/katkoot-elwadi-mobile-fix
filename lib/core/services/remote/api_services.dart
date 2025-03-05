@@ -33,11 +33,11 @@ class ApiService {
   }
 
   Future<BaseApiResult<List<Video>?>> getCategoryVideos(
-      int categoryId, int page, int limit, String? searchText) async {
+      int? categoryId, int page, int limit, String? searchText) async {
     var params = {"page": page.toString(), "limit": limit.toString()};
-    searchText != null
-        ? params['search_text'] = searchText
-        : params['category'] = categoryId.toString();
+    // searchText != null
+    //     ? params['search_text'] = searchText
+    //     : params['category'] = categoryId.toString();
     return await ApiMethods<Video>()
         .postWithListResponse(ApiUrls.VIDEOS, cache: true, data: params);
   }

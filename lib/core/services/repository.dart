@@ -52,10 +52,7 @@ class Repository {
   }
 
   Future<BaseApiResult<List<Video>?>> getCategoryVideos(
-      {required int categoryId,
-      int? page,
-      int? limit,
-      String? searchText}) async {
+      {int? categoryId, int? page, int? limit, String? searchText}) async {
     return await _apiService.getCategoryVideos(
         categoryId, page ?? 1, limit ?? 10, searchText);
   }
