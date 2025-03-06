@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
@@ -13,6 +14,7 @@ import 'package:katkoot_elwady/features/messages_management/models/message.dart'
 import '../../../core/constants/app_constants.dart';
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/services/remote/weather_service.dart';
+import '../../../core/utils/check_internet_connection.dart';
 import '../../app_base/entities/base_state.dart';
 import '../../app_base/screens/custom_drawer.dart';
 import '../../guides_management/models/video.dart';
@@ -85,11 +87,15 @@ class _HomeScreenState extends State<HomeScreen>
     var categoriesViewModel = ProviderScope.containerOf(context, listen: false)
         .read(di.categoriesViewModelProvider.notifier);
 
-    await Future.delayed(Duration.zero, () async {
-      print("Fetching categories and home data...");
+    // Check network connectivity
 
+    bool isOnline = await checkInternetConnection();
+
+    if (isOnline) {
+      print("Fetching categories and home data (Online)...");
+
+      // Fetch data from API
       await categoriesViewModel.getListOfCategories(mainCategories: true);
-
       homeData = await categoriesViewModel.getHomeData();
 
       if (homeData.isNotEmpty) {
@@ -111,15 +117,49 @@ class _HomeScreenState extends State<HomeScreen>
             "image": "assets/images/finisher_feed.png"
           },
         ]);
+
+        // Save data to Hive for offline access
+        var box = await Hive.openBox<Map>('homeDataBox');
+        await box.put('homeData', homeData);
       }
 
+      // Fetch In-App Messages and Show
       inAppMessageData = await categoriesViewModel.getInAppMessageData();
       print("inAppMessageData: $inAppMessageData");
-
       showInAppMessage(inAppMessageData, context);
+    } else {
+      print("No internet connection. Loading cached categories...");
+      await categoriesViewModel.getListOfCategories(mainCategories: true);
 
-      setState(() {}); // Refresh UI after data is loaded
-    });
+      // Load cached data from Hive
+      var box = await Hive.openBox<Map>('homeDataBox');
+      var cachedData = box.get('homeData', defaultValue: {}) ?? {};
+
+      homeData = Map<String, dynamic>.from(cachedData);
+
+      if (homeData.isNotEmpty) {
+        alaafPrices.clear(); // Clear old data
+        alaafPrices.addAll([
+          {
+            "title": "starter_feed".tr(),
+            "price": homeData["starter_feed_price"] ?? "N/A",
+            "image": "assets/images/starter_feed.png"
+          },
+          {
+            "title": "grower_feed".tr(),
+            "price": homeData["grower_feed_price"] ?? "N/A",
+            "image": "assets/images/grower_feed.png"
+          },
+          {
+            "title": "finisher_feed".tr(),
+            "price": homeData["finisher_feed_price"] ?? "N/A",
+            "image": "assets/images/finisher_feed.png"
+          },
+        ]);
+      }
+    }
+
+    setState(() {}); // Refresh UI after loading data
   }
 
   // Show in-app message
@@ -170,9 +210,9 @@ class _HomeScreenState extends State<HomeScreen>
                       return Column(children: [
                         //  WeatherAndPricesSection
                         WeatherAndPricesSection(
-                          city: city ?? "Cairo",
-                          date: date ?? '',
-                          weather: weather ?? "",
+                          city: city,
+                          date: date,
+                          weather: weather,
                           liveBroilersPrice: homeData["live_broilers_price"],
                           whiteEggTrayPrice: homeData["white_egg_tray_price"],
                           brownEggTrayPrice: homeData["brown_egg_tray_price"],

@@ -166,6 +166,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
             final errors = ref.watch(_errorsProvider);
             return Stack(children: [
               CustomTextField(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20),
                   endWidget: Icon(
                     KatkootELWadyIcons.calendar,
                     color: AppColors.Olive_Drab,

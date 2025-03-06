@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/services/remote/weather_service.dart';
 import '../../app_base/widgets/custom_text.dart';
 import '../widgets/reusable_container_widget.dart';
 
@@ -84,7 +85,9 @@ class WeatherAndPricesSection extends StatelessWidget {
             child: Row(
               children: [
                 CustomText(
-                  title: "🌤${double.tryParse(weather ?? "0")?.ceil() ?? ''}°",
+                  title: (weather?.isEmpty ?? true)
+                      ? "🌤 N/A"
+                      : "🌤${double.tryParse(weather ?? "0")?.ceil() ?? ''}°",
                   fontSize: 22,
                   fontWeight: FontWeight.w400,
                   textColor: AppColors.APP_BLUE,
@@ -108,13 +111,16 @@ class WeatherAndPricesSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      title: date ?? "",
+                      title: (date?.isEmpty ?? true)
+                          ? WeatherService.getCurrentDate()
+                          : date ?? WeatherService.getCurrentDate(),
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       textColor: AppColors.APP_BLUE,
                     ),
                     CustomText(
-                      title: city ?? "",
+                      title:
+                          (city?.isEmpty ?? true) ? "Cairo" : city ?? 'Cairo',
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       textColor: AppColors.APP_BLUE,
