@@ -79,16 +79,23 @@ class CyclesListViewModel extends StateNotifier<BaseState<List<Cycle>?>>
 
   Future deleteCycle(int cycleId) async {
     state = BaseState(data: state.data, isLoading: true);
-    var result = await _repository.deleteCycle(cycleId);
-    if (result.successMessage != null) {
-      state.data!.removeWhere((element) => element.id == cycleId);
-      var cycles = state.data;
-      state = BaseState(data: cycles, isLoading: false);
-      showToastMessage(result.successMessage ?? '');
-    } else {
-      if (result.errorType == ErrorType.NO_NETWORK_ERROR) {
-        state = BaseState(
-            data: state.data, hasNoConnection: true, isLoading: false);
+
+    bool isOnline = await checkInternetConnection();
+
+    if (isOnline) {
+      // Online: Call API to delete cycle
+      var result = await _repository.deleteCycle(cycleId);
+      if (result.successMessage != null) {
+        // Remove from the in-memory list
+        state.data!.removeWhere((element) => element.id == cycleId);
+        var cycles = state.data;
+
+        // Remove from Hive offline storage
+        var box = await Hive.openBox<Cycle>('psCyclesBox');
+        await box.delete(cycleId);
+
+        state = BaseState(data: cycles, isLoading: false);
+        showToastMessage(result.successMessage ?? '');
       } else {
         state = BaseState(data: state.data, isLoading: false);
         handleError(
@@ -96,6 +103,26 @@ class CyclesListViewModel extends StateNotifier<BaseState<List<Cycle>?>>
             errorMessage: result.errorMessage,
             keyValueErrors: result.keyValueErrors);
       }
+    } else {
+      // Offline: Mark cycle as "to be deleted" in Hive
+      var box = await Hive.openBox<int>('pendingDeletesBox');
+      await box.put(cycleId, cycleId); // Store cycleId for later deletion
+
+      // Also remove it from the local cycles list
+      var cyclesBox = await Hive.openBox<Cycle>('psCyclesBox');
+      var allCycles = cyclesBox.values.toList();
+      allCycles.removeWhere((cycle) => cycle.id == cycleId);
+
+// Clear the box and re-add the filtered list
+      await cyclesBox.clear();
+      for (var cycle in allCycles) {
+        await cyclesBox.put(cycle.id, cycle);
+      }
+
+      state.data!.removeWhere((element) => element.id == cycleId);
+      state = BaseState(data: state.data, isLoading: false);
+
+      showToastMessage("Cycle deleted offline. Changes will sync when online.");
     }
   }
 

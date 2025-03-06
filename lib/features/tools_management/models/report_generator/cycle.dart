@@ -43,6 +43,7 @@ class Cycle extends HiveObject {
     this.male,
     this.female,
     this.weeksList,
+    this.durations,
   });
 
   Cycle.fromJson(Map<String, dynamic> json) {

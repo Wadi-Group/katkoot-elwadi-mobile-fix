@@ -25,7 +25,8 @@ class CycleAdapter extends TypeAdapter<Cycle> {
       male: fields[5] as int?,
       female: fields[6] as int?,
       weeksList: (fields[8] as List?)?.cast<WeekData>(),
-    )..durations = (fields[7] as List?)?.cast<int>();
+      durations: (fields[7] as List?)?.cast<int>(),
+    );
   }
 
   @override

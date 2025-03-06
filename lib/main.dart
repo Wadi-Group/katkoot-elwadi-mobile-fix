@@ -9,8 +9,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
+import 'package:katkoot_elwady/core/services/remote/api_services.dart';
 import 'package:katkoot_elwady/core/utils/notification_manager.dart';
 import 'package:katkoot_elwady/core/utils/route_generator.dart';
+import 'package:katkoot_elwady/features/tools_management/entities/cycle_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/broiler_livability.dart';
 import 'package:katkoot_elwady/features/tools_management/models/broiler_per_week.dart';
 import 'package:katkoot_elwady/features/tools_management/models/equation.dart';
@@ -23,10 +25,13 @@ import 'package:katkoot_elwady/features/tools_management/models/report_generator
 import 'package:katkoot_elwady/features/tools_management/models/slider_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/tool_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/tool_section.dart';
+import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/create_cycle_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/constants/app_constants.dart';
 import 'core/services/local/shared_preferences_service.dart';
+import 'core/services/repository.dart';
+import 'core/utils/check_internet_connection.dart';
 import 'features/app_base/screens/splash_screen.dart';
 import 'features/category_management/models/category.dart';
 import 'features/guides_management/models/video.dart';
@@ -38,6 +43,7 @@ import 'features/tools_management/models/fcr.dart';
 import 'features/tools_management/models/pef.dart';
 import 'features/tools_management/models/pullet.dart';
 import 'features/tools_management/models/tool.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 //   hive init and register adapters
 Future<void> initHive() async {
@@ -65,12 +71,23 @@ Future<void> initHive() async {
   Hive.registerAdapter(SliderDataAdapter());
   Hive.registerAdapter(CycleAdapter());
   Hive.registerAdapter(WeekDataAdapter());
+  Hive.registerAdapter(CreateCycleAdapter());
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await initHive();
+
+  ApiService _apiService = ApiService();
+  SharedPreferencesService _sharedPreferencesService =
+      SharedPreferencesService(await SharedPreferences.getInstance());
+  final createCycleViewModel =
+      CreateCycleViewModel(Repository(_apiService, _sharedPreferencesService));
+
+  final connectivityService = ConnectivityService(createCycleViewModel);
+  connectivityService.checkConnectivityAndSync();
+
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp();
   NotificationManager.initOneSignal();
@@ -88,6 +105,26 @@ void main() async {
         startLocale: Locale('ar'),
         child: MyApp()),
   ));
+
+  // Dispose connectivityService when app is closing
+  WidgetsBinding.instance.addObserver(_LifecycleEventHandler(
+    onClose: () {
+      connectivityService.dispose();
+    },
+  ));
+}
+
+class _LifecycleEventHandler extends WidgetsBindingObserver {
+  final VoidCallback onClose;
+
+  _LifecycleEventHandler({required this.onClose});
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.detached) {
+      onClose(); // Dispose resources when the app is closing
+    }
+  }
 }
 
 /// FB Deferred Deeplinks

@@ -32,7 +32,7 @@ class CbCyclesListViewModel extends StateNotifier<BaseState<List<CbCycle>?>>
       checkHasNext(result.data ?? []);
 
       List<CbCycle>? cycles =
-      refresh ? result.data : [...state.data!, ...result.data!];
+          refresh ? result.data : [...state.data!, ...result.data!];
       state = BaseState(data: cycles, hasNoData: cycles!.isEmpty);
     } else {
       if (result.errorType == ErrorType.NO_NETWORK_ERROR &&
@@ -43,8 +43,7 @@ class CbCyclesListViewModel extends StateNotifier<BaseState<List<CbCycle>?>>
         handleError(
             errorType: result.errorType,
             errorMessage: result.errorMessage,
-            keyValueErrors: result.keyValueErrors
-        );
+            keyValueErrors: result.keyValueErrors);
       }
     }
     isPerformingRequest = false;
