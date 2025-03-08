@@ -316,7 +316,8 @@
   "international": "International",
   "local": "Local",
   "write_comment" : "Write Comment ...",
-  "latest_videos" : "Latest Videos"
+  "latest_videos" : "Latest Videos",
+  "mark_as_read" : "Mark as read"
 
 
 }
