@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:katkoot_elwady/core/services/repository.dart';
@@ -92,7 +91,7 @@ class CyclesListViewModel extends StateNotifier<BaseState<List<Cycle>?>>
 
         // Remove from Hive offline storage
         var box = await Hive.openBox<Cycle>('psCyclesBox');
-        await box.delete(cycleId);
+        await box.delete(cycleId.toString());
 
         state = BaseState(data: cycles, isLoading: false);
         showToastMessage(result.successMessage ?? '');

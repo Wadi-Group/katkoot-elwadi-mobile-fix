@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
-import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/core/services/repository.dart';
 import 'package:katkoot_elwady/core/utils/check_internet_connection.dart';
 import 'package:katkoot_elwady/core/utils/validator.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
 import 'package:katkoot_elwady/features/tools_management/entities/cycle_data.dart';
-import 'package:katkoot_elwady/features/tools_management/models/report_generator/week_data.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -117,7 +115,8 @@ class CreateCycleViewModel
     if (isOnline) {
       var box = await Hive.openBox<CreateCycle>('pendingCyclesBox');
       var deleteBox = await Hive.openBox<int>('pendingDeletesBox');
-
+      var cycleBox = await Hive.openBox<Cycle>('psCyclesBox');
+      cycleBox.clear();
       for (var cycle in box.values) {
         var result = await _repository.createCycle(cycle);
         if (result.successMessage != null) {

@@ -21,11 +21,14 @@ import 'package:katkoot_elwady/features/tools_management/models/hatching_hen.dar
 import 'package:katkoot_elwady/features/tools_management/models/pullet_livability_to_cap.dart';
 import 'package:katkoot_elwady/features/tools_management/models/pullets.dart';
 import 'package:katkoot_elwady/features/tools_management/models/report_generator/cycle.dart';
+import 'package:katkoot_elwady/features/tools_management/models/report_generator/measurement_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/report_generator/week_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/slider_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/tool_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/tool_section.dart';
+import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/add_week_data_view_model.dart';
 import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/create_cycle_view_model.dart';
+import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/manage_cycle_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/constants/app_constants.dart';
@@ -42,8 +45,10 @@ import 'features/tools_management/models/equations_result_title.dart';
 import 'features/tools_management/models/fcr.dart';
 import 'features/tools_management/models/pef.dart';
 import 'features/tools_management/models/pullet.dart';
+import 'features/tools_management/models/report_generator/week_data_value.dart';
+import 'features/tools_management/models/report_generator/week_data_value_params.dart';
+import 'features/tools_management/models/report_generator/week_preview_data.dart';
 import 'features/tools_management/models/tool.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 //   hive init and register adapters
 Future<void> initHive() async {
@@ -72,46 +77,72 @@ Future<void> initHive() async {
   Hive.registerAdapter(CycleAdapter());
   Hive.registerAdapter(WeekDataAdapter());
   Hive.registerAdapter(CreateCycleAdapter());
+  Hive.registerAdapter(ValueAdapter());
+  Hive.registerAdapter(ParamsAdapter());
+  Hive.registerAdapter(PreviewDataAdapter());
+  Hive.registerAdapter(MeasurementDataAdapter());
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeApp();
+  runApp(await buildApp());
+}
 
-  await initHive();
+Future<void> initializeApp() async {
+  try {
+    await initHive(); // Initialize Hive storage
 
-  ApiService _apiService = ApiService();
-  SharedPreferencesService _sharedPreferencesService =
-      SharedPreferencesService(await SharedPreferences.getInstance());
-  final createCycleViewModel =
-      CreateCycleViewModel(Repository(_apiService, _sharedPreferencesService));
+    // Initialize shared preferences
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final sharedPreferencesService =
+        SharedPreferencesService(sharedPreferences);
 
-  final connectivityService = ConnectivityService(createCycleViewModel);
-  connectivityService.checkConnectivityAndSync();
+    // Initialize API service
+    final apiService = ApiService();
+    final repository = Repository(apiService, sharedPreferencesService);
 
-  await EasyLocalization.ensureInitialized();
-  await Firebase.initializeApp();
-  NotificationManager.initOneSignal();
+    // Initialize ViewModels
+    final createCycleViewModel = CreateCycleViewModel(repository);
+    final addWeekDataViewModel = AddWeekDataViewModel(repository);
+    final manageCycleViewModel = ManageCycleViewModel(repository);
 
-  runApp(ProviderScope(
+    // Initialize connectivity service and sync
+    final connectivityService = ConnectivityService(
+      createCycleViewModel,
+      addWeekDataViewModel,
+      manageCycleViewModel,
+    );
+    connectivityService.checkConnectivityAndSync();
+
+    await EasyLocalization.ensureInitialized();
+    await Firebase.initializeApp();
+    NotificationManager.initOneSignal();
+
+    // Handle app lifecycle events (dispose connectivity service on app close)
+    WidgetsBinding.instance.addObserver(_LifecycleEventHandler(
+      onClose: () => connectivityService.dispose(),
+    ));
+  } catch (e, stackTrace) {
+    debugPrint("Error during initialization: $e\n$stackTrace");
+  }
+}
+
+Future<Widget> buildApp() async {
+  return ProviderScope(
     overrides: [
       di.sharedPreferencesServiceProvider.overrideWithValue(
         SharedPreferencesService(await SharedPreferences.getInstance()),
       ),
     ],
     child: EasyLocalization(
-        path: 'assets/translations',
-        supportedLocales: [Locale('en'), Locale('ar')],
-        fallbackLocale: Locale('ar'),
-        startLocale: Locale('ar'),
-        child: MyApp()),
-  ));
-
-  // Dispose connectivityService when app is closing
-  WidgetsBinding.instance.addObserver(_LifecycleEventHandler(
-    onClose: () {
-      connectivityService.dispose();
-    },
-  ));
+      path: 'assets/translations',
+      supportedLocales: [Locale('en'), Locale('ar')],
+      fallbackLocale: Locale('ar'),
+      startLocale: Locale('ar'),
+      child: MyApp(),
+    ),
+  );
 }
 
 class _LifecycleEventHandler extends WidgetsBindingObserver {

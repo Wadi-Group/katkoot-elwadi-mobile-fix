@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/core/services/repository.dart';
 import 'package:katkoot_elwady/core/utils/validator.dart';
@@ -8,6 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/features/tools_management/entities/cycle_edit_week_data_state.dart';
 import 'package:katkoot_elwady/features/tools_management/mixins/week_data_errors_extractor.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
+
+import '../../../../core/utils/check_internet_connection.dart';
+import '../../models/report_generator/week_data.dart';
 
 class EditWeekDataViewModel
     extends StateNotifier<BaseState<CycleEditWeekDataState>>
@@ -20,21 +24,41 @@ class EditWeekDataViewModel
   Future getWeekData(String? cycleId, String? weekNumber) async {
     state = BaseState(data: CycleEditWeekDataState(), isLoading: true);
 
-    var result = await _repository.getCycleWeekData(cycleId, weekNumber);
-    print(result.data);
-    if (result.data != null) {
-      state = BaseState(data: CycleEditWeekDataState(weekData: result.data));
-    } else {
-      if (result.errorType == ErrorType.NO_NETWORK_ERROR) {
-        state =
-            BaseState(data: CycleEditWeekDataState(), hasNoConnection: true);
+    bool isOnline = await checkInternetConnection();
+    var weekBox =
+        await Hive.openBox<WeekData>('weekDataBox'); // Open Hive box for weeks
+
+    String hiveKey =
+        "${cycleId}_$weekNumber"; // Unique key for fetching the week data
+
+    if (isOnline) {
+      // Fetch week data from API
+      var result = await _repository.getCycleWeekData(cycleId, weekNumber);
+
+      if (result.data != null) {
+        WeekData weekData = result.data!;
+
+        // Store week data to Hive
+        await weekBox.put(hiveKey, weekData);
+
+        state = BaseState(data: CycleEditWeekDataState(weekData: weekData));
       } else {
-        state = BaseState(data: CycleEditWeekDataState());
-        handleError(
-            errorType: result.errorType,
-            errorMessage: result.errorMessage,
-            keyValueErrors: result.keyValueErrors);
+        if (result.errorType == ErrorType.NO_NETWORK_ERROR) {
+          state =
+              BaseState(data: CycleEditWeekDataState(), hasNoConnection: true);
+        } else {
+          state = BaseState(data: CycleEditWeekDataState());
+          handleError(
+              errorType: result.errorType,
+              errorMessage: result.errorMessage,
+              keyValueErrors: result.keyValueErrors);
+        }
       }
+    } else {
+      // Offline Mode: Retrieve week data from Hive
+      WeekData? cachedWeekData = weekBox.get(hiveKey);
+
+      state = BaseState(data: CycleEditWeekDataState(weekData: cachedWeekData));
     }
   }
 
@@ -147,14 +171,17 @@ class EditWeekDataViewModel
             data: CycleEditWeekDataState(weekData: state.data.weekData),
             hasNoConnection: true);
       } else {
-        if(result.keyValueErrors != null){
+        if (result.keyValueErrors != null) {
           print('formsErrors');
-          List<UserFormsErrors> errors = getWeekFieldsErrors(result.keyValueErrors!);
-          if(errors.isEmpty){
+          List<UserFormsErrors> errors =
+              getWeekFieldsErrors(result.keyValueErrors!);
+          if (errors.isEmpty) {
             showToastMessage(result.keyValueErrors!['default'] ?? '');
           }
-          state = BaseState(data: CycleEditWeekDataState(
-              weekData: state.data.weekData, errorsList: errors), isLoading: false);
+          state = BaseState(
+              data: CycleEditWeekDataState(
+                  weekData: state.data.weekData, errorsList: errors),
+              isLoading: false);
         } else {
           print('not forms errors');
           state = BaseState(
