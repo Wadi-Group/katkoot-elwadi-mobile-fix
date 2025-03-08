@@ -71,6 +71,56 @@ class _MessagesListScreenState extends State<MessagesListScreen>
     }
   }
 
+  void confirmDeleteMessages() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        actionsPadding: EdgeInsets.all(15),
+        title: CustomText(
+          title: "confirm_deletion".tr(),
+          textColor: AppColors.APP_BLUE,
+          fontSize: 18,
+        ), // Localized title
+        content: CustomText(
+          title: "delete_message_confirmation".tr(),
+          textColor: AppColors.APP_BLUE,
+          fontSize: 16,
+        ), // Localized content
+        actions: [
+          CustomElevatedButton(
+            title: "cancel".tr(),
+            onPressed: () => Navigator.pop(context),
+            backgroundColor: AppColors.APP_BLUE,
+            textColor: AppColors.white,
+            fontSize: 16,
+          ),
+          CustomElevatedButton(
+            title: "delete".tr(),
+            onPressed: () {
+              Navigator.pop(context);
+              deleteMessages();
+            },
+            backgroundColor: AppColors.REGULAR_RED,
+            textColor: AppColors.white,
+            fontSize: 16,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> deleteMessages() async {
+    if (selectedMessageIds.isNotEmpty) {
+      for (var id in selectedMessageIds) {
+        // await ProviderScope.containerOf(context, listen: false)
+        //     .read(di.messagesViewModelProvider.notifier)
+        //     .deleteMessage(id);
+      }
+      getMessages(refresh: true); // Refresh messages after deletion
+      toggleSelectionMode(); // Exit selection mode
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,22 +202,11 @@ class _MessagesListScreenState extends State<MessagesListScreen>
                                             Checkbox(
                                               checkColor: AppColors.white,
                                               activeColor: AppColors.APP_BLUE,
-                                              side: BorderSide(
-                                                color: message.isSeen!
-                                                    ? Colors.grey
-                                                        .withValues(alpha: 0.5)
-                                                    : AppColors
-                                                        .APP_BLUE, // Grey if disabled
-                                                width: 2,
-                                              ),
                                               value: selectedMessageIds
                                                   .contains(message.id),
-                                              onChanged: message
-                                                      .isSeen! // Disable if seen
-                                                  ? null
-                                                  : (_) =>
-                                                      toggleMessageSelection(
-                                                          message.id!),
+                                              onChanged: (_) =>
+                                                  toggleMessageSelection(
+                                                      message.id!),
                                             ),
                                           Expanded(
                                             child: MessageRowItem(
@@ -197,6 +236,7 @@ class _MessagesListScreenState extends State<MessagesListScreen>
             ],
           ),
           // "Mark as Read" Button
+          // "Mark as Read" & "Delete" Buttons
           Align(
             alignment: Alignment.bottomCenter,
             child: Visibility(
@@ -204,26 +244,29 @@ class _MessagesListScreenState extends State<MessagesListScreen>
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 width: double.infinity,
-                child: CustomElevatedButton(
-                  title: "mark_as_read".tr(),
-                  onPressed: markAsRead,
-                  backgroundColor: AppColors.APP_BLUE,
-                  textColor: Colors.white,
+                child: Row(
+                  children: [
+                    // Delete Button
+                    Expanded(
+                      child: CustomElevatedButton(
+                        title: "delete".tr(),
+                        onPressed: confirmDeleteMessages,
+                        backgroundColor: AppColors.REGULAR_RED,
+                        textColor: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 10), // Spacing between buttons
+                    // Mark as Read Button
+                    Expanded(
+                      child: CustomElevatedButton(
+                        title: "mark_as_read".tr(),
+                        onPressed: markAsRead,
+                        backgroundColor: AppColors.APP_BLUE,
+                        textColor: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-                //  ElevatedButton(
-                //   onPressed: markAsRead,
-                //   style: ElevatedButton.styleFrom(
-                //     backgroundColor: AppColors.APP_BLUE,
-                //     padding: EdgeInsets.symmetric(vertical: 12),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(8),
-                //     ),
-                //   ),
-                //   child: Text(
-                //     "mark_as_read".tr(),
-                //     style: TextStyle(color: Colors.white, fontSize: 16),
-                //   ),
-                // ),
               ),
             ),
           ),

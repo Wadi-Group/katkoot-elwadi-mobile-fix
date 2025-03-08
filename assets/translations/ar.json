@@ -319,6 +319,9 @@
   "local": "محلي",
   "write_comment" : "اكتب تعليقك...",
   "latest_videos" : "احدث الفيديوهات",
-  "mark_as_read": "تمييز كمقروء"
+  "mark_as_read": "تمييز كمقروء",
+  "confirm_deletion": "تأكيد الحذف",
+  "delete_message_confirmation": "هل أنت متأكد أنك تريد حذف الرسائل المحددة؟",
+  "cancel": "إلغاء"
 
 }

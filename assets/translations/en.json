@@ -317,7 +317,11 @@
   "local": "Local",
   "write_comment" : "Write Comment ...",
   "latest_videos" : "Latest Videos",
-  "mark_as_read" : "Mark as read"
+  "mark_as_read" : "Mark as read",
+  "confirm_deletion": "Confirm Deletion",
+  "delete_message_confirmation": "Are you sure you want to delete the selected messages?",
+  "cancel": "Cancel"
+
 
 
 }
