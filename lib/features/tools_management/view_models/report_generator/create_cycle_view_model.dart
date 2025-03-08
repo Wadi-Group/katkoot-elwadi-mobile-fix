@@ -125,7 +125,7 @@ class CreateCycleViewModel
       }
       // Process pending deletions
       for (var cycleId in deleteBox.values) {
-        var result = await _repository.deleteCbCycle(cycleId);
+        var result = await _repository.deleteCycle(cycleId);
         if (result.successMessage != null) {
           await deleteBox.delete(cycleId); // Remove from pending deletes
         }

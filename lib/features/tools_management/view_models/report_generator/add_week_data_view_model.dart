@@ -201,7 +201,7 @@ class AddWeekDataViewModel
         updatedDurations.add(newWeek);
         updatedDurations.sort(); // Keep weeks sorted
         cycle.durations = updatedDurations;
-        await cycleBox.put(cycle.key, cycle); // Update Hive storage
+        await cycle.save(); // Update Hive storage
       }
 
       state = BaseState(data: [], isLoading: false);
