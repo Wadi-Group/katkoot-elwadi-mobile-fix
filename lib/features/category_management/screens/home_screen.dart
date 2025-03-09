@@ -16,10 +16,8 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/services/remote/weather_service.dart';
 import '../../../core/utils/check_internet_connection.dart';
-import '../../app_base/entities/base_state.dart';
 import '../../app_base/screens/custom_drawer.dart';
 import '../../guides_management/models/video.dart';
-import '../../menu_management/view_models/menu_categorized_videos_view_model.dart';
 import '../models/category.dart';
 import '../sections/alaf_alwadi_prices_section.dart';
 import '../sections/auto_scrolling_text_section.dart';
@@ -223,109 +221,120 @@ class _HomeScreenState extends State<HomeScreen>
       body: Stack(
         children: [
           Container(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    Consumer(builder: (_, ref, __) {
-                      var categoriesViewModel =
-                          ref.watch(di.categoriesViewModelProvider);
-                      var categories = categoriesViewModel.data;
+            child: RefreshIndicator(
+              color: AppColors.APP_BLUE,
+              onRefresh: () async {
+                fetchWeatherData();
+                initUserLocalData();
+                getListOfCategories();
+                getNews(refresh: true);
+                loadLastFetchTime(); // Load last online data fetch time
+              },
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      Consumer(builder: (_, ref, __) {
+                        var categoriesViewModel =
+                            ref.watch(di.categoriesViewModelProvider);
+                        var categories = categoriesViewModel.data;
 
-                      return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText(
-                              title: "last_updated".tr(args: [lastFetchTime]),
-                              fontSize: 14,
-                              textColor: AppColors.APP_BLUE,
-                            ),
-                            _sizedBox,
-                            //  WeatherAndPricesSection
-                            WeatherAndPricesSection(
-                              city: city,
-                              date: date,
-                              weather: weather,
-                              liveBroilersPrice:
-                                  homeData["live_broilers_price"],
-                              whiteEggTrayPrice:
-                                  homeData["white_egg_tray_price"],
-                              brownEggTrayPrice:
-                                  homeData["brown_egg_tray_price"],
-                              katkootPrice:
-                                  homeData["katkoot_alwadi_broilers_price"],
-                            ),
-                            _sizedBox,
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                title: "last_updated".tr(args: [lastFetchTime]),
+                                fontSize: 14,
+                                textColor: AppColors.APP_BLUE,
+                              ),
+                              _sizedBox,
+                              //  WeatherAndPricesSection
+                              WeatherAndPricesSection(
+                                city: city,
+                                date: date,
+                                weather: weather,
+                                liveBroilersPrice:
+                                    homeData["live_broilers_price"],
+                                whiteEggTrayPrice:
+                                    homeData["white_egg_tray_price"],
+                                brownEggTrayPrice:
+                                    homeData["brown_egg_tray_price"],
+                                katkootPrice:
+                                    homeData["katkoot_alwadi_broilers_price"],
+                              ),
+                              _sizedBox,
 
-                            // CategoriesSection
+                              // CategoriesSection
 
-                            ListView.builder(
-                              itemCount: categories!.length,
-                              itemBuilder: (context, index) => Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 10),
-                                  child: CategoryTabWidget(
-                                    category: categories[index],
+                              ListView.builder(
+                                itemCount: categories!.length,
+                                itemBuilder: (context, index) => Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: CategoryTabWidget(
+                                      category: categories[index],
+                                    ),
                                   ),
                                 ),
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
                               ),
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                            ),
 
-                            //  AlafAlWadiPricesSection
-                            AlafAlWadiPrices(
-                              prices: alaafPrices,
-                            ),
-                            _sizedBox,
-                          ]);
-                    }),
+                              //  AlafAlWadiPricesSection
+                              AlafAlWadiPrices(
+                                prices: alaafPrices,
+                              ),
+                              _sizedBox,
+                            ]);
+                      }),
 
-                    //  AutoScrollingTextSection
-                    Consumer(builder: (_, ref, __) {
-                      var messagesViewModel =
-                          ref.watch(di.messagesViewModelProvider);
-                      var messages = messagesViewModel.data;
+                      //  AutoScrollingTextSection
+                      Consumer(builder: (_, ref, __) {
+                        var messagesViewModel =
+                            ref.watch(di.messagesViewModelProvider);
+                        var messages = messagesViewModel.data;
 
-                      if (messages == null || messages.isEmpty) {
-                        // Show a placeholder message when there are no messages
+                        if (messages == null || messages.isEmpty) {
+                          // Show a placeholder message when there are no messages
+                          return AutoScrollingTextSection(
+                            rotatingTexts: [
+                              Message(
+                                  id: 1, content: "No messages available".tr()),
+                            ],
+                          );
+                        }
                         return AutoScrollingTextSection(
-                          rotatingTexts: [
-                            Message(
-                                id: 1, content: "No messages available".tr()),
-                          ],
-                        );
-                      }
-                      return AutoScrollingTextSection(rotatingTexts: messages);
-                    }),
-                    _sizedBox,
+                            rotatingTexts: messages);
+                      }),
+                      _sizedBox,
 
-                    //  LiveChatAndNewsSection
-                    LiveChatAndNewsSection(),
-                    _sizedBox,
+                      //  LiveChatAndNewsSection
+                      LiveChatAndNewsSection(),
+                      _sizedBox,
 
-                    // VideoSection
-                    Consumer(builder: (_, ref, __) {
-                      if (homeData.isEmpty) return SizedBox.shrink();
-                      var homeVideo = Category(
-                          id: 0,
-                          imageUrl: homeData["video_image"],
-                          videosList: [
-                            Video(
-                                id: 0,
-                                title: homeData["video_title"],
-                                url: Url(
-                                    url: homeData["home_page_video"],
-                                    provider: AppConstants.YOUTUBE_PROVIDER))
-                          ]);
-                      return VideoSection(video: homeVideo);
-                    }),
-                    _sizedBox,
+                      // VideoSection
+                      Consumer(builder: (_, ref, __) {
+                        if (homeData.isEmpty) return SizedBox.shrink();
+                        var homeVideo = Category(
+                            id: 0,
+                            imageUrl: homeData["video_image"],
+                            videosList: [
+                              Video(
+                                  id: 0,
+                                  title: homeData["video_title"],
+                                  url: Url(
+                                      url: homeData["home_page_video"],
+                                      provider: AppConstants.YOUTUBE_PROVIDER))
+                            ]);
+                        return VideoSection(video: homeVideo);
+                      }),
+                      _sizedBox,
 
-                    // ReportGeneratorSection
-                    ReportGeneratorSection(),
-                  ],
+                      // ReportGeneratorSection
+                      ReportGeneratorSection(),
+                    ],
+                  ),
                 ),
               ),
             ),
