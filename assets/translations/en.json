@@ -320,7 +320,9 @@
   "mark_as_read" : "Mark as read",
   "confirm_deletion": "Confirm Deletion",
   "delete_message_confirmation": "Are you sure you want to delete the selected messages?",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "last_updated": "Last updated: {}",
+  "now": "Now"
 
 
 

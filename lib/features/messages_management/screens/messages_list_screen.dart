@@ -10,6 +10,8 @@ import 'package:katkoot_elwady/features/app_base/widgets/pagination_list.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:katkoot_elwady/features/messages_management/widgets/message_row_item.dart';
 
+import 'message_content_screen.dart';
+
 enum MessagesCategory { wadi, international, local }
 
 class MessagesListScreen extends StatefulWidget {
@@ -112,6 +114,8 @@ class _MessagesListScreenState extends State<MessagesListScreen>
   Future<void> deleteMessages() async {
     if (selectedMessageIds.isNotEmpty) {
       for (var id in selectedMessageIds) {
+        // TODO :: Delete message api integration is pending
+
         // await ProviderScope.containerOf(context, listen: false)
         //     .read(di.messagesViewModelProvider.notifier)
         //     .deleteMessage(id);
@@ -129,148 +133,191 @@ class _MessagesListScreenState extends State<MessagesListScreen>
       appBar: CustomAppBar(
         showDrawer: true,
         hasbackButton: true,
-        title: "Messages".tr(),
       ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              // Category Tab Bar
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.APP_CARDS_BLUE.withValues(alpha: 0.3),
-                      spreadRadius: 0.5,
-                      blurRadius: 0.5,
-                      offset: const Offset(0.5, 0.5),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                // Category Tab Bar
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.APP_CARDS_BLUE.withValues(alpha: 0.3),
+                        spreadRadius: 0.5,
+                        blurRadius: 0.5,
+                        offset: const Offset(0.5, 0.5),
+                      ),
+                    ],
+                  ),
+                  child: TabBar(
+                    labelPadding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
+                    controller: _tabController,
+                    labelColor: AppColors.APP_BLUE,
+                    unselectedLabelColor: Colors.grey,
+                    indicatorColor: AppColors.APP_BLUE,
+                    indicator: BoxDecoration(
+                      color: AppColors.Tabs_Blue.withValues(
+                          alpha: 1), // Background color for selected tab
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                  ],
-                ),
-                child: TabBar(
-                  controller: _tabController,
-                  labelColor: AppColors.APP_BLUE,
-                  unselectedLabelColor: Colors.grey,
-                  indicatorColor: AppColors.APP_BLUE,
-                  tabs: MessagesCategory.values
-                      .map((category) => Tab(
-                            child: CustomText(
-                              title: getCategoryLocalizedName(category),
-                              textColor: AppColors.APP_BLUE,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ))
-                      .toList(),
-                ),
-              ),
-              Expanded(
-                child: Consumer(
-                  builder: (_, ref, __) {
-                    var messagesViewModel =
-                        ref.watch(di.messagesViewModelProvider);
-                    var messages = messagesViewModel.data ?? [];
-
-                    return TabBarView(
-                      controller: _tabController,
-                      children: MessagesCategory.values.map((category) {
-                        var filteredMessages = messages
-                            .where((message) =>
-                                _getCategoryName(message.category) == category)
-                            .toList();
-
-                        return filteredMessages.isNotEmpty
-                            ? PaginationList(
-                                padding: EdgeInsets.fromLTRB(0, 10, 0, 60),
-                                itemBuilder: (context, index) {
-                                  var message = filteredMessages[index];
-                                  return GestureDetector(
-                                    onLongPress: toggleSelectionMode,
-                                    child: Container(
-                                      margin: EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 15),
-                                      decoration: BoxDecoration(
-                                        color: message.isSeen!
-                                            ? AppColors.Message_seen
-                                            : AppColors.Tabs_Blue,
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          if (isSelectionMode)
-                                            Checkbox(
-                                              checkColor: AppColors.white,
-                                              activeColor: AppColors.APP_BLUE,
-                                              value: selectedMessageIds
-                                                  .contains(message.id),
-                                              onChanged: (_) =>
-                                                  toggleMessageSelection(
-                                                      message.id!),
-                                            ),
-                                          Expanded(
-                                            child: MessageRowItem(
-                                                message: message),
-                                          ),
-                                        ],
-                                      ),
+                    tabs: MessagesCategory.values
+                        .map((category) => SizedBox(
+                              height: 45,
+                              child: Tab(
+                                  child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    CustomText(
+                                      title: getCategoryLocalizedName(category),
+                                      textColor: AppColors.APP_BLUE,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      lineSpacing: 0,
                                     ),
-                                  );
-                                },
-                                itemCount: filteredMessages.length,
-                                onLoadMore: () =>
-                                    getMessages(showLoading: false),
-                                hasMore: ref
-                                    .read(di.messagesViewModelProvider.notifier)
-                                    .hasNext,
-                                onRefresh: () => getMessages(
-                                    showLoading: true, refresh: true),
-                                loading: messagesViewModel.isLoading,
-                              )
-                            : Center(child: Text("No messages available"));
-                      }).toList(),
-                    );
-                  },
+                                    CustomText(
+                                      title: "str_news".tr(),
+                                      textColor: AppColors.APP_BLUE,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      lineSpacing: 0,
+                                    ),
+                                  ],
+                                ),
+                              )),
+                            ))
+                        .toList(),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          // "Mark as Read" Button
-          // "Mark as Read" & "Delete" Buttons
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Visibility(
-              visible: isSelectionMode && selectedMessageIds.isNotEmpty,
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    // Delete Button
-                    Expanded(
-                      child: CustomElevatedButton(
-                        title: "delete".tr(),
-                        onPressed: confirmDeleteMessages,
-                        backgroundColor: AppColors.REGULAR_RED,
-                        textColor: Colors.white,
+                Expanded(
+                  child: Consumer(
+                    builder: (_, ref, __) {
+                      var messagesViewModel =
+                          ref.watch(di.messagesViewModelProvider);
+                      var messages = messagesViewModel.data ?? [];
+
+                      return TabBarView(
+                        controller: _tabController,
+                        children: MessagesCategory.values.map((category) {
+                          var filteredMessages = messages
+                              .where((message) =>
+                                  _getCategoryName(message.category) ==
+                                  category)
+                              .toList();
+
+                          return filteredMessages.isNotEmpty
+                              ? PaginationList(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 60),
+                                  itemBuilder: (context, index) {
+                                    var message = filteredMessages[index];
+                                    return GestureDetector(
+                                      onLongPress: toggleSelectionMode,
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MessageContentScreen(
+                                                    message: message),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsetsDirectional.only(
+                                            bottom: 10, start: 20, end: 20),
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          color: message.isSeen!
+                                              ? AppColors.Message_seen
+                                              : AppColors.Tabs_Blue,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            if (isSelectionMode)
+                                              Checkbox(
+                                                checkColor: AppColors.white,
+                                                activeColor: AppColors.APP_BLUE,
+                                                value: selectedMessageIds
+                                                    .contains(message.id),
+                                                onChanged: (_) =>
+                                                    toggleMessageSelection(
+                                                        message.id!),
+                                              ),
+                                            Expanded(
+                                              child: MessageRowItem(
+                                                  message: message),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  itemCount: filteredMessages.length,
+                                  onLoadMore: () =>
+                                      getMessages(showLoading: false),
+                                  hasMore: ref
+                                      .read(
+                                          di.messagesViewModelProvider.notifier)
+                                      .hasNext,
+                                  onRefresh: () => getMessages(
+                                      showLoading: true, refresh: true),
+                                  loading: messagesViewModel.isLoading,
+                                )
+                              : Center(child: Text("No messages available"));
+                        }).toList(),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+            // "Mark as Read" Button
+            // "Mark as Read" & "Delete" Buttons
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Visibility(
+                visible: isSelectionMode && selectedMessageIds.isNotEmpty,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      // Delete Button
+                      Expanded(
+                        child: CustomElevatedButton(
+                          title: "delete".tr(),
+                          onPressed: confirmDeleteMessages,
+                          backgroundColor: AppColors.REGULAR_RED,
+                          textColor: Colors.white,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 10), // Spacing between buttons
-                    // Mark as Read Button
-                    Expanded(
-                      child: CustomElevatedButton(
-                        title: "mark_as_read".tr(),
-                        onPressed: markAsRead,
-                        backgroundColor: AppColors.APP_BLUE,
-                        textColor: Colors.white,
+                      SizedBox(width: 10), // Spacing between buttons
+                      // Mark as Read Button
+                      Expanded(
+                        child: CustomElevatedButton(
+                          title: "mark_as_read".tr(),
+                          onPressed: markAsRead,
+                          backgroundColor: AppColors.APP_BLUE,
+                          textColor: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

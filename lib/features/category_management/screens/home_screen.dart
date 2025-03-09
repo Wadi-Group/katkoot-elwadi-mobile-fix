@@ -7,6 +7,7 @@ import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
+import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/category_management/widgets/category_tab_widget.dart';
 import 'package:katkoot_elwady/features/guides_management/models/url.dart';
 import 'package:katkoot_elwady/features/messages_management/models/message.dart';
@@ -58,6 +59,28 @@ class _HomeScreenState extends State<HomeScreen>
     initUserLocalData();
     getListOfCategories();
     getNews();
+    loadLastFetchTime(); // Load last online data fetch time
+  }
+
+  late String lastFetchTime = "Now"; // Default value
+
+  Future<void> loadLastFetchTime() async {
+    bool isOnline = await checkInternetConnection();
+    if (isOnline) {
+      setState(() {
+        lastFetchTime = "now".tr(); // Display "Now" when online
+      });
+    } else {
+      var timeBox = await Hive.openBox<String>('fetchTimeBox');
+      String? storedTime = timeBox.get('lastFetchTime');
+
+      if (storedTime != null) {
+        setState(() {
+          lastFetchTime =
+              DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse(storedTime));
+        });
+      }
+    }
   }
 
   //  Fetch weather data from the API
@@ -122,6 +145,9 @@ class _HomeScreenState extends State<HomeScreen>
         var box = await Hive.openBox<Map>('homeDataBox');
         await box.put('homeData', homeData);
       }
+      // Save last online fetch timestamp in a separate box
+      var timeBox = await Hive.openBox<String>('fetchTimeBox');
+      await timeBox.put('lastFetchTime', DateTime.now().toIso8601String());
 
       // Fetch In-App Messages and Show
       inAppMessageData = await categoriesViewModel.getInAppMessageData();
@@ -207,42 +233,53 @@ class _HomeScreenState extends State<HomeScreen>
                           ref.watch(di.categoriesViewModelProvider);
                       var categories = categoriesViewModel.data;
 
-                      return Column(children: [
-                        //  WeatherAndPricesSection
-                        WeatherAndPricesSection(
-                          city: city,
-                          date: date,
-                          weather: weather,
-                          liveBroilersPrice: homeData["live_broilers_price"],
-                          whiteEggTrayPrice: homeData["white_egg_tray_price"],
-                          brownEggTrayPrice: homeData["brown_egg_tray_price"],
-                          katkootPrice:
-                              homeData["katkoot_alwadi_broilers_price"],
-                        ),
-                        _sizedBox,
-
-                        // CategoriesSection
-
-                        ListView.builder(
-                          itemCount: categories!.length,
-                          itemBuilder: (context, index) => Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: CategoryTabWidget(
-                                category: categories[index],
-                              ),
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              title: "last_updated".tr(args: [lastFetchTime]),
+                              fontSize: 14,
+                              textColor: AppColors.APP_BLUE,
                             ),
-                          ),
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                        ),
+                            _sizedBox,
+                            //  WeatherAndPricesSection
+                            WeatherAndPricesSection(
+                              city: city,
+                              date: date,
+                              weather: weather,
+                              liveBroilersPrice:
+                                  homeData["live_broilers_price"],
+                              whiteEggTrayPrice:
+                                  homeData["white_egg_tray_price"],
+                              brownEggTrayPrice:
+                                  homeData["brown_egg_tray_price"],
+                              katkootPrice:
+                                  homeData["katkoot_alwadi_broilers_price"],
+                            ),
+                            _sizedBox,
 
-                        //  AlafAlWadiPricesSection
-                        AlafAlWadiPrices(
-                          prices: alaafPrices,
-                        ),
-                        _sizedBox,
-                      ]);
+                            // CategoriesSection
+
+                            ListView.builder(
+                              itemCount: categories!.length,
+                              itemBuilder: (context, index) => Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: CategoryTabWidget(
+                                    category: categories[index],
+                                  ),
+                                ),
+                              ),
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                            ),
+
+                            //  AlafAlWadiPricesSection
+                            AlafAlWadiPrices(
+                              prices: alaafPrices,
+                            ),
+                            _sizedBox,
+                          ]);
                     }),
 
                     //  AutoScrollingTextSection
