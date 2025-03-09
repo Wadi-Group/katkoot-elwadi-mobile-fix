@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/services/remote/social_login_service.dart';
 import 'package:katkoot_elwady/core/utils/integer_text_input_formatter.dart';
 import 'package:katkoot_elwady/features/app_base/entities/base_state.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
@@ -115,6 +118,59 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 buildLoginButton(),
+                                SizedBox(
+                                  width: 20,
+                                ),
+
+                                // Facebook Login Button
+                                buildSocialButton(
+                                  icon: "facebook_social",
+                                  iconColor: Color(0xFF3B5998),
+                                  onPressed: () async {
+                                    print("Facebook Login Clicked");
+                                    // Handle Facebook Login
+                                    var user = await SocialLoginService()
+                                        .signInWithFacebook();
+                                    print(user?.email);
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+
+                                // Google Login Button
+                                buildSocialButton(
+                                  icon: "google",
+                                  onPressed: () async {
+                                    print("Google Login Clicked");
+                                    // Handle Google Login
+                                    var user = await SocialLoginService()
+                                        .signInWithGoogle();
+                                    print(user?.email);
+                                  },
+                                ),
+
+                                // Apple Login Button
+                                Visibility(
+                                  visible: Platform.isIOS,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      buildSocialButton(
+                                        icon: "apple-logo",
+                                        onPressed: () async {
+                                          print("Apple Login Clicked");
+                                          // Handle Apple Login
+                                          var user = await SocialLoginService()
+                                              .signInWithApple();
+                                          print(user?.email);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -237,20 +293,21 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
   }
 
   buildLoginButton() {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.35,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.APP_CARDS_BLUE.withAlpha(25),
-            spreadRadius: 0.5,
-            blurRadius: 2,
-            offset: Offset(1, 2),
-          ),
-        ],
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: CustomElevatedButton(
+    return Expanded(
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.35,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.APP_CARDS_BLUE.withAlpha(25),
+              spreadRadius: 0.5,
+              blurRadius: 2,
+              offset: Offset(1, 2),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: CustomElevatedButton(
           fontSize: 17,
           title: 'login'.tr(),
           textColor: AppColors.APP_BLUE,
@@ -258,7 +315,9 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
           onPressed: () {
             hideKeyboard();
             _loginSMS();
-          }),
+          },
+        ),
+      ),
     );
   }
 
@@ -300,5 +359,40 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
         phone: "${phoneController.text}",
         countryCode: _countryCode,
         isFromRegisterScreen: false);
+  }
+
+  Widget buildSocialButton({
+    required String icon,
+    required VoidCallback onPressed,
+    Color? iconColor,
+  }) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 43,
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 0,
+        ), // Added padding for better spacing
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30), // Rounded corners
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.APP_CARDS_BLUE.withValues(alpha: 0.3),
+              spreadRadius: 0.5,
+              blurRadius: 1,
+              offset: Offset(0, 0),
+            ),
+          ],
+        ),
+        child: Image.asset(
+          "assets/images/$icon.png",
+          width: 25,
+          height: 25,
+          color: iconColor,
+        ),
+      ),
+    );
   }
 }

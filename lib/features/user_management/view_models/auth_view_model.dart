@@ -156,15 +156,16 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         if (fbToken != null) {
           if (user!.user != null) {
             UserData updatingUser = UserData(
-                token: user.token,
-                user: userModel.User(
-                    name: fullName,
-                    phone: phone,
-                    cityId: cityId!,
-                    birthDate: date,
-                    categoryId: categoryId!,
-                    state: userState,
-                    flockSize: flockSize));
+              token: user.token,
+              user: userModel.User(
+                  name: fullName,
+                  phone: phone,
+                  cityId: cityId!,
+                  birthDate: date,
+                  categoryId: categoryId!,
+                  state: userState,
+                  flockSize: flockSize),
+            );
 
             if (phone == user.user!.phone) {
               print("new fbtoken $fbToken");
