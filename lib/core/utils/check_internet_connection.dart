@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/edit_week_data_view_model.dart';
 import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/manage_cycle_view_model.dart';
 
 import '../../features/tools_management/view_models/report_generator/add_week_data_view_model.dart';
@@ -21,11 +22,12 @@ class ConnectivityService {
   final CreateCycleViewModel viewModel;
   final AddWeekDataViewModel addWeekDataViewModel;
   final ManageCycleViewModel manageCycleViewModel;
-
+  final EditWeekDataViewModel editWeekDataViewModel;
   ConnectivityService(
     this.viewModel,
     this.addWeekDataViewModel,
     this.manageCycleViewModel,
+    this.editWeekDataViewModel,
   );
 
   void checkConnectivityAndSync() {
@@ -35,6 +37,7 @@ class ConnectivityService {
         await viewModel.syncPendingCycles();
         await addWeekDataViewModel.syncPendingWeekData();
         await manageCycleViewModel.syncPendingDeletions();
+        await editWeekDataViewModel.syncEditedWeekData();
       }
     });
   }

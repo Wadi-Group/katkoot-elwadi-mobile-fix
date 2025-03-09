@@ -28,6 +28,7 @@ import 'package:katkoot_elwady/features/tools_management/models/tool_data.dart';
 import 'package:katkoot_elwady/features/tools_management/models/tool_section.dart';
 import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/add_week_data_view_model.dart';
 import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/create_cycle_view_model.dart';
+import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/edit_week_data_view_model.dart';
 import 'package:katkoot_elwady/features/tools_management/view_models/report_generator/manage_cycle_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -106,12 +107,15 @@ Future<void> initializeApp() async {
     final createCycleViewModel = CreateCycleViewModel(repository);
     final addWeekDataViewModel = AddWeekDataViewModel(repository);
     final manageCycleViewModel = ManageCycleViewModel(repository);
+    final EditWeekDataViewModel editWeekDataViewModel =
+        EditWeekDataViewModel(repository);
 
     // Initialize connectivity service and sync
     final connectivityService = ConnectivityService(
       createCycleViewModel,
       addWeekDataViewModel,
       manageCycleViewModel,
+      editWeekDataViewModel,
     );
     connectivityService.checkConnectivityAndSync();
 
