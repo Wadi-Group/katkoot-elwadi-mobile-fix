@@ -83,6 +83,10 @@ class NavigationViewModel extends StateNotifier<BaseState> with BaseViewModel {
       var result = await ProviderScope.containerOf(context, listen: false)
           .read(di.userViewModelProvider.notifier)
           .userSignOut();
+      await ProviderScope.containerOf(context, listen: false)
+          .read(di.messagesViewModelProvider.notifier)
+          .getMessages(context, refresh: true, showLoading: true);
+
       state = BaseState(data: [], isLoading: false);
       if (result?.errorType == null) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {

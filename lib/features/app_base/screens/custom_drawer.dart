@@ -148,6 +148,7 @@ class CustomDrawer extends StatelessWidget {
               color: AppColors.APP_BLUE,
             ),
             onTap: () {
+              Navigator.of(context).pop(); // Close the drawer before navigation
               if (isAuth) {
                 if (!userIsLoggedIn) {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {

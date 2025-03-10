@@ -324,6 +324,13 @@
   "delete_message_confirmation": "هل أنت متأكد أنك تريد حذف الرسائل المحددة؟",
   "cancel": "إلغاء",
   "last_updated": "آخر تحديث: {}",
-  "now": "الآن"
+  "now": "الآن",
+  "load_more": "تحميل المزيد",
+  "notifications": "الإشعارات",
+  "no_notifications": "لا توجد إشعارات",
+  "hours_ago": "منذ {0} ساعات",
+  "minutes_ago": "منذ {0} دقائق",
+  "just_now": "الآن",
+  "yesterday": "أمس"
 
 }

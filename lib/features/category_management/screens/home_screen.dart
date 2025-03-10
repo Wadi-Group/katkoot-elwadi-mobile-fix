@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen>
               },
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
                   child: Column(
                     children: [
                       Consumer(builder: (_, ref, __) {
@@ -248,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 fontSize: 14,
                                 textColor: AppColors.APP_BLUE,
                               ),
-                              _sizedBox,
+                              SizedBox(height: 15),
                               //  WeatherAndPricesSection
                               WeatherAndPricesSection(
                                 city: city,

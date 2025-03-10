@@ -145,15 +145,10 @@ final searchViewModelProvider =
   return SearchViewModel(ref.read(repositoryProvider));
 });
 
-final bottomNavigationViewModelProvider =
-    StateNotifierProvider<MainBottomNavigationViewModel, BaseState<BottomNavigationState>>((ref) {
-      return MainBottomNavigationViewModel();
+final bottomNavigationViewModelProvider = StateNotifierProvider<
+    MainBottomNavigationViewModel, BaseState<BottomNavigationState>>((ref) {
+  return MainBottomNavigationViewModel();
 });
-
-
-
-
-
 
 // final createCbCycleViewModelProvider = StateNotifierProvider<CyclesListViewModel,
 //     BaseState<List<UserFormsErrors>>>((ref) {
@@ -161,6 +156,7 @@ final bottomNavigationViewModelProvider =
 // });
 
 final CbcyclesListViewModelViewModelProvider =
-StateNotifierProvider<CbCyclesListViewModel, BaseState<List<CbCycle>?>>((ref) {
+    StateNotifierProvider<CbCyclesListViewModel, BaseState<List<CbCycle>?>>(
+        (ref) {
   return CbCyclesListViewModel(ref.read(repositoryProvider));
 });

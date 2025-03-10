@@ -322,7 +322,14 @@
   "delete_message_confirmation": "Are you sure you want to delete the selected messages?",
   "cancel": "Cancel",
   "last_updated": "Last updated: {}",
-  "now": "Now"
+  "now": "Now",
+  "load_more": "Load More",
+  "notifications": "Notifications",
+  "no_notifications": "No Notifications",
+  "hours_ago": "{0} hours ago",
+  "minutes_ago": "{0} minutes ago",
+  "just_now": "Just now",
+  "yesterday": "Yesterday"
 
 
 

@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
-import 'package:lottie/lottie.dart';
-
+import 'package:katkoot_elwady/features/app_base/widgets/active_button.dart';
+import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'app_loader.dart';
 
 class PaginationList extends StatefulWidget {
@@ -18,125 +18,135 @@ class PaginationList extends StatefulWidget {
   final int? placeholderHeight;
   final EdgeInsetsGeometry? padding;
 
-  PaginationList(
-      {this.onLoadMore,
-        this.onRefresh,
-        this.hasMore,
-        this.shrinkWrap,
-        this.scrollController,
-        required this.itemBuilder,
-        this.itemCount = 0,
-        this.loading = false,
-        this.loadingPlaceholder,
-        this.placeholderHeight,
-        this.padding})
-      : assert(loadingPlaceholder == null || placeholderHeight != null,
-  "loadingPlaceholder needs placeholderHeight");
+  PaginationList({
+    this.onLoadMore,
+    this.onRefresh,
+    this.hasMore,
+    this.shrinkWrap,
+    this.scrollController,
+    required this.itemBuilder,
+    this.itemCount = 0,
+    this.loading = false,
+    this.loadingPlaceholder,
+    this.placeholderHeight,
+    this.padding,
+  }) : assert(loadingPlaceholder == null || placeholderHeight != null,
+            "loadingPlaceholder needs placeholderHeight");
 
   @override
-  PaginationListState createState() {
-    return PaginationListState();
-  }
+  PaginationListState createState() => PaginationListState();
 }
 
-class PaginationListState extends State<PaginationList>
-    with SingleTickerProviderStateMixin {
-  // var loadingMoreNotifier = ValueNotifier(false);
-  late AnimationController controller;
-  late ScrollController _scrollController = widget.scrollController ?? ScrollController();
+class PaginationListState extends State<PaginationList> {
+  late ScrollController _scrollController;
+  bool showLoadMoreButton = false;
+  bool isLoadingMore = false;
 
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 250),
-        lowerBound: 0.0,
-        upperBound: 1.0);
-    addPaginationListener();
+    _scrollController = widget.scrollController ?? ScrollController();
+    _scrollController.addListener(_onScroll);
   }
 
-  startLoadingMore() {
-    double maxScroll = _scrollController.position.maxScrollExtent;
-    controller.forward().whenComplete(() {
-      _scrollController.animateTo(maxScroll + 50,
-          duration: const Duration(milliseconds: 400), curve: Curves.easeOut);
-    });
-  }
-
-  stopLoadingMore() {
-    controller.reverse();
-  }
-
-  Future<void> addPaginationListener() async {
-    _scrollController.addListener(() async {
-      var pos = _scrollController.position;
-      var onLoadMore = widget.onLoadMore;
-      if (pos.pixels == pos.maxScrollExtent &&
-          (widget.hasMore ?? true) &&
-          onLoadMore != null) {
-        startLoadingMore();
-        await onLoadMore();
-        stopLoadingMore();
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 10) {
+      if (!showLoadMoreButton && (widget.hasMore ?? false)) {
+        setState(() {
+          showLoadMoreButton = true;
+        });
       }
-    });
+    }
+  }
+
+  Future<void> loadMore() async {
+    if (widget.onLoadMore != null && (widget.hasMore ?? false)) {
+      setState(() {
+        isLoadingMore = true;
+      });
+
+      await widget.onLoadMore!();
+
+      setState(() {
+        isLoadingMore = false;
+        showLoadMoreButton = false; // Hide button after loading
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     var placeHolder = widget.loadingPlaceholder;
     var height = widget.placeholderHeight;
-    var crossFadeState = (widget.loading && placeHolder != null && height != null)
-        ? CrossFadeState.showFirst
-        : CrossFadeState.showSecond;
+    var crossFadeState =
+        (widget.loading && placeHolder != null && height != null)
+            ? CrossFadeState.showFirst
+            : CrossFadeState.showSecond;
+
     return AnimatedCrossFade(
-        firstChild: widget.loading ? AppLoader() : SizedBox(),
-        secondChild: getList(),
-        crossFadeState: crossFadeState,
-        duration: const Duration(milliseconds: 700)
+      firstChild: widget.loading ? AppLoader() : SizedBox(),
+      secondChild: getList(),
+      crossFadeState: crossFadeState,
+      duration: const Duration(milliseconds: 700),
     );
   }
 
   Widget getList() {
-    var list = ListView.builder(
-      physics: (widget.shrinkWrap ?? false) ? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics(),
-      padding: widget.padding,
-      shrinkWrap: widget.shrinkWrap ?? false,
-      controller: widget.scrollController == null ? _scrollController : null,
-      itemBuilder: (context, index) {
-        if (widget.itemCount > 0 && index == widget.itemCount) {
-          return AnimatedBuilder(
-            animation: controller,
-            builder: (_, child) {
-              return SizedBox(
-                height: controller.value * 50,
-                width: controller.value * 50,
-                child: child,
-              );
-            },
-            child: Center(
-              child: CircularProgressIndicator(
-                color: AppColors.OLIVE_DRAB,
-              ),
-            ),
-          );
-        }
-        return widget.itemBuilder(context, index);
-      },
-      itemCount: (widget.itemCount > 0 && (widget.hasMore ?? false))
-          ? (widget.itemCount + 1)
-          : widget.itemCount,
-    );
-    var onRefresh = widget.onRefresh;
     return Builder(
       builder: (cx) => Container(
-        height: (widget.shrinkWrap ?? false) ? null: MediaQuery.of(cx).size.height,
-        child: onRefresh != null
-            ? RefreshIndicator(
-          onRefresh: onRefresh,
-          child: list,
-        )
-            : list,
+        height:
+            (widget.shrinkWrap ?? false) ? null : MediaQuery.of(cx).size.height,
+        child: RefreshIndicator(
+          onRefresh: widget.onRefresh ?? () async {},
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  physics: (widget.shrinkWrap ?? false)
+                      ? NeverScrollableScrollPhysics()
+                      : AlwaysScrollableScrollPhysics(),
+                  padding: widget.padding,
+                  shrinkWrap: widget.shrinkWrap ?? false,
+                  controller: _scrollController,
+                  itemBuilder: (context, index) {
+                    return widget.itemBuilder(context, index);
+                  },
+                  itemCount: widget.itemCount,
+                ),
+              ),
+              if (showLoadMoreButton &&
+                  (widget.hasMore ??
+                      false)) // Show load more button when reaching end
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: isLoadingMore
+                      ? CircularProgressIndicator(
+                          color: AppColors.APP_BLUE,
+                        )
+                      : ElevatedButton(
+                          onPressed: isLoadingMore ? null : loadMore,
+                          child: CustomText(
+                            title: "load_more".tr(),
+                            textColor: AppColors.white,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.APP_BLUE,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                          ),
+                        ),
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }

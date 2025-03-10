@@ -201,6 +201,12 @@ class MyApp extends ConsumerWidget {
       title: 'katkot al wadi',
       initialRoute: SplashScreen.routeName,
       theme: ThemeData(
+        popupMenuTheme: PopupMenuThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(16), // Adjust border radius here
+          ),
+        ),
         useMaterial3: false,
         dialogTheme: DialogTheme(
           backgroundColor: Colors.white,

@@ -214,66 +214,99 @@ class _MessagesListScreenState extends State<MessagesListScreen>
                               .toList();
 
                           return filteredMessages.isNotEmpty
-                              ? PaginationList(
-                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 60),
-                                  itemBuilder: (context, index) {
-                                    var message = filteredMessages[index];
-                                    return GestureDetector(
-                                      onLongPress: toggleSelectionMode,
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                MessageContentScreen(
-                                                    message: message),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsetsDirectional.only(
-                                            bottom: 10, start: 20, end: 20),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          color: message.isSeen!
-                                              ? AppColors.Message_seen
-                                              : AppColors.Tabs_Blue,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Row(
+                              ? Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: isSelectionMode &&
+                                              selectedMessageIds.isNotEmpty
+                                          ? 50
+                                          : 0),
+                                  child: PaginationList(
+                                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                    itemBuilder: (context, index) {
+                                      var message = filteredMessages[index];
+                                      return GestureDetector(
+                                        onLongPress: toggleSelectionMode,
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  MessageContentScreen(
+                                                      message: message),
+                                            ),
+                                          );
+                                        },
+                                        child: Column(
                                           children: [
-                                            if (isSelectionMode)
-                                              Checkbox(
-                                                checkColor: AppColors.white,
-                                                activeColor: AppColors.APP_BLUE,
-                                                value: selectedMessageIds
-                                                    .contains(message.id),
-                                                onChanged: (_) =>
-                                                    toggleMessageSelection(
-                                                        message.id!),
+                                            SizedBox(height: 8),
+                                            Container(
+                                              margin:
+                                                  EdgeInsetsDirectional.only(
+                                                      bottom: 10,
+                                                      start: 20,
+                                                      end: 20),
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              decoration: BoxDecoration(
+                                                color: message.isSeen!
+                                                    ? AppColors.Message_seen
+                                                    : AppColors.Tabs_Blue,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
                                               ),
-                                            Expanded(
-                                              child: MessageRowItem(
-                                                  message: message),
+                                              child: Row(
+                                                children: [
+                                                  if (isSelectionMode)
+                                                    Checkbox(
+                                                      checkColor:
+                                                          AppColors.white,
+                                                      activeColor:
+                                                          AppColors.APP_BLUE,
+                                                      value: selectedMessageIds
+                                                          .contains(message.id),
+                                                      onChanged: (_) =>
+                                                          toggleMessageSelection(
+                                                              message.id!),
+                                                    ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      children: [
+                                                        MessageRowItem(
+                                                            message: message),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Divider(
+                                              color: AppColors.APP_BLUE,
+                                              thickness: .1,
+                                              height: .2,
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    );
-                                  },
-                                  itemCount: filteredMessages.length,
-                                  onLoadMore: () =>
-                                      getMessages(showLoading: false),
-                                  hasMore: ref
-                                      .read(
-                                          di.messagesViewModelProvider.notifier)
-                                      .hasNext,
-                                  onRefresh: () => getMessages(
-                                      showLoading: true, refresh: true),
-                                  loading: messagesViewModel.isLoading,
+                                      );
+                                    },
+                                    itemCount: filteredMessages.length,
+                                    onLoadMore: () =>
+                                        getMessages(showLoading: false),
+                                    hasMore: ref
+                                        .read(di
+                                            .messagesViewModelProvider.notifier)
+                                        .hasNext,
+                                    onRefresh: () => getMessages(
+                                        showLoading: true, refresh: true),
+                                    loading: messagesViewModel.isLoading,
+                                  ),
                                 )
-                              : Center(child: Text("No messages available"));
+                              : Center(
+                                  child: CustomText(
+                                  title: "no_notifications".tr(),
+                                  fontSize: 16,
+                                  textColor: AppColors.APP_BLUE,
+                                  fontWeight: FontWeight.bold,
+                                ));
                         }).toList(),
                       );
                     },

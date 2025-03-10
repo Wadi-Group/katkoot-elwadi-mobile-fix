@@ -15,8 +15,8 @@ import '../../app_base/mixins/pagination_mixin.dart';
 import '../../app_base/screens/main_bottom_app_bar.dart';
 import '../../app_base/view_models/base_view_model.dart';
 
-
-class UserViewModel extends StateNotifier<UserData?> with BaseViewModel, PaginationUtils {
+class UserViewModel extends StateNotifier<UserData?>
+    with BaseViewModel, PaginationUtils {
   Repository repository;
 
   UserViewModel(this.repository) : super(UserData());
@@ -41,10 +41,10 @@ class UserViewModel extends StateNotifier<UserData?> with BaseViewModel, Paginat
     repository.saveUserData(userData);
   }
 
-  Future<String> getOneSignalPlayerId() async{
+  Future<String> getOneSignalPlayerId() async {
     var deviceState = await repository.getOnesignalDeviceState();
     return deviceState?.userId ?? "";
-    }
+  }
 
   UserData? getLocalUserData() {
     UserData? userData = repository.getUserData();
@@ -64,11 +64,10 @@ class UserViewModel extends StateNotifier<UserData?> with BaseViewModel, Paginat
         formattedDate = DateFormat('MM-dd').format(dateMod);
       }
 
-    // if(int.tryParse(userData.user?.id.toString()?? "") !=null){
-    //   var userId = int.tryParse(userData.user!.id.toString());
-    //   print(userId);
-    // }
-
+      // if(int.tryParse(userData.user?.id.toString()?? "") !=null){
+      //   var userId = int.tryParse(userData.user!.id.toString());
+      //   print(userId);
+      // }
 
       repository.sendOnesignalTags(
           status: OneSignalValue.REGISTERED,
@@ -92,6 +91,7 @@ class UserViewModel extends StateNotifier<UserData?> with BaseViewModel, Paginat
       }
       return result;
     }
+    return null;
   }
 
   bool isUserLoggedIn() => state?.token != null;
@@ -102,7 +102,8 @@ class UserViewModel extends StateNotifier<UserData?> with BaseViewModel, Paginat
 
   removeUnseenNotificationCount() {
     ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-        listen: false).read(di.unseenNotificationCountProvider.notifier)
+            listen: false)
+        .read(di.unseenNotificationCountProvider.notifier)
         .setLocalUnseenNotificationCount(0);
   }
 
@@ -130,15 +131,16 @@ class UserViewModel extends StateNotifier<UserData?> with BaseViewModel, Paginat
     // var result = userId;
     if (result.successMessage != null) {
       // userSignOut();
-    // return"user has been deleted";
-    //   BaseState(data: []);
-    //   state?.user!.removeWhere((element) => element.id == userId);
+      // return"user has been deleted";
+      //   BaseState(data: []);
+      //   state?.user!.removeWhere((element) => element.id == userId);
 
       BuildContext? context = AppConstants.navigatorKey.currentContext;
       if (context != null) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
           return MainBottomAppBar();
-        }));}
+        }));
+      }
       var user = state?.user;
       state = UserData(user: user);
       showToastMessage(result.successMessage ?? '');
@@ -149,14 +151,13 @@ class UserViewModel extends StateNotifier<UserData?> with BaseViewModel, Paginat
     } else {
       if (result.errorType == ErrorType.NO_NETWORK_ERROR) {
         // state =  userData;
-        return"user can't delete";
+        return "user can't delete";
       } else {
         // state = userData;
         handleError(
             errorType: result.errorType,
             errorMessage: result.errorMessage,
             keyValueErrors: result.keyValueErrors);
-
       }
     }
   }

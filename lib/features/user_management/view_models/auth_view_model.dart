@@ -506,6 +506,10 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
           .setLocalUnseenNotificationCount(
               result.data?.notificationNotSeenCount ?? 0);
 
+      await ProviderScope.containerOf(context, listen: false)
+          .read(di.messagesViewModelProvider.notifier)
+          .getMessages(context, refresh: true, showLoading: true);
+
       var deviceState = await _repository.getOnesignalDeviceState();
       if (deviceState != null) {
         _repository.putPushToken(
