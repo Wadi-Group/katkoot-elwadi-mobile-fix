@@ -17,6 +17,7 @@ import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
 import 'package:katkoot_elwady/features/user_management/screens/verify_phone_screen.dart';
 
 import '../../../core/di/injection_container.dart' as di;
+import '../../../core/services/remote/social_login_service.dart';
 
 class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
     with Validator, BaseViewModel, NavigationDrawerMixin {
@@ -566,6 +567,71 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
             keyValueErrors: result.keyValueErrors);
       }
     }
+  }
+
+  Future loginByGoogle({required BuildContext context}) async {
+    state = BaseState(data: [], isLoading: true);
+    // Handle Google Login
+    final User? user = await SocialLoginService().signInWithGoogle();
+    String? idToken = await user?.getIdToken();
+    if (idToken != null) {
+      _repository.saveFirebaseToken(idToken);
+      loginByFirebase(context: context, firebaseToken: idToken);
+    } else {
+      state = BaseState(data: [], isLoading: false);
+      handleError(
+        errorMessage: "google_login_error".tr(),
+      );
+    }
+    // var result = await _repository.loginByFirebase();
+    // if (result.data != null) {
+    //   ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
+    //           listen: false)
+    //       .read(di.userViewModelProvider.notifier)
+    //       .setLocalUserData(result.data);
+
+    //   ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
+    //           listen: false)
+    //       .read(di.unseenNotificationCountProvider.notifier)
+    //       .setLocalUnseenNotificationCount(
+    //           result.data?.notificationNotSeenCount ?? 0);
+
+    //   await ProviderScope.containerOf(context, listen: false)
+    //       .read(di.messagesViewModelProvider.notifier)
+    //       .getMessages(context, refresh: true, showLoading: true);
+
+    //   var deviceState = await _repository.getOnesignalDeviceState();
+    //   if (deviceState != null) {
+    //     _repository.putPushToken(
+    //         token: deviceState.userId ?? "", action: "add");
+    //   }
+
+    //   state = BaseState(
+    //     data: [],
+    //     isLoading: false,
+    //   );
+    //   //resetDrawerSelection();
+    //   navigateToScreen(MainBottomAppBar.routeName, removeTop: true);
+    // } else {
+    //   if (result.errorType == ErrorType.NO_NETWORK_ERROR) {
+    //     state.hasNoConnection = true;
+    //     state = BaseState(data: [], isLoading: false, hasNoConnection: true);
+    //     handleError(
+    //       errorType: result.errorType,
+    //     );
+    //   } else if (result.errorType == ErrorType.UNAUTHORIZED_ERROR) {
+    //     state = BaseState(data: [], isLoading: false);
+    //     debugPrint(result.keyValueErrors.toString());
+    //     showToastMessage(result.errorMessage ??
+    //         result.keyValueErrors!["token"][0].toString());
+    //   } else {
+    //     state = BaseState(data: [], isLoading: false);
+    //     handleError(
+    //         errorType: result.errorType,
+    //         errorMessage: result.errorMessage,
+    //         keyValueErrors: result.keyValueErrors);
+    //   }
+    // }
   }
 
   void resetState() {

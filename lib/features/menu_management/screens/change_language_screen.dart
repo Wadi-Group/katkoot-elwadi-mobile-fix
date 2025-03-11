@@ -27,8 +27,6 @@ class ChangeLanguageState extends State<ChangeLanguageScreen>
         .isOnBoardingComplete());
   });
 
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -39,7 +37,6 @@ class ChangeLanguageState extends State<ChangeLanguageScreen>
     return Consumer(
       builder: (_, ref, __) {
         return Scaffold(
-          key: _scaffoldKey,
           backgroundColor: Colors.white,
           appBar: ref.watch(_isOnBoardingComplete).when(
                 data: (onBoardingShown) => onBoardingShown

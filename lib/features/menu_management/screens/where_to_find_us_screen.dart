@@ -65,8 +65,6 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
   GoogleMapController? _controller;
   MinMaxZoomPreference zoomLevel = MinMaxZoomPreference(3, 25);
 
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -90,7 +88,6 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.LIGHT_BACKGROUND,
-        key: _scaffoldKey,
         appBar: CustomAppBar(
           showNotificationsButton: true,
           title: 'where_to_find_us'.tr(),

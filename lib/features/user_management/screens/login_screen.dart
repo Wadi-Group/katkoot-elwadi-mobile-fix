@@ -142,11 +142,8 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
                                 buildSocialButton(
                                   icon: "google",
                                   onPressed: () async {
-                                    print("Google Login Clicked");
-                                    // Handle Google Login
-                                    var user = await SocialLoginService()
-                                        .signInWithGoogle();
-                                    print(user?.email);
+                                    userModelViewProvider?.loginByGoogle(
+                                        context: context);
                                   },
                                 ),
 
