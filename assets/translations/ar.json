@@ -328,9 +328,10 @@
   "load_more": "تحميل المزيد",
   "notifications": "الإشعارات",
   "no_notifications": "لا توجد إشعارات",
-  "hours_ago": "منذ {0} ساعات",
-  "minutes_ago": "منذ {0} دقائق",
+  "hours_ago": "منذ {} ساعات",
+  "minutes_ago": "منذ {} دقائق",
   "just_now": "الآن",
-  "yesterday": "أمس"
+  "yesterday": "أمس",
+  "attachment": "ملف مرفق"
 
 }

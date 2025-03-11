@@ -15,10 +15,8 @@ class WeekRowItem extends StatelessWidget {
         onTap();
       },
       child: Container(
-        height: 40,
         decoration: BoxDecoration(
-          color:
-              AppColors.white,
+          color: AppColors.white,
           border: Border(
             bottom: BorderSide(
               width: .5,
@@ -34,7 +32,7 @@ class WeekRowItem extends StatelessWidget {
             maxLines: 1,
             textColor: hasData ? AppColors.Gamboge : AppColors.black,
             fontSize: 14,
-            fontWeight:  hasData ? FontWeight.bold : FontWeight.w400,
+            fontWeight: hasData ? FontWeight.bold : FontWeight.w400,
             padding: EdgeInsets.symmetric(vertical: 5),
           ),
         ),

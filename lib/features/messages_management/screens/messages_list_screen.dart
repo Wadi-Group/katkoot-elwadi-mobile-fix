@@ -16,6 +16,9 @@ enum MessagesCategory { wadi, international, local }
 
 class MessagesListScreen extends StatefulWidget {
   static const routeName = "./messages_list_screen";
+  final bool showOnlyWadi;
+
+  MessagesListScreen({this.showOnlyWadi = false});
 
   @override
   State<MessagesListScreen> createState() => _MessagesListScreenState();
@@ -32,8 +35,11 @@ class _MessagesListScreenState extends State<MessagesListScreen>
   @override
   void initState() {
     super.initState();
-    _tabController =
-        TabController(length: MessagesCategory.values.length, vsync: this);
+    _tabController = TabController(
+      length: widget.showOnlyWadi ? 1 : MessagesCategory.values.length,
+      vsync: this,
+      initialIndex: 0,
+    );
     getMessages(showLoading: true, refresh: true);
   }
 
@@ -155,44 +161,50 @@ class _MessagesListScreenState extends State<MessagesListScreen>
                   child: TabBar(
                     labelPadding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    indicatorPadding: const EdgeInsets.only(top: 5, bottom: 5),
+                    indicatorPadding: const EdgeInsets.only(
+                        top: 5, bottom: 5, left: 5, right: 5),
                     controller: _tabController,
                     labelColor: AppColors.APP_BLUE,
                     unselectedLabelColor: Colors.grey,
                     indicatorColor: AppColors.APP_BLUE,
                     indicator: BoxDecoration(
                       color: AppColors.Tabs_Blue.withValues(
-                          alpha: 1), // Background color for selected tab
+                          alpha: widget.showOnlyWadi
+                              ? 0
+                              : 1), // Background color for selected tab
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    tabs: MessagesCategory.values
+                    tabs: (widget.showOnlyWadi
+                            ? [MessagesCategory.wadi]
+                            : MessagesCategory.values)
                         .map((category) => SizedBox(
                               height: 45,
                               child: Tab(
-                                  child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    CustomText(
-                                      title: getCategoryLocalizedName(category),
-                                      textColor: AppColors.APP_BLUE,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      lineSpacing: 0,
-                                    ),
-                                    CustomText(
-                                      title: "str_news".tr(),
-                                      textColor: AppColors.APP_BLUE,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      lineSpacing: 0,
-                                    ),
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CustomText(
+                                        title:
+                                            getCategoryLocalizedName(category),
+                                        textColor: AppColors.APP_BLUE,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      CustomText(
+                                        title: "str_news".tr(),
+                                        textColor: AppColors.APP_BLUE,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        lineSpacing: 0,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              )),
+                              ),
                             ))
                         .toList(),
                   ),
@@ -206,7 +218,10 @@ class _MessagesListScreenState extends State<MessagesListScreen>
 
                       return TabBarView(
                         controller: _tabController,
-                        children: MessagesCategory.values.map((category) {
+                        children: (widget.showOnlyWadi
+                                ? [MessagesCategory.wadi]
+                                : MessagesCategory.values)
+                            .map((category) {
                           var filteredMessages = messages
                               .where((message) =>
                                   _getCategoryName(message.category) ==
@@ -216,6 +231,7 @@ class _MessagesListScreenState extends State<MessagesListScreen>
                           return filteredMessages.isNotEmpty
                               ? Padding(
                                   padding: EdgeInsets.only(
+                                      top: 2,
                                       bottom: isSelectionMode &&
                                               selectedMessageIds.isNotEmpty
                                           ? 50
@@ -241,9 +257,10 @@ class _MessagesListScreenState extends State<MessagesListScreen>
                                             Container(
                                               margin:
                                                   EdgeInsetsDirectional.only(
-                                                      bottom: 10,
-                                                      start: 20,
-                                                      end: 20),
+                                                bottom: 10,
+                                                start: 20,
+                                                end: 20,
+                                              ),
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,

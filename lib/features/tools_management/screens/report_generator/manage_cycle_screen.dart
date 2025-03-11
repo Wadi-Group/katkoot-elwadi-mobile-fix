@@ -35,7 +35,7 @@ class ManageCycleScreen extends StatefulWidget {
 class _ManageCycleScreenState extends State<ManageCycleScreen>
     with BaseViewModel {
   final _manageCycleViewModelProvider =
-  StateNotifierProvider<ManageCycleViewModel, BaseState>((ref) {
+      StateNotifierProvider<ManageCycleViewModel, BaseState>((ref) {
     return ManageCycleViewModel(ref.read(repositoryProvider));
   });
 
@@ -143,7 +143,7 @@ class _ManageCycleScreenState extends State<ManageCycleScreen>
             context: context,
             title: 'delete_week_data'.tr(),
             message:
-            'delete_week_data_message'.tr() + " $selectedWeek" + message,
+                'delete_week_data_message'.tr() + " $selectedWeek" + message,
             confirmText: 'delete'.tr(),
             cancelText: 'str_cancel'.tr(),
             onConfirm: () async {
@@ -305,34 +305,37 @@ class _ManageCycleScreenState extends State<ManageCycleScreen>
       child: GestureDetector(
         onTap: () {
           double dialogVerticalPadding = 24;
-          weeksScrollController = ScrollController(initialScrollOffset: getWeeksTargetOffset(weeks.length,dialogVerticalPadding));
+          weeksScrollController = ScrollController(
+              initialScrollOffset:
+                  getWeeksTargetOffset(weeks.length, dialogVerticalPadding));
 
           showDialog(
             context: context,
             builder: (context) {
               return Dialog(
-                  insetPadding: EdgeInsets.symmetric(horizontal: 40.0, vertical: dialogVerticalPadding),
+                  insetPadding: EdgeInsets.symmetric(
+                      horizontal: 40.0, vertical: dialogVerticalPadding),
                   // shape: RoundedRectangleBorder(
                   //     borderRadius: BorderRadius.circular(40)),
                   elevation: 16,
                   child: Container(
                       child: ListView.builder(
-                        controller: weeksScrollController,
-                        shrinkWrap: true,
-                        itemCount: weeks.length,
-                        itemBuilder: (context, index) => Container(
-                            color: AppColors.white,
-                            child: WeekRowItem(
-                              hasData: widget.cycle.weekIsExists(index + 1),
-                              week: weeks[index],
-                              onTap: () {
-                                setState(() {
-                                  selectedWeek = index + 1;
-                                });
-                                Navigator.of(context).pop();
-                              },
-                            )),
-                      )));
+                    controller: weeksScrollController,
+                    shrinkWrap: true,
+                    itemCount: weeks.length,
+                    itemBuilder: (context, index) => Container(
+                        color: AppColors.white,
+                        child: WeekRowItem(
+                          hasData: widget.cycle.weekIsExists(index + 1),
+                          week: weeks[index],
+                          onTap: () {
+                            setState(() {
+                              selectedWeek = index + 1;
+                            });
+                            Navigator.of(context).pop();
+                          },
+                        )),
+                  )));
             },
           );
         },
@@ -419,19 +422,21 @@ class _ManageCycleScreenState extends State<ManageCycleScreen>
   }
 
   deleteCycleWeek(int cycleId, int duration) async {
-    ProviderScope.containerOf(context,
-        listen: false).read(_manageCycleViewModelProvider.notifier)
+    ProviderScope.containerOf(context, listen: false)
+        .read(_manageCycleViewModelProvider.notifier)
         .deleteCycleWeek(context, cycleId, duration);
   }
 
-  double getWeeksTargetOffset(int itemsLength,double dialogVerticalPadding){
+  double getWeeksTargetOffset(int itemsLength, double dialogVerticalPadding) {
     int itemHeight = 40;
-    double dialogHeight = MediaQuery.of(context).size.height - (dialogVerticalPadding * 2) - MediaQuery.of(context).viewPadding.top;
-    int maxNumberOfItemsInDialog = (dialogHeight/itemHeight).ceil();
+    double dialogHeight = MediaQuery.of(context).size.height -
+        (dialogVerticalPadding * 2) -
+        MediaQuery.of(context).viewPadding.top;
+    int maxNumberOfItemsInDialog = (dialogHeight / itemHeight).ceil();
 
-    int target = itemHeight * (selectedWeek-1);
-    if((selectedWeek) > (itemsLength - maxNumberOfItemsInDialog)){
-      target = ((itemsLength - maxNumberOfItemsInDialog) * itemHeight) +10;
+    int target = itemHeight * (selectedWeek - 1);
+    if ((selectedWeek) > (itemsLength - maxNumberOfItemsInDialog)) {
+      target = ((itemsLength - maxNumberOfItemsInDialog) * itemHeight) + 10;
     }
     return target.toDouble();
   }

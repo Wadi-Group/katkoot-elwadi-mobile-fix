@@ -5,9 +5,13 @@ import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/messages_management/models/message.dart';
 import 'dart:ui' as dart_ui;
 
+import '../../../core/utils/notification_click_handler.dart';
+
 class MessageRowItem extends StatelessWidget {
-  Message message;
+  final Message message;
+
   MessageRowItem({required this.message});
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -16,6 +20,8 @@ class MessageRowItem extends StatelessWidget {
         padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Align content to the left
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,29 +36,65 @@ class MessageRowItem extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                CustomText(
-                  title: formatMessageDate(message.date),
-                  fontSize: 16,
-                  textColor: AppColors.APP_BLUE,
-                  fontWeight: FontWeight.w500,
-                  padding: EdgeInsetsDirectional.only(start: 20),
+                SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.end, // Align date to the right
+                  children: [
+                    CustomText(
+                      title: formatMessageDate(message.date),
+                      fontSize: 14,
+                      textColor: AppColors.HINT_GREY,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ],
                 ),
               ],
             ),
-            SizedBox(
-              height: 5,
-            ),
+            SizedBox(height: 10),
             Container(
               width: MediaQuery.of(context).size.width,
               child: CustomText(
                 title: message.content ?? '',
-                fontSize: 16,
-                maxLines: 2,
+                fontSize: 14,
+                maxLines: 5,
                 textOverflow: TextOverflow.ellipsis,
-                textColor: AppColors.APP_BLUE,
+                textColor: AppColors.DARK_GREY,
                 fontWeight: FontWeight.w500,
               ),
-            )
+            ),
+            if (message.attachment != null && message.attachment!.isNotEmpty)
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: GestureDetector(
+                  onTap: () {
+                    NotificationClickHandler.handleNotificationRedirection(
+                        message, context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: AppColors.APP_BLUE.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppColors.APP_BLUE, width: 1),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.attachment,
+                            color: AppColors.APP_BLUE, size: 20),
+                        SizedBox(width: 6),
+                        CustomText(
+                          title: tr("attachment"),
+                          fontSize: 14,
+                          textColor: AppColors.APP_BLUE,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -74,10 +116,9 @@ String formatMessageDate(DateTime? dateTime) {
     } else {
       return tr("just_now");
     }
-  } else if (difference.inDays == 1) {
+  } else if (difference.inHours == 1) {
     return tr("yesterday");
   } else {
-    return DateFormat('yyyy-MM-dd hh:mm a')
-        .format(dateTime); // Show full date & time
+    return DateFormat('yyyy-MM-dd hh:mm a').format(dateTime);
   }
 }

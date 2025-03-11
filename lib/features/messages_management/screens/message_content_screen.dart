@@ -13,7 +13,8 @@ import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 
 class MessageContentScreen extends StatefulWidget {
   static const routeName = "./message_content";
-  Message message;
+  final Message message;
+
   MessageContentScreen({required this.message});
 
   @override
@@ -23,243 +24,193 @@ class MessageContentScreen extends StatefulWidget {
 class _MessageContentScreenState extends State<MessageContentScreen>
     with BaseViewModel {
   @override
-  Widget build(BuildContext context) {
-    return WillPopScope(
-        child: Scaffold(
-      appBar: CustomAppBar(
-        hasbackButton: true,
-        onBackClick: () async {
-          if(await onWillPop()){
-            Navigator.pop(context);
-          }
-        },
-      ),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Center(
-              child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.2,
-                      horizontal: MediaQuery.of(context).size.width * .18),
-                  child: Image.asset(
-                    "assets/images/bg_image.png",
-                  )),
-            ),
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-
-                children: [
-                  Container(
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          title: widget.message.title!,
-                          textColor: AppColors.Dark_spring_green,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-
-                        CustomText(
-                          title: widget.message.schedule!,
-                          textColor: AppColors.Liver,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    //color: AppColors.Snow.withOpacity(0.45),
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 20),
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (widget.message.attachmentType != "")
-                          Column(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  NotificationClickHandler
-                                      .handleNotificationRedirection(
-                                      widget.message, context);
-                                },
-                                child: widget.message.attachmentType !=
-                                    "Image"
-                                    ? Container(
-                                    padding: EdgeInsetsDirectional.only(
-                                        start: 10, end: 10),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 1,
-                                          color: AppColors.Liver,
-                                          style: BorderStyle.solid,
-                                        ),
-                                        color: AppColors.white,
-                                        borderRadius:
-                                        BorderRadius.circular(25)),
-                                    width: MediaQuery.of(context)
-                                        .orientation ==
-                                        Orientation.portrait
-                                        ? MediaQuery.of(context).size.width *
-                                        0.6
-                                        : MediaQuery.of(context)
-                                        .size
-                                        .width *
-                                        0.3,
-                                    height: MediaQuery.of(context)
-                                        .orientation ==
-                                        Orientation.portrait
-                                        ? MediaQuery.of(context)
-                                        .size
-                                        .height *
-                                        0.05
-                                        : MediaQuery.of(context)
-                                        .size
-                                        .height *
-                                        0.1,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: widget.message
-                                              .attachmentType ==
-                                              "PDF" ||
-                                              widget.message
-                                                  .attachmentType ==
-                                                  "Guide"
-                                              ? Image.asset(
-                                            "assets/images/group_3147.png",
-                                            fit: BoxFit.contain,
-                                            height: MediaQuery.of(
-                                                context)
-                                                .size
-                                                .height *
-                                                0.03,
-                                          )
-                                              : widget.message
-                                              .attachmentType ==
-                                              "Video"
-                                              ? Image.asset(
-                                            "assets/images/video.png",
-                                            fit: BoxFit
-                                                .contain,
-                                            height: MediaQuery.of(
-                                                context)
-                                                .size
-                                                .height *
-                                                0.03,
-                                          )
-                                              : widget.message
-                                              .attachmentType ==
-                                              "External URL"
-                                              ? Image.asset(
-                                            "assets/images/link.png",
-                                            fit: BoxFit
-                                                .contain,
-                                            height: MediaQuery.of(
-                                                context)
-                                                .size
-                                                .height *
-                                                0.03,
-                                          )
-                                              : Container(),
-                                        ),
-                                        Expanded(
-                                          flex: 4,
-                                          child: CustomText(
-                                            title: widget.message
-                                                .attachmentTitle ??
-                                                "",
-                                            fontSize: 14,
-                                          ),
-                                        )
-                                      ],
-                                    ))
-                                    : Container(),
-                              ),
-                              if (widget.message.attachmentType != "Image")
-                                SizedBox(
-                                  height: 25,
-                                ),
-                            ],
-                          ),
-                        CustomText(
-                          title: widget.message.content!,
-                          textColor: AppColors.Liver,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            NotificationClickHandler
-                                .handleNotificationRedirection(
-                                widget.message, context);
-                          },
-                          child: widget.message.attachmentType == "Image"
-                              ? PhotoHero(message: widget.message)
-                              : Container(),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-        onWillPop: onWillPop);
-  }
-
-  @override
   void initState() {
     readMessage();
     super.initState();
   }
 
-  Future readMessage() async {
-    await Future.delayed(Duration.zero, () {
-      if (widget.message.isSeen != null && widget.message.isSeen == false) {
-        print("call read");
-
-        ProviderScope.containerOf(context,
-            listen: false)
-            .read(di.messagesViewModelProvider.notifier)
-            .readMessage(widget.message.id!);
-      }
-    });
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          hasbackButton: true,
+          onBackClick: () async {
+            if (await onWillPop()) {
+              Navigator.pop(context);
+            }
+          },
+        ),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              _buildBackgroundImage(),
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildMessageHeader(),
+                    const SizedBox(height: 20),
+                    _buildAttachmentSection(),
+                    const SizedBox(height: 20),
+                    _buildMessageContent(),
+                    const SizedBox(height: 20),
+                    _buildImageAttachment(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
+  /// Background Image
+  Widget _buildBackgroundImage() {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.2,
+          horizontal: MediaQuery.of(context).size.width * 0.18,
+        ),
+        child: Image.asset("assets/images/bg_image.png"),
+      ),
+    );
+  }
+
+  /// Message Title & Date
+  Widget _buildMessageHeader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomText(
+          title: widget.message.title ?? '',
+          textColor: AppColors.Dark_spring_green,
+          fontSize: 22,
+          fontWeight: FontWeight.w700,
+        ),
+        const SizedBox(height: 10),
+        CustomText(
+          title: widget.message.schedule ?? '',
+          textColor: AppColors.Liver,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+      ],
+    );
+  }
+
+  /// Attachment Section
+  Widget _buildAttachmentSection() {
+    if (widget.message.attachmentType?.isEmpty ?? true)
+      return SizedBox.shrink();
+
+    return GestureDetector(
+      onTap: () => NotificationClickHandler.handleNotificationRedirection(
+          widget.message, context),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: AppColors.Liver, width: 1),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Row(
+          children: [
+            _buildAttachmentIcon(),
+            const SizedBox(width: 10),
+            Expanded(
+              child: CustomText(
+                title: widget.message.attachmentTitle ?? '',
+                fontSize: 14,
+                textColor: AppColors.Liver,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Attachment Icon Based on Type
+  Widget _buildAttachmentIcon() {
+    String iconPath;
+    switch (widget.message.attachmentType) {
+      case "PDF":
+      case "Guide":
+        iconPath = "assets/images/group_3147.png";
+        break;
+      case "Video":
+        iconPath = "assets/images/video.png";
+        break;
+      case "External URL":
+        iconPath = "assets/images/link.png";
+        break;
+      default:
+        return SizedBox.shrink();
+    }
+
+    return Image.asset(
+      iconPath,
+      fit: BoxFit.contain,
+      height: 30,
+    );
+  }
+
+  /// Message Content
+  Widget _buildMessageContent() {
+    return CustomText(
+      title: widget.message.content ?? '',
+      textColor: AppColors.Liver,
+      fontSize: 17,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
+  /// Image Attachment (if applicable)
+  Widget _buildImageAttachment() {
+    if (widget.message.attachmentType != "Image") return SizedBox.shrink();
+
+    return GestureDetector(
+      onTap: () => NotificationClickHandler.handleNotificationRedirection(
+          widget.message, context),
+      child: PhotoHero(message: widget.message),
+    );
+  }
+
+  /// Mark Message as Read
+  Future<void> readMessage() async {
+    if (widget.message.isSeen == false) {
+      await Future.delayed(Duration.zero, () {
+        ProviderScope.containerOf(context, listen: false)
+            .read(di.messagesViewModelProvider.notifier)
+            .readMessage(widget.message.id!);
+      });
+    }
+  }
+
+  /// Handle Back Navigation
   Future<bool> onWillPop() async {
     if (di.appRedirectedFromNotificationNotifier.value) {
-      if (await ProviderScope.containerOf(context,
-          listen: false)
-          .read(di.changeLanguageViewModelProvider.notifier)
-          .isOnBoardingComplete()) {
-        navigateToScreen(MainBottomAppBar.routeName, removeTop: true);
-      } else {
-        navigateToScreen(ChangeLanguageScreen.routeName, removeTop: true);
-      }
+      final isOnboardingComplete =
+          await ProviderScope.containerOf(context, listen: false)
+              .read(di.changeLanguageViewModelProvider.notifier)
+              .isOnBoardingComplete();
+
+      navigateToScreen(
+        isOnboardingComplete
+            ? MainBottomAppBar.routeName
+            : ChangeLanguageScreen.routeName,
+        removeTop: true,
+      );
+
       di.appRedirectedFromNotificationNotifier.value = false;
-      return Future.value(false);
+      return false;
     }
-    else {
-      return Future.value(true);
-    }
+    return true;
   }
 }

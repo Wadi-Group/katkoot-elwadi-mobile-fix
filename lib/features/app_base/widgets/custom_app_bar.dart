@@ -9,6 +9,7 @@ import 'package:katkoot_elwady/features/messages_management/screens/messages_lis
 import 'package:katkoot_elwady/features/messages_management/widgets/message_row_item.dart';
 import 'package:katkoot_elwady/features/search_management/widgets/search_widget.dart';
 import 'package:katkoot_elwady/features/tools_management/widgets/report_generator/custom_toggle.dart';
+import '../../messages_management/screens/message_content_screen.dart';
 import '../view_models/app_bar_tabs_view_model.dart';
 import 'tabbar/app_tabbar.dart';
 import 'tabbar/tabbar_data.dart';
@@ -193,12 +194,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                   padding: EdgeInsets.all(0),
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
+                                      Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              MessagesListScreen(),
+                                              MessageContentScreen(
+                                                  message: message),
                                         ),
                                       );
                                     },
@@ -220,7 +220,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MessagesListScreen(),
+                                    builder: (context) =>
+                                        MessagesListScreen(showOnlyWadi: true),
                                   ),
                                 );
                               },
@@ -264,10 +265,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 child: SizedBox(
                   height: 20,
                   width: 20,
-                  child: Image.asset(
-                    "assets/images/menu.png",
-                    fit: BoxFit.fitWidth,
-                    color: Colors.white,
+                  child: Transform.rotate(
+                    angle: context.locale.languageCode == "ar" ? 3.14 : 0,
+                    child: Image.asset(
+                      "assets/images/menu.png",
+                      fit: BoxFit.fitWidth,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

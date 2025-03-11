@@ -326,10 +326,11 @@
   "load_more": "Load More",
   "notifications": "Notifications",
   "no_notifications": "No Notifications",
-  "hours_ago": "{0} hours ago",
-  "minutes_ago": "{0} minutes ago",
+  "hours_ago": "{} hours ago",
+  "minutes_ago": "{} minutes ago",
   "just_now": "Just now",
-  "yesterday": "Yesterday"
+  "yesterday": "Yesterday",
+  "attachment": "Attachment"
 
 
 
