@@ -36,6 +36,7 @@ import 'package:katkoot_elwady/features/category_management/view_models/categori
 import 'package:katkoot_elwady/features/user_management/view_models/user_data_view_model.dart';
 import 'package:riverpod/riverpod.dart';
 
+import '../../features/menu_management/view_models/about_us_view_model.dart';
 import '../../features/tools_management/models/cb_report_generator/cycle.dart';
 import '../../features/tools_management/view_models/cb_report_generator/cycles_list_view_model.dart';
 
@@ -159,4 +160,11 @@ final CbcyclesListViewModelViewModelProvider =
     StateNotifierProvider<CbCyclesListViewModel, BaseState<List<CbCycle>?>>(
         (ref) {
   return CbCyclesListViewModel(ref.read(repositoryProvider));
+});
+
+// about us view model
+final aboutUsViewModelProvider =
+    StateNotifierProvider<AboutUsViewModel, BaseState<Map<String, dynamic>?>>(
+        (ref) {
+  return AboutUsViewModel(ref.read(repositoryProvider));
 });

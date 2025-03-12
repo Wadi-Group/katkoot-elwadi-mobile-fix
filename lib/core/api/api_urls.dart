@@ -1,7 +1,9 @@
 class ApiUrls {
-  static const BASE_URL = 'https://backend.katkootalwadi.com/api/'; //live
+  //static const BASE_URL = 'https://backend.katkootalwadi.com/api/'; //live
   //static const BASE_URL = 'http://10.0.2.2:8000/api/'; //development
   //static const BASE_URL = 'http://127.0.0.1:8000/api/'; //development
+  static const BASE_URL = 'http://10.10.100.228/api/'; //development
+
   static const REFRESH_TOKEN = "refresh-token";
   static const CATEGORIES = "categories";
   // static const CATEGORIES = "categories?parent=";
@@ -31,4 +33,5 @@ class ApiUrls {
   static const GUIDES = "guides";
   static const HOME = "home-page";
   static const IN_APP_MESSAGE = "in-app-messages/latest";
+  static const ABOUT_US = "about-wadi-group/latest";
 }

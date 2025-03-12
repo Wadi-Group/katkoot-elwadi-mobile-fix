@@ -434,4 +434,10 @@ class ApiService {
       hasToken: false,
     );
   }
+
+  // get about us data
+  Future<Map<String, dynamic>?> getAboutUs() async {
+    return await ApiMethods<Map<String, dynamic>>()
+        .getRaw(ApiUrls.ABOUT_US, hasToken: false);
+  }
 }

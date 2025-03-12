@@ -349,4 +349,9 @@ class Repository {
   Future<Map<String, dynamic>?> getInAppMessageData() async {
     return await _apiService.getInAppMessageData();
   }
+
+   // get about us data
+  Future<Map<String, dynamic>?> getAboutUs() async {
+    return await _apiService.getAboutUs();
+  }
 }
