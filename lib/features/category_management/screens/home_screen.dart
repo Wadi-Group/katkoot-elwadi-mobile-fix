@@ -188,7 +188,10 @@ class _HomeScreenState extends State<HomeScreen>
                                 weather: weather ?? "",
                                 liveBroilersPrice:
                                     homeData["live_broilers_price"],
-                                eggTrayPrice: homeData["egg_tray_price"],
+                                whiteEggTrayPrice:
+                                    homeData["white_egg_tray_price"],
+                                brownEggTrayPrice:
+                                    homeData["brown_egg_tray_price"],
                                 katkootPrice:
                                     homeData["katkoot_alwadi_broilers_price"],
                               ),

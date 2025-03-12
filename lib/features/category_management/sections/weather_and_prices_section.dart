@@ -1,25 +1,28 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/services/remote/weather_service.dart';
 import '../../app_base/widgets/custom_text.dart';
 import '../widgets/reusable_container_widget.dart';
 
 class WeatherAndPricesSection extends StatelessWidget {
-  final String city;
-  final String date;
-  final String weather;
-  final String liveBroilersPrice;
-  final String eggTrayPrice;
-  final String katkootPrice;
+  final String? city;
+  final String? date;
+  final String? weather;
+  final String? liveBroilersPrice;
+  final String? whiteEggTrayPrice;
+  final String? brownEggTrayPrice;
+  final String? katkootPrice;
 
   const WeatherAndPricesSection({
     Key? key,
-    required this.city,
-    required this.date,
-    required this.weather,
-    required this.liveBroilersPrice,
-    required this.eggTrayPrice,
-    required this.katkootPrice,
+    this.city,
+    this.date,
+    this.weather,
+    this.liveBroilersPrice,
+    this.whiteEggTrayPrice,
+    this.katkootPrice,
+    this.brownEggTrayPrice,
   }) : super(key: key);
 
   @override
@@ -32,19 +35,28 @@ class WeatherAndPricesSection extends StatelessWidget {
           child: Column(
             children: [
               _buildWeatherInfo(),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               _buildPriceCard(
+                isImageWhite: true,
                 title: "live_broilers".tr(),
-                price: liveBroilersPrice,
+                price: liveBroilersPrice ?? "N/A",
                 unit: "egp_kg".tr(),
                 imagePath: "assets/images/live_broilers.png",
+                isTopRounded: true,
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               _buildPriceCard(
-                title: "egg_tray".tr(),
-                price: eggTrayPrice,
+                title: "white_egg_tray".tr(),
+                price: whiteEggTrayPrice ?? "N/A",
                 unit: "egp".tr(),
-                imagePath: "assets/images/egg_tray.png",
+                imagePath: "assets/images/white_egg_tray.png",
+                isBottomRounded: false,
+              ),
+              _buildPriceCard(
+                title: "brown_egg_tray".tr(),
+                price: brownEggTrayPrice ?? "N/A",
+                unit: "egp".tr(),
+                imagePath: "assets/images/red_egg_tray.png",
                 isBottomRounded: true,
               ),
             ],
@@ -71,7 +83,9 @@ class WeatherAndPricesSection extends StatelessWidget {
             child: Row(
               children: [
                 CustomText(
-                  title: "🌤${double.tryParse(weather)?.ceil() ?? ''}°",
+                  title: (weather?.isEmpty ?? true)
+                      ? "🌤 N/A"
+                      : "🌤${double.tryParse(weather ?? "0")?.ceil() ?? ''}°",
                   fontSize: 22,
                   fontWeight: FontWeight.w400,
                   textColor: AppColors.APP_BLUE,
@@ -95,13 +109,16 @@ class WeatherAndPricesSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomText(
-                      title: date,
+                      title: (date?.isEmpty ?? true)
+                          ? WeatherService.getCurrentDate()
+                          : date ?? WeatherService.getCurrentDate(),
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       textColor: AppColors.APP_BLUE,
                     ),
                     CustomText(
-                      title: city,
+                      title:
+                          (city?.isEmpty ?? true) ? "Cairo" : city ?? 'Cairo',
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       textColor: AppColors.APP_BLUE,
@@ -122,13 +139,15 @@ class WeatherAndPricesSection extends StatelessWidget {
     required String price,
     required String unit,
     required String imagePath,
+    bool? isImageWhite = false,
     bool isBottomRounded = false,
+    bool isTopRounded = false,
   }) {
     return ReusableContainer(
       boxShadow: [_buildShadow()],
       padding: EdgeInsets.symmetric(horizontal: 10),
       borderRadius: BorderRadius.vertical(
-        top: isBottomRounded ? Radius.zero : Radius.circular(20),
+        top: isTopRounded ? Radius.circular(20) : Radius.zero,
         bottom: isBottomRounded ? Radius.circular(20) : Radius.zero,
       ),
       height: 50,
@@ -138,7 +157,7 @@ class WeatherAndPricesSection extends StatelessWidget {
             imagePath,
             width: 20,
             height: 20,
-            color: AppColors.APP_BLUE,
+            color: isImageWhite ?? false ? AppColors.APP_BLUE : null,
           ),
           SizedBox(width: 5),
           CustomText(
@@ -159,10 +178,11 @@ class WeatherAndPricesSection extends StatelessWidget {
     return Flexible(
       child: ReusableContainer(
         padding: EdgeInsets.symmetric(horizontal: 10),
-        borderRadius: context.locale.countryCode == "en"
+        borderRadius: context.locale.languageCode == "en"
             ? BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(20),
+                bottomLeft: Radius.circular(0),
                 bottomRight: Radius.circular(20),
               )
             : BorderRadius.only(
@@ -171,7 +191,7 @@ class WeatherAndPricesSection extends StatelessWidget {
                 bottomLeft: Radius.circular(15),
               ),
         boxShadow: [_buildShadow()],
-        height: 200,
+        height: 245,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -191,7 +211,7 @@ class WeatherAndPricesSection extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 15),
-            _buildPriceText(katkootPrice, "egp".tr()),
+            _buildPriceText(katkootPrice ?? "N/A", "egp".tr()),
           ],
         ),
       ),
