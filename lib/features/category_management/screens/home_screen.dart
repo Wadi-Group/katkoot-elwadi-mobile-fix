@@ -14,7 +14,6 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/services/remote/weather_service.dart';
 import '../../app_base/entities/base_state.dart';
-import '../../app_base/screens/custom_drawer.dart';
 import '../../guides_management/models/video.dart';
 import '../../menu_management/view_models/menu_categorized_videos_view_model.dart';
 import '../models/category.dart';
@@ -164,7 +163,6 @@ class _HomeScreenState extends State<HomeScreen>
     super.build(context);
     return Scaffold(
       key: _scaffoldKey,
-      drawer: CustomDrawer(),
       appBar: customAppBar,
       backgroundColor: AppColors.LIGHT_BACKGROUND,
       body: Stack(
