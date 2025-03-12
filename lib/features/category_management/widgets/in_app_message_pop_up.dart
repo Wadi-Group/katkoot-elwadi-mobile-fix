@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:katkoot_elwady/core/api/api_urls.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../app_base/widgets/active_button.dart';
@@ -21,7 +22,7 @@ void showInAppMessage(
           contentPadding: EdgeInsets.all(0),
           backgroundColor: Colors.transparent,
           content: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.6,
+            width: MediaQuery.of(context).size.width * 0.7,
             child: Stack(
               children: [
                 Container(
@@ -45,9 +46,11 @@ void showInAppMessage(
                           maxLines: 5,
                           fontSize: 30),
                       SizedBox(height: 30),
-                      // TODO :: Add image from backend here
-                      Image.asset(
-                        "assets/images/onboarding_1.png",
+                      Image.network(
+                        "${ApiUrls.IMAGE_BASE_URL}$imageUrl",
+                        height: 200,
+                        width: 200,
+                        fit: BoxFit.cover,
                       ),
                       SizedBox(height: 30),
                       CustomElevatedButton(
@@ -55,7 +58,7 @@ void showInAppMessage(
                         onPressed: () {},
                         backgroundColor: AppColors.APP_BLUE,
                         textColor: AppColors.white,
-                        radiusCorners: 12,
+                        radiusCorners: 30,
                       ),
                       SizedBox(height: 30),
                     ],

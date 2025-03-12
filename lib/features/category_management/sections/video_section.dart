@@ -16,7 +16,6 @@ class VideoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var firstVideo = video?.videosList?.first;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,17 +43,18 @@ class VideoSection extends StatelessWidget {
           onTap: () {
             AppConstants.navigatorKey.currentState?.push(MaterialPageRoute(
                 builder: (context) => VideoPlayerYouTubeIframeScreen(
-                    url: firstVideo?.url ?? Url())));
+                    url: video?.videosList?[0].url ?? Url())));
           },
           child: Container(
             height: 200,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(firstVideo?.url?.image ?? ""),
+                image: NetworkImage(
+                    getThumbnailUrl(video?.videosList?[0].url?.url)),
                 fit: BoxFit.cover,
               ),
-              color: AppColors.APPLE_GREEN,
+              color: AppColors.Ash_grey,
               borderRadius: BorderRadius.circular(10),
             ),
             child:
@@ -64,4 +64,12 @@ class VideoSection extends StatelessWidget {
       ],
     );
   }
+}
+
+String getThumbnailUrl(String? youtubeUrl) {
+  final Uri uri = Uri.parse(youtubeUrl ?? "");
+  if (uri.queryParameters.containsKey('v')) {
+    return "https://img.youtube.com/vi/${uri.queryParameters['v']}/hqdefault.jpg";
+  }
+  return "https://placehold.co/600x400"; // Fallback image
 }

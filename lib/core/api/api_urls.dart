@@ -3,6 +3,7 @@ class ApiUrls {
   //static const BASE_URL = 'http://10.0.2.2:8000/api/'; //development
   //static const BASE_URL = 'http://127.0.0.1:8000/api/'; //development
   static const BASE_URL = 'http://10.10.100.228/api/'; //development
+  static const IMAGE_BASE_URL = "http://10.10.100.228/storage/";
 
   static const REFRESH_TOKEN = "refresh-token";
   static const CATEGORIES = "categories";
