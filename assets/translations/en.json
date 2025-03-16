@@ -274,7 +274,8 @@
   "delete_account_message": "Are you sure you want to delete your account?",
 
   "live_broilers": "Live Broilers",
-  "egg_tray": "Egg Tray",
+  "white_egg_tray": "White Egg Tray",
+  "brown_egg_tray": "Brown Egg Tray",
   "katkot_alwadi_broilers_doc_price": "Katkot Alwadi Broilers DOC Price",
   "alaf_alwadi_price" : "A’laf Al Wadi Prices",
   "starter_feed" : "Starter Feed",
@@ -308,5 +309,29 @@
   "youtube" : "Youtube",
   "website" : "Website",
 
-  "coming_soon" : "Coming Soon"
+  "coming_soon" : "Coming Soon",
+  "indicates_required_fields" : "Indicates required fields",
+  "str_news" : "News",
+  "wadi": "Wadi",
+  "international": "International",
+  "local": "Local",
+  "write_comment" : "Write Comment ...",
+  "latest_videos" : "Latest Videos",
+  "mark_as_read" : "Mark as read",
+  "confirm_deletion": "Confirm Deletion",
+  "delete_message_confirmation": "Are you sure you want to delete the selected messages?",
+  "cancel": "Cancel",
+  "last_updated": "Last updated: {}",
+  "now": "Now",
+  "load_more": "Load More",
+  "notifications": "Notifications",
+  "no_notifications": "No Notifications",
+  "hours_ago": "{} hours ago",
+  "minutes_ago": "{} minutes ago",
+  "just_now": "Just now",
+  "yesterday": "Yesterday",
+  "attachment": "Attachment"
+
+
+
 }

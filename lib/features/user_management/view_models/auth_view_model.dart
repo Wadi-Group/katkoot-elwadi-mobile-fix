@@ -13,7 +13,7 @@ import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dar
 import 'package:katkoot_elwady/features/menu_management/view_models/navigation_drawer_mixin.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
 import 'package:katkoot_elwady/features/user_management/models/user.dart'
-as userModel;
+    as userModel;
 import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
 import 'package:katkoot_elwady/features/user_management/screens/verify_phone_screen.dart';
 import 'package:riverpod/riverpod.dart';
@@ -22,11 +22,11 @@ import '../../../core/di/injection_container.dart' as di;
 
 class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
     with Validator, BaseViewModel, NavigationDrawerMixin {
-
   Repository _repository;
   final MaterialPageRoute? nextRoute;
 
-  AuthViewModel(this._repository,{this.nextRoute}) : super(BaseState(data: <UserFormsErrors>[]));
+  AuthViewModel(this._repository, {this.nextRoute})
+      : super(BaseState(data: <UserFormsErrors>[]));
 
   bool isRegister = false;
   userModel.User? user;
@@ -40,7 +40,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
     var result = await _repository.putUserProfile(
         fbToken: fbToken,
         name: updatedUser.user!.name!,
-        cityId: updatedUser.user!.cityId,
+        cityId: updatedUser.user!.cityId ?? 0,
         birthDate: updatedUser.user!.birthDate!,
         phone: changePhone ? updatedUser.user!.phone : null,
         categoryId: updatedUser.user!.categoryId!,
@@ -48,14 +48,16 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         flockSize: updatedUser.user!.flockSize);
     if (result.data != null) {
       ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-          listen: false).read(di.userViewModelProvider.notifier)
+              listen: false)
+          .read(di.userViewModelProvider.notifier)
           .setLocalUserData(
-          UserData(token: updatedUser.token, user: result.data!.user));
+              UserData(token: updatedUser.token, user: result.data!.user));
 
       ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-          listen: false).read(di.unseenNotificationCountProvider.notifier)
+              listen: false)
+          .read(di.unseenNotificationCountProvider.notifier)
           .setLocalUnseenNotificationCount(
-          result.data?.notificationNotSeenCount ?? 0);
+              result.data?.notificationNotSeenCount ?? 0);
 
       var deviceState = await _repository.getOnesignalDeviceState();
       if (deviceState != null) {
@@ -64,7 +66,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
       }
       if (result.data!.user != null) {
         DateTime dateMod =
-        DateTime.parse(result.data!.user?.birthDate.toString() ?? "");
+            DateTime.parse(result.data!.user?.birthDate.toString() ?? "");
         var formattedDate = DateFormat('MM-dd').format(dateMod);
         _repository.sendOnesignalTags(
             status: OneSignalValue.REGISTERED,
@@ -112,17 +114,16 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
   }
 
   validateFeilds(
-      {
-        required BuildContext context,
-        fullName,
-        phone,
-        String? date,
-        required String countryCode,
-        int? cityId,
-        List<int>? categoryId,
-        userState,
-        flockSize,
-        bool? isEdit}) async {
+      {required BuildContext context,
+      fullName,
+      phone,
+      String? date,
+      required String countryCode,
+      int? cityId,
+      List<int>? categoryId,
+      userState,
+      flockSize,
+      bool? isEdit}) async {
     List<UserFormsErrors> validationErrors = Validator.validateFields(
         fullName: fullName,
         phone: phone,
@@ -138,8 +139,10 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
           data: [],
           isLoading: true,
         );
-        var user = ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-            listen: false).read(di.userViewModelProvider.notifier)
+        var user = ProviderScope.containerOf(
+                AppConstants.navigatorKey.currentContext!,
+                listen: false)
+            .read(di.userViewModelProvider.notifier)
             .getLocalUserData();
         var fbToken = await _repository.getFirebaseToken();
         if (fbToken != null) {
@@ -184,7 +187,8 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
             state: userState,
             flockSize: flockSize);
         // sendSmsCode("$phone", countryCode);
-        checkExistingPhone(context: context, phone: "$phone", countryCode: countryCode);
+        checkExistingPhone(
+            context: context, phone: "$phone", countryCode: countryCode);
       }
     } else {
       state = BaseState(data: validationErrors, isLoading: false);
@@ -200,7 +204,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
     bool isFromRegisterScreen = false,
   }) {
     List<UserFormsErrors> validationErrors =
-    Validator.validateFields(phone: phone);
+        Validator.validateFields(phone: phone);
     if (validationErrors.isEmpty) {
       state = BaseState(data: [], isLoading: false);
       isRegister = isFromRegisterScreen;
@@ -223,13 +227,12 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
   }
 
   Future checkExistingPhone(
-      {
-        required BuildContext context,
-        phone,
-        required String countryCode,
-        bool isEdit = false,
-        UserData? updatedUser,
-        bool isFromVerifyScreen = false}) async {
+      {required BuildContext context,
+      phone,
+      required String countryCode,
+      bool isEdit = false,
+      UserData? updatedUser,
+      bool isFromVerifyScreen = false}) async {
     state = BaseState(data: [], isLoading: true);
     var result = await _repository.checkExistingPhone(phone: "$phone");
     if (result.data != null) {
@@ -275,7 +278,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         handleError(
             errorType: result.errorType,
             errorMessage:
-            result.errorMessage ?? result.keyValueErrors!["message"],
+                result.errorMessage ?? result.keyValueErrors!["message"],
             keyValueErrors: result.keyValueErrors);
       }
     }
@@ -283,8 +286,8 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
 
   sendSmsCode(BuildContext context, String phoneNumber, String countryCode,
       {bool isFromVerifyScreen = false,
-        bool isEdit = false,
-        UserData? updatedUser}) async {
+      bool isEdit = false,
+      UserData? updatedUser}) async {
     state = BaseState(data: [], isLoading: true);
 
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) async {
@@ -342,8 +345,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
               ),
             ),
           );
-        }
-        else if (isEdit) {
+        } else if (isEdit) {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -358,8 +360,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
               ),
             ),
           );
-        }
-        else {
+        } else {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -380,10 +381,10 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
 
   loginSMS(BuildContext context, smsCode, verId,
       {bool isFromRegisterScreen = false,
-        bool isEdit = false,
-        UserData? updatedUser,
-        String? countryCode,
-        userModel.User? registeredUser}) async {
+      bool isEdit = false,
+      UserData? updatedUser,
+      String? countryCode,
+      userModel.User? registeredUser}) async {
     isRegister = isFromRegisterScreen;
     user = registeredUser;
     if (smsCode == null) {
@@ -460,7 +461,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         "birth_date": user!.birthDate.toString(),
         "village": user!.state!.isNotEmpty ? user!.state.toString() : null,
         "flock_size":
-        user!.flockSize!.isNotEmpty ? user!.flockSize.toString() : null,
+            user!.flockSize!.isNotEmpty ? user!.flockSize.toString() : null,
       };
 
       String? formattedDate;
@@ -487,13 +488,15 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
     var result = await _repository.loginByFirebase(authData: authData);
     if (result.data != null) {
       ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-          listen: false).read(di.userViewModelProvider.notifier)
+              listen: false)
+          .read(di.userViewModelProvider.notifier)
           .setLocalUserData(result.data);
 
       ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-          listen: false).read(di.unseenNotificationCountProvider.notifier)
+              listen: false)
+          .read(di.unseenNotificationCountProvider.notifier)
           .setLocalUnseenNotificationCount(
-          result.data?.notificationNotSeenCount ?? 0);
+              result.data?.notificationNotSeenCount ?? 0);
 
       var deviceState = await _repository.getOnesignalDeviceState();
       if (deviceState != null) {
@@ -508,7 +511,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         if (DateTime.tryParse(result.data!.user?.birthDate.toString() ?? "") !=
             null) {
           DateTime dateMod =
-          DateTime.parse(result.data!.user!.birthDate.toString());
+              DateTime.parse(result.data!.user!.birthDate.toString());
           formattedDate = DateFormat('MM-dd').format(dateMod);
         }
 
@@ -524,11 +527,11 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         isLoading: false,
       );
       //resetDrawerSelection();
-      if(nextRoute != null){
+      if (nextRoute != null) {
         int count = 0;
         Navigator.pushReplacement(context, nextRoute!);
         //navigateToScreen(nextRoute!.redirectionRouteName,arguments: redirectionData!.arguments,replace: true);
-      }else{
+      } else {
         navigateToScreen(MainBottomAppBar.routeName, removeTop: true);
       }
     } else {

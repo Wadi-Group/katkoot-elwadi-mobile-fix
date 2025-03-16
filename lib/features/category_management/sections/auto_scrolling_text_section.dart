@@ -61,7 +61,7 @@ class _AutoScrollingTextSectionState extends State<AutoScrollingTextSection> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 child: CustomText(
-                  title: text.title ?? '',
+                  title: text.content ?? '',
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                   maxLines: 1,
