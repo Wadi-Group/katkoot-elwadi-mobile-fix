@@ -104,7 +104,7 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
 
         print(currentUser.user!.flockSize);
 
-        flockSize = currentUser.user!.flockSize!;
+        flockSize = currentUser.user!.flockSize!.toString();
         flockSizeController.text = currentUser.user!.flockSize!.toString();
       }
       if (currentUser.user!.birthDate != null) {
@@ -176,7 +176,7 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
 
             print(remoteUserData.user!.name!);
 
-            flockSize = remoteUserData.user!.flockSize!;
+            flockSize = remoteUserData.user!.flockSize!.toString();
             flockSizeController.text =
                 remoteUserData.user!.flockSize!.toString();
           }

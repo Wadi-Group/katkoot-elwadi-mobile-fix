@@ -94,7 +94,7 @@ class _AppTabbarState extends State<AppTabbar>
                             BoxDecoration(
                                 borderRadius: BorderRadius.circular(
                                     100), // Creates border
-                                color: AppColors.Olive_Drab),
+                                color: AppColors.BLUE_GREY),
                         child: SizedBox(
                           height: double.infinity,
                           width: tabWidth,

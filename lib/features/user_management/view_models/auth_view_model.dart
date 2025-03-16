@@ -44,7 +44,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
       phone: changePhone ? updatedUser.user!.phone : null,
       categoryId: updatedUser.user!.categoryId!,
       state: updatedUser.user!.state,
-      flockSize: updatedUser.user!.flockSize,
+      flockSize: updatedUser.user!.flockSize.toString(),
       numberOfBirds: updatedUser.user!.numberOfBirds,
       numberOfFarms: updatedUser.user!.numberOfFarms,
       numberOfHouses: updatedUser.user!.numberOfHouses,
