@@ -224,7 +224,8 @@ class _MessagesListScreenState extends State<MessagesListScreen>
                             .map((category) {
                           var filteredMessages = messages
                               .where((message) =>
-                                  _getCategoryName(message.category) ==
+                                  _getCategoryName(
+                                      message.notificationCategory) ==
                                   category)
                               .toList();
 
@@ -380,13 +381,13 @@ class _MessagesListScreenState extends State<MessagesListScreen>
     });
   }
 
-  MessagesCategory _getCategoryName(Category? category) {
-    switch (category?.categoryId) {
-      case 1:
+  MessagesCategory _getCategoryName(String? notificationCategory) {
+    switch (notificationCategory) {
+      case "Wadi News":
         return MessagesCategory.wadi;
-      case 2:
+      case "International News":
         return MessagesCategory.international;
-      case 3:
+      case "Local News":
         return MessagesCategory.local;
       default:
         return MessagesCategory.wadi;

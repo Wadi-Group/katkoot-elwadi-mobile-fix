@@ -19,21 +19,24 @@ class Message {
   String? attachmentTitle;
   Tool? tool;
   Category? category;
-  Message(
-      {this.id,
-      this.content,
-      this.schedule,
-      this.title,
-      this.type,
-      this.date,
-      this.isSeen,
-      this.attachment,
-      this.attachmentPrint,
-      this.attachmentId,
-      this.attachmentType,
-      this.attachmentTitle,
-      this.tool,
-      this.category});
+  String? notificationCategory;
+  Message({
+    this.id,
+    this.content,
+    this.schedule,
+    this.title,
+    this.type,
+    this.date,
+    this.isSeen,
+    this.attachment,
+    this.attachmentPrint,
+    this.attachmentId,
+    this.attachmentType,
+    this.attachmentTitle,
+    this.tool,
+    this.category,
+    this.notificationCategory,
+  });
 
   Message.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -41,12 +44,14 @@ class Message {
     type = json['type'];
     content = json['content'];
     attachment = json['attachment'] != null ? json['attachment'] : null;
-    attachmentPrint = json['attachment_print'] != null ? json['attachment_print'] : null;
+    attachmentPrint =
+        json['attachment_print'] != null ? json['attachment_print'] : null;
     attachmentId = (json['attachment_id'].toString());
     attachmentType = json['attachment_type'];
     schedule = json['schedule'];
     isSeen = json["is_seen"];
     attachmentTitle = json["attachment_title"];
+    notificationCategory = json["notification_cat "];
     if (attachmentType == "Tool") {
       tool = Tool.fromJson(Map<String, dynamic>.from(json["tool"]));
       category = Category.fromJson(Map<String, dynamic>.from(json["category"]));
@@ -60,6 +65,7 @@ class Message {
           ? schedule = DateFormat("d MMM y").format(date!)
           : schedule = DateFormat.yMMMd('ar').format(date!);
     }
+
     print(schedule);
   }
 
@@ -70,6 +76,7 @@ class Message {
     data['type'] = this.type;
     data['content'] = this.content;
     data['schedule'] = this.schedule;
+    data['notification_cat '] = this.notificationCategory;
 
     return data;
   }

@@ -44,6 +44,7 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
 
       result = await _repository.getMessages(
           hasToken: true, page: page, limit: limit);
+      print(result.data);
     } else {
       var deviceState = await _repository.getOnesignalDeviceState();
       var installedAt = await _repository.installedAtTime();

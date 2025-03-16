@@ -165,6 +165,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       ),
                       itemBuilder: (context) {
                         final messages = messagesState.data;
+                        var filteredMessages = messages
+                            ?.where((message) =>
+                                message.notificationCategory == "Wadi News" ||
+                                message.notificationCategory == null)
+                            .toList();
 
                         return [
                           PopupMenuItem(
@@ -176,7 +181,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          if (messages == null || messages.isEmpty)
+                          if (filteredMessages == null ||
+                              filteredMessages.isEmpty)
                             PopupMenuItem(
                               enabled: false,
                               child: Center(
@@ -189,7 +195,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                               ),
                             )
                           else
-                            ...messages.map((message) => PopupMenuItem(
+                            ...filteredMessages.map((message) => PopupMenuItem(
                                   enabled: false,
                                   padding: EdgeInsets.all(0),
                                   child: GestureDetector(
@@ -284,5 +290,18 @@ class _CustomAppBarState extends State<CustomAppBar> {
             )
           : null,
     );
+  }
+}
+
+MessagesCategory _getCategoryName(String? notificationCategory) {
+  switch (notificationCategory) {
+    case "Wadi News":
+      return MessagesCategory.wadi;
+    case "International News":
+      return MessagesCategory.international;
+    case "Local News":
+      return MessagesCategory.local;
+    default:
+      return MessagesCategory.wadi;
   }
 }
