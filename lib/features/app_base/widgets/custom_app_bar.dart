@@ -117,7 +117,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
                     return PopupMenuButton<int>(
                       onOpened: () {
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
