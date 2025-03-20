@@ -48,9 +48,9 @@ class Validator {
     String? totalEggs,
     String? hatchedEggs,
     String? eggWeight,
-    String? numberOfBirds,
-    String? numberOfFarms,
-    String? numberOfHouses,
+    int? numberOfBirds,
+    int? numberOfFarms,
+    int? numberOfHouses,
   }) {
     List<UserFormsErrors> errors = [];
     if (meatWeight != null) {
@@ -176,29 +176,6 @@ class Validator {
         errors.add(UserFormsErrors(
             field: UserFields.FLOCK_SIZE.field,
             message: 'flockSize_length'.tr()));
-      }
-    }
-
-    if (numberOfBirds != null) {
-      if (numberOfBirds.length > 50) {
-        errors.add(UserFormsErrors(
-            field: UserFields.NUMBER_OF_BIRDS.field,
-            message: 'numberOfBirds_length'.tr()));
-      }
-    }
-
-    if (numberOfFarms != null) {
-      if (numberOfFarms.length > 50) {
-        errors.add(UserFormsErrors(
-            field: UserFields.NUMBER_OF_FARMS.field,
-            message: 'numberOfFarms_length'.tr()));
-      }
-    }
-    if (numberOfHouses != null) {
-      if (numberOfHouses.length > 50) {
-        errors.add(UserFormsErrors(
-            field: UserFields.NUMBER_OF_HOUSES.field,
-            message: 'numberOfHouses_length'.tr()));
       }
     }
 

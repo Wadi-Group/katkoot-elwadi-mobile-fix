@@ -12,10 +12,10 @@ class User {
   String? birthDate;
   DateTime? creationDate;
   String? state;
-  int? flockSize;
-  String? numberOfBirds;
-  String? numberOfFarms;
-  String? numberOfHouses;
+  String? flockSize;
+  int? numberOfBirds;
+  int? numberOfFarms;
+  int? numberOfHouses;
 
   User({
     this.name,
@@ -49,7 +49,12 @@ class User {
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
     state = json["village"];
-    flockSize = json["flock_size"];
+    // Handle flockSize dynamically
+    if (json["flock_size"] is int) {
+      flockSize = json["flock_size"].toString();
+    } else {
+      flockSize = json["flock_size"];
+    }
     numberOfBirds = json["number_of_birds"];
     numberOfFarms = json["number_of_farms"];
     numberOfHouses = json["number_of_houses"];
@@ -73,7 +78,8 @@ class User {
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
     data["village"] = this.state;
-    data["flock_size"] = this.flockSize;
+    // Ensure flockSize is always stored as a string
+    data["flock_size"] = flockSize?.toString();
     data['id'] = this.id;
     data["number_of_birds"] = this.numberOfBirds;
     data["number_of_farms"] = this.numberOfFarms;

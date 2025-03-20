@@ -191,6 +191,22 @@ class MessagesViewModel extends StateNotifier<BaseState<List<Message>?>>
     }
   }
 
+  Future<void> deleteMessages({required List<int> ids}) async {
+    state = BaseState(data: [], isLoading: true);
+    var result = await _repository.deleteMessages(ids: ids);
+    if (result.data != null) {
+      state = BaseState(data: [], isLoading: false);
+      showToastMessage(result.data?.message ?? "");
+      Navigator.pop(AppConstants.navigatorKey.currentContext!);
+    } else {
+      state = BaseState(data: [], isLoading: false);
+      handleError(
+          errorType: result.errorType,
+          errorMessage: result.errorMessage,
+          keyValueErrors: result.keyValueErrors);
+    }
+  }
+
   updateState(List<Message>? messages) {
     state = BaseState(data: messages);
   }

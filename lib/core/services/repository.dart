@@ -186,9 +186,9 @@ class Repository {
     String? state,
     String? flockSize,
     String? phone,
-    String? numberOfBirds,
-    String? numberOfFarms,
-    String? numberOfHouses,
+    int? numberOfBirds,
+    int? numberOfFarms,
+    int? numberOfHouses,
   }) async {
     return await _apiService.putUserProfile(
       fbToken: fbToken,
@@ -350,8 +350,13 @@ class Repository {
     return await _apiService.getInAppMessageData();
   }
 
-   // get about us data
+  // get about us data
   Future<Map<String, dynamic>?> getAboutUs() async {
     return await _apiService.getAboutUs();
+  }
+
+  // delete messages
+  Future<BaseApiResult> deleteMessages({required List<int> ids}) async {
+    return _apiService.deleteMessage(messageIds: ids);
   }
 }

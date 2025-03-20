@@ -126,9 +126,9 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
       List<int>? categoryId,
       userState,
       flockSize,
-      String? numberOfBirds,
-      String? numberOfFarms,
-      String? numberOfHouses,
+      int? numberOfBirds,
+      int? numberOfFarms,
+      int? numberOfHouses,
       bool? isEdit}) async {
     List<UserFormsErrors> validationErrors = Validator.validateFields(
         fullName: fullName,
@@ -159,13 +159,17 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
             UserData updatingUser = UserData(
               token: user.token,
               user: userModel.User(
-                  name: fullName,
-                  phone: phone,
-                  cityId: cityId!,
-                  birthDate: date,
-                  categoryId: categoryId!,
-                  state: userState,
-                  flockSize: flockSize),
+                name: fullName,
+                phone: phone,
+                cityId: cityId!,
+                birthDate: date,
+                categoryId: categoryId!,
+                state: userState,
+                flockSize: flockSize,
+                numberOfBirds: numberOfBirds,
+                numberOfFarms: numberOfFarms,
+                numberOfHouses: numberOfHouses,
+              ),
             );
 
             if (phone == user.user!.phone) {
@@ -471,6 +475,9 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         "birth_date": user!.birthDate.toString(),
         "village": user!.state!.isNotEmpty ? user!.state.toString() : null,
         "flock_size": user!.flockSize!,
+        "number_of_birds": user!.numberOfBirds!,
+        "number_of_farms": user!.numberOfFarms!,
+        "number_of_houses": user!.numberOfHouses!,
       };
 
       String? formattedDate;

@@ -30,7 +30,7 @@ class _MessagesListScreenState extends State<MessagesListScreen>
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool isSelectionMode = false;
-  Set<int> selectedMessageIds = {}; // Stores selected message IDs
+  List<int> selectedMessageIds = [];
 
   @override
   void initState() {
@@ -119,13 +119,9 @@ class _MessagesListScreenState extends State<MessagesListScreen>
 
   Future<void> deleteMessages() async {
     if (selectedMessageIds.isNotEmpty) {
-      for (var id in selectedMessageIds) {
-        // TODO :: Delete message api integration is pending
-
-        // await ProviderScope.containerOf(context, listen: false)
-        //     .read(di.messagesViewModelProvider.notifier)
-        //     .deleteMessage(id);
-      }
+      await ProviderScope.containerOf(context, listen: false)
+          .read(di.messagesViewModelProvider.notifier)
+          .deleteMessages(ids: selectedMessageIds);
       getMessages(refresh: true); // Refresh messages after deletion
       toggleSelectionMode(); // Exit selection mode
     }

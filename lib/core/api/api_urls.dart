@@ -35,4 +35,5 @@ class ApiUrls {
   static const HOME = "home-page";
   static const IN_APP_MESSAGE = "in-app-messages/latest";
   static const ABOUT_US = "about-wadi-group/latest";
+  static const DELETE_MESSAGE = "messages/bulk-delete";
 }

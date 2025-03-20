@@ -229,9 +229,9 @@ class ApiService {
     String? state,
     String? flockSize,
     String? phone,
-    String? numberOfBirds,
-    String? numberOfFarms,
-    String? numberOfHouses,
+    int? numberOfBirds,
+    int? numberOfFarms,
+    int? numberOfHouses,
   }) async {
     return await ApiMethods<UserData>().put(ApiUrls.EDIT_PROFILE,
         data: phone != null
@@ -439,5 +439,14 @@ class ApiService {
   Future<Map<String, dynamic>?> getAboutUs() async {
     return await ApiMethods<Map<String, dynamic>>()
         .getRaw(ApiUrls.ABOUT_US, hasToken: false);
+  }
+
+  // delete message
+  Future<BaseApiResult> deleteMessage({required List<int> messageIds}) async {
+    var data = {"message_ids": messageIds};
+    var result = await ApiMethods()
+        .post(ApiUrls.DELETE_MESSAGE, data: data, hasToken: true);
+    print(result);
+    return result;
   }
 }
