@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen>
   late Map<String, dynamic> homeData = {};
   late Map<String, dynamic> inAppMessageData = {};
   final List<Map<String, String>> alaafPrices = [];
+  late List<Category>? categories = [];
   // ===================================================== Functions =====================================================
   @override
   void initState() {
@@ -235,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen>
                       Consumer(builder: (_, ref, __) {
                         var categoriesViewModel =
                             ref.watch(di.categoriesViewModelProvider);
-                        var categories = categoriesViewModel.data;
+                        categories = categoriesViewModel.data;
 
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -270,7 +271,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: CategoryTabWidget(
-                                      category: categories[index],
+                                      category:
+                                          categories?[index] ?? Category(),
                                     ),
                                   ),
                                 ),
@@ -329,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen>
                       _sizedBox,
 
                       // ReportGeneratorSection
-                      ReportGeneratorSection(),
+                      ReportGeneratorSection(categories: categories ?? []),
                     ],
                   ),
                 ),
