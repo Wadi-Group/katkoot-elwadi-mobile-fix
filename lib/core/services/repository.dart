@@ -352,4 +352,21 @@ class Repository {
   Future<Map<String, dynamic>?> getInAppMessageData() async {
     return await _apiService.getInAppMessageData();
   }
+
+  // // get about us data
+  // Future<Map<String, dynamic>?> getAboutUs() async {
+  //   return await _apiService.getAboutUs();
+  // }
+
+  // // delete messages
+  // Future<BaseApiResult> deleteMessages({required List<int> ids}) async {
+  //   return _apiService.deleteMessage(messageIds: ids);
+  // }
+
+  Future<void> setInAppMessageComplete() async {
+    await _sharedPreferencesService.setInAppMessageComplete();
+  }
+
+  Future<bool> isInAppMessageComplete() async =>
+      await _sharedPreferencesService.isInAppMessageComplete();
 }

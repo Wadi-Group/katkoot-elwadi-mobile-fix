@@ -29,7 +29,7 @@ class TopicRowItem extends StatelessWidget {
             padding: EdgeInsets.all(5),
             textAlign: TextAlign.center,
             title: "${topic.title}",
-            textColor: AppColors.Dark_spring_green,
+            textColor: AppColors.white,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

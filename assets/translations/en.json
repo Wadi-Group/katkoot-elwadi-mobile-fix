@@ -330,8 +330,9 @@
   "minutes_ago": "{} minutes ago",
   "just_now": "Just now",
   "yesterday": "Yesterday",
-  "attachment": "Attachment"
-
+  "attachment": "Attachment",
+  "cairo_str" : "Cairo",
+  "no_messages_available" : "No messages available"
 
 
 }

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/utils/numbers_manager.dart';
 
 import '../../app_base/widgets/custom_text.dart';
 import '../widgets/reusable_container_widget.dart';
@@ -27,79 +28,94 @@ class AlafAlWadiPrices extends StatelessWidget {
           ),
         ),
         SizedBox(height: 20),
-        ReusableContainer(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          height: 80,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(prices.length * 2 - 1, (index) {
-              if (index.isOdd) {
-                return Container(
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  width: 2,
-                  height: 50,
-                  color: Colors.grey[300], // Vertical Divider
-                );
-              }
-              final item = prices[index ~/ 2];
-              return Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Centered Row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          item["image"]!,
-                          width: 30,
-                          height: 30,
-                        ),
-                        SizedBox(width: 10),
-                        Flexible(
-                          child: CustomText(
-                            title: item["title"]!,
-                            fontSize: 14,
-                            maxLines: 2,
-                            fontWeight: FontWeight.normal,
-                            textAlign: TextAlign.start,
-                            textColor: AppColors.APP_BLUE,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    RichText(
-                      textAlign: TextAlign.center, // Center price text
-                      text: TextSpan(
+        prices.isNotEmpty
+            ? ReusableContainer(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                height: 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(prices.length * 2 - 1, (index) {
+                    if (index.isOdd) {
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        width: 2,
+                        height: 50,
+                        color: Colors.grey[300], // Vertical Divider
+                      );
+                    }
+                    final item = prices[index ~/ 2];
+                    return Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          TextSpan(
-                            text: item["price"]!,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.APPLE_GREEN,
-                            ),
+                          // Centered Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                item["image"]!,
+                                width: 30,
+                                height: 30,
+                              ),
+                              SizedBox(width: 10),
+                              Flexible(
+                                child: CustomText(
+                                  title: item["title"]!,
+                                  fontSize: 14,
+                                  maxLines: 2,
+                                  fontWeight: FontWeight.normal,
+                                  textAlign: TextAlign.start,
+                                  textColor: AppColors.APP_BLUE,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: " ${"egp_ton".tr()}",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: AppColors.APPLE_GREEN,
-                              fontWeight: FontWeight.w400,
+                          SizedBox(height: 5),
+                          RichText(
+                            textAlign: TextAlign.center, // Center price text
+
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: context.locale.languageCode == "ar"
+                                      ? NumbersManager
+                                          .convertEnglishNumbersToArabic(
+                                              item["price"]!)
+                                      : item["price"]!,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.APPLE_GREEN,
+                                    fontFamily:
+                                        context.locale.languageCode == "ar"
+                                            ? 'Almarai'
+                                            : 'Arial',
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: " ${"egp_ton".tr()}",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.APPLE_GREEN,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily:
+                                        context.locale.languageCode == "ar"
+                                            ? 'Almarai'
+                                            : 'Arial',
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    );
+                  }),
                 ),
-              );
-            }),
-          ),
-        ),
+              )
+            : SizedBox.shrink(),
       ],
     );
   }

@@ -18,15 +18,22 @@ class SharedPreferencesService {
   static const PARENT_FLOCK_MANAGEMENT_PARAMETERS =
       "PARENT_FLOCK_MANAGEMENT_PARAMETERS";
   static const UNSEEN_NOTIFICATION_COUNT = "unseen_notification_count";
+  static const inAppMessage = "inAppMessage";
 
   Future<void> setOnBoardingComplete() async {
     await save(firstTime, DateTime.now().toString());
     await save(onBoardingCompleteKey, true);
-    // await sharedPreferences.setBool(onBoardingCompleteKey, true);
   }
 
   Future<bool> isOnBoardingComplete() async =>
       await get<bool>(onBoardingCompleteKey) ?? false;
+
+  Future<void> setInAppMessageComplete({bool? value}) async {
+    await save(inAppMessage, value ?? true);
+  }
+
+  Future<bool> isInAppMessageComplete() async =>
+      await get<bool>(inAppMessage) ?? false;
 
   Future save<T>(String key, T value) async {
     if (T == String) {

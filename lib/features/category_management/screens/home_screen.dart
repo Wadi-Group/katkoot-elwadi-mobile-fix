@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/app_base/screens/screen_handler.dart';
 import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/app_no_data.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
+import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/category_management/widgets/category_tab_widget.dart';
 import 'package:katkoot_elwady/features/guides_management/models/url.dart';
 import 'package:katkoot_elwady/features/messages_management/models/message.dart';
@@ -13,9 +15,9 @@ import 'package:katkoot_elwady/features/messages_management/models/message.dart'
 import '../../../core/constants/app_constants.dart';
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/services/remote/weather_service.dart';
-import '../../app_base/entities/base_state.dart';
+
+import '../../app_base/screens/custom_drawer.dart';
 import '../../guides_management/models/video.dart';
-import '../../menu_management/view_models/menu_categorized_videos_view_model.dart';
 import '../models/category.dart';
 import '../sections/alaf_alwadi_prices_section.dart';
 import '../sections/auto_scrolling_text_section.dart';
@@ -36,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // ===================================================== Variables =====================================================
   late String? date = '';
@@ -46,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen>
   late Map<String, dynamic> homeData = {};
   late Map<String, dynamic> inAppMessageData = {};
   final List<Map<String, String>> alaafPrices = [];
+  late List<Category>? categories = [];
   // ===================================================== Functions =====================================================
   @override
   void initState() {
@@ -54,12 +56,33 @@ class _HomeScreenState extends State<HomeScreen>
     initUserLocalData();
     getListOfCategories();
     getNews();
-    getAllVideos();
+    // loadLastFetchTime(); // Load last online data fetch time
   }
+
+  late String lastFetchTime = "Now"; // Default value
+
+  // Future<void> loadLastFetchTime() async {
+  //   bool isOnline = await checkInternetConnection();
+  //   if (isOnline) {
+  //     setState(() {
+  //       lastFetchTime = "now".tr(); // Display "Now" when online
+  //     });
+  //   } else {
+  //     var timeBox = await Hive.openBox<String>('fetchTimeBox');
+  //     String? storedTime = timeBox.get('lastFetchTime');
+
+  //     if (storedTime != null) {
+  //       setState(() {
+  //         lastFetchTime =
+  //             DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse(storedTime));
+  //       });
+  //     }
+  //   }
+  // }
 
   //  Fetch weather data from the API
   Future fetchWeatherData() async {
-    var data = await WeatherService.getWeatherByCity();
+    var data = await WeatherService.getWeatherByUserLocation(context);
     if (data != null) {
       setState(() {
         city = data['city'];
@@ -120,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen>
       setState(() {}); // Refresh UI after data is loaded
     });
   }
-
   // Show in-app message
 
 // Initialize user local data
@@ -142,19 +164,6 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  // Get latest video
-  final _categorizedVideosViewModelProvider = StateNotifierProvider<
-      MenuCategorizedVideosViewModel, BaseState<List<Category>?>>((ref) {
-    return MenuCategorizedVideosViewModel(ref.read(di.repositoryProvider));
-  });
-  Future getAllVideos() async {
-    await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context, listen: false)
-          .read(_categorizedVideosViewModelProvider.notifier)
-          .getVideos();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final SizedBox _sizedBox = SizedBox(
@@ -162,30 +171,45 @@ class _HomeScreenState extends State<HomeScreen>
     );
     super.build(context);
     return Scaffold(
-      key: _scaffoldKey,
+      drawer: CustomDrawer(),
       appBar: customAppBar,
       backgroundColor: AppColors.LIGHT_BACKGROUND,
       body: Stack(
         children: [
           Container(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: homeData.isEmpty
-                    ? SizedBox.shrink()
-                    : Column(
-                        children: [
-                          Consumer(builder: (_, ref, __) {
-                            var categoriesViewModel =
-                                ref.watch(di.categoriesViewModelProvider);
-                            var categories = categoriesViewModel.data;
+            child: RefreshIndicator(
+              color: AppColors.APP_BLUE,
+              onRefresh: () async {
+                fetchWeatherData();
+                initUserLocalData();
+                getListOfCategories();
+                getNews(refresh: true);
+                // loadLastFetchTime(); // Load last online data fetch time
+              },
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 15, 20, 20),
+                  child: Column(
+                    children: [
+                      Consumer(builder: (_, ref, __) {
+                        var categoriesViewModel =
+                            ref.watch(di.categoriesViewModelProvider);
+                        categories = categoriesViewModel.data;
 
-                            return Column(children: [
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // CustomText(
+                              //   title: "last_updated".tr(args: [lastFetchTime]),
+                              //   fontSize: 14,
+                              //   textColor: AppColors.APP_BLUE,
+                              // ),
+                              SizedBox(height: 15),
                               //  WeatherAndPricesSection
                               WeatherAndPricesSection(
-                                city: city ?? "Cairo",
-                                date: date ?? '',
-                                weather: weather ?? "",
+                                city: city,
+                                date: date,
+                                weather: weather,
                                 liveBroilersPrice:
                                     homeData["live_broilers_price"],
                                 whiteEggTrayPrice:
@@ -205,7 +229,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: CategoryTabWidget(
-                                      category: categories[index],
+                                      category:
+                                          categories?[index] ?? Category(),
                                     ),
                                   ),
                                 ),
@@ -219,56 +244,55 @@ class _HomeScreenState extends State<HomeScreen>
                               ),
                               _sizedBox,
                             ]);
-                          }),
+                      }),
 
-                          //  AutoScrollingTextSection
-                          Consumer(builder: (_, ref, __) {
-                            var messagesViewModel =
-                                ref.watch(di.messagesViewModelProvider);
-                            var messages = messagesViewModel.data;
+                      //  AutoScrollingTextSection
+                      Consumer(builder: (_, ref, __) {
+                        var messagesViewModel =
+                            ref.watch(di.messagesViewModelProvider);
+                        var messages = messagesViewModel.data;
 
-                            if (messages == null || messages.isEmpty) {
-                              // Show a placeholder message when there are no messages
-                              return AutoScrollingTextSection(
-                                rotatingTexts: [
-                                  Message(
-                                      id: 1,
-                                      content: "No messages available".tr()),
-                                ],
-                              );
-                            }
-                            return AutoScrollingTextSection(
-                                rotatingTexts: messages);
-                          }),
-                          _sizedBox,
+                        if (messages == null || messages.isEmpty) {
+                          // Show a placeholder message when there are no messages
+                          return AutoScrollingTextSection(
+                            rotatingTexts: [
+                              Message(
+                                  id: 1, content: "no_messages_available".tr()),
+                            ],
+                          );
+                        }
+                        return AutoScrollingTextSection(
+                            rotatingTexts: messages);
+                      }),
+                      _sizedBox,
 
-                          //  LiveChatAndNewsSection
-                          LiveChatAndNewsSection(),
-                          _sizedBox,
+                      //  LiveChatAndNewsSection
+                      LiveChatAndNewsSection(),
+                      _sizedBox,
 
-                          // VideoSection
-                          Consumer(builder: (_, ref, __) {
-                            if (homeData.isEmpty) return SizedBox.shrink();
-                            var homeVideo = Category(
-                                id: 0,
-                                imageUrl: homeData["video_image"],
-                                videosList: [
-                                  Video(
-                                      id: 0,
-                                      title: homeData["video_title"],
-                                      url: Url(
-                                          url: homeData["home_page_video"],
-                                          provider:
-                                              AppConstants.YOUTUBE_PROVIDER))
-                                ]);
-                            return VideoSection(video: homeVideo);
-                          }),
-                          _sizedBox,
+                      // VideoSection
+                      Consumer(builder: (_, ref, __) {
+                        if (homeData.isEmpty) return SizedBox.shrink();
+                        var homeVideo = Category(
+                            id: 0,
+                            imageUrl: homeData["video_image"],
+                            videosList: [
+                              Video(
+                                  id: 0,
+                                  title: homeData["video_title"],
+                                  url: Url(
+                                      url: homeData["home_page_video"],
+                                      provider: AppConstants.YOUTUBE_PROVIDER))
+                            ]);
+                        return VideoSection(video: homeVideo);
+                      }),
+                      _sizedBox,
 
-                          // ReportGeneratorSection
-                          ReportGeneratorSection(),
-                        ],
-                      ),
+                      // ReportGeneratorSection
+                      ReportGeneratorSection(categories: categories ?? []),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

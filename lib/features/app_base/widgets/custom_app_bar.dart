@@ -83,11 +83,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 )
-              : SizedBox(
-                  height: 70,
-                  child: Image.asset(
-                    "assets/images/home_logo.png",
-                    fit: BoxFit.fill,
+              : Transform.flip(
+                  flipX: context.locale.languageCode == "ar" ? true : false,
+                  child: SizedBox(
+                    height: 70,
+                    child: Image.asset(
+                      "assets/images/home_logo.png",
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
       automaticallyImplyLeading: true,
@@ -116,6 +119,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                             );
 
                     return PopupMenuButton<int>(
+                      iconSize: 50,
                       onOpened: () {
                         // Navigator.pop(context);
                         Navigator.push(
@@ -133,7 +137,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         children: [
                           Center(
                             child: Container(
-                              width: 25,
+                              width: 30,
                               height: 30,
                               padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(
@@ -148,7 +152,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           if (unseenNotificationCount > 0)
                             PositionedDirectional(
                               end: 0,
-                              top: 7,
+                              top: 2,
                               child: Container(
                                 padding: EdgeInsets.all(6),
                                 decoration: BoxDecoration(
@@ -159,12 +163,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                     ),
                                     color: AppColors.Gamboge),
                                 child: Text(
-                                  unseenNotificationCount > 99
-                                      ? '99+'
-                                      : unseenNotificationCount.toString(),
+                                  unseenNotificationCount > 99 ? '99+' : "+99",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

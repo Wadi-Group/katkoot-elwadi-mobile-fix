@@ -75,8 +75,8 @@ class _BEFScreenState extends State<BEFScreen> with BaseViewModel {
 
   Future getToolDetails() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(toolDetailsViewModelProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(toolDetailsViewModelProvider.notifier)
           .getDetails(widget.tool?.id, 10);
     });
   }
@@ -89,7 +89,7 @@ class _BEFScreenState extends State<BEFScreen> with BaseViewModel {
           automaticallyImplyLeading: false,
           elevation: 0,
           toolbarHeight: 0),
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.LIGHT_BACKGROUND,
       body: InkWell(
         onTap: () {
           hideKeyboard();
@@ -116,7 +116,7 @@ class _BEFScreenState extends State<BEFScreen> with BaseViewModel {
               child: Stack(
                 children: [
                   Container(
-                    color: Colors.white,
+                    color: AppColors.LIGHT_BACKGROUND,
                     padding: EdgeInsetsDirectional.only(
                         top: 2, bottom: 8, start: 20, end: 20),
                     child: SingleChildScrollView(
@@ -127,7 +127,8 @@ class _BEFScreenState extends State<BEFScreen> with BaseViewModel {
                             height: 30,
                           ),
                           Consumer(builder: (_, ref, __) {
-                            final result = ref.watch(_resultDataProvider)
+                            final result = ref
+                                .watch(_resultDataProvider)
                                 .toStringAsFixed(2);
                             return Container(
                               decoration: BoxDecoration(
@@ -309,8 +310,8 @@ class _BEFScreenState extends State<BEFScreen> with BaseViewModel {
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             onPressed: () {
               hideKeyboard();
-              double result = ProviderScope.containerOf(context,
-                  listen: false).read(bEFViewModel.notifier)
+              double result = ProviderScope.containerOf(context, listen: false)
+                  .read(bEFViewModel.notifier)
                   .checkCalculatePEF(
                       age: ageController.text,
                       FCRValue: FCRController.text.replaceAll("٫", "."),
@@ -319,8 +320,9 @@ class _BEFScreenState extends State<BEFScreen> with BaseViewModel {
                       liveWeightPerBird:
                           liveWeightPerBirdController.text.replaceAll("٫", "."),
                       tool: tool);
-              ProviderScope.containerOf(context,
-                  listen: false).read(_resultDataProvider.notifier).state = result;
+              ProviderScope.containerOf(context, listen: false)
+                  .read(_resultDataProvider.notifier)
+                  .state = result;
             }),
       );
     });

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/core/services/remote/weather_service.dart';
+import 'package:katkoot_elwady/core/utils/numbers_manager.dart';
 import '../../app_base/widgets/custom_text.dart';
 import '../widgets/reusable_container_widget.dart';
 
@@ -34,7 +35,7 @@ class WeatherAndPricesSection extends StatelessWidget {
           flex: 2,
           child: Column(
             children: [
-              _buildWeatherInfo(),
+              _buildWeatherInfo(context),
               SizedBox(height: 20),
               _buildPriceCard(
                 isImageWhite: true,
@@ -43,6 +44,7 @@ class WeatherAndPricesSection extends StatelessWidget {
                 unit: "egp_kg".tr(),
                 imagePath: "assets/images/live_broilers.png",
                 isTopRounded: true,
+                context: context,
               ),
               SizedBox(height: 15),
               _buildPriceCard(
@@ -51,6 +53,7 @@ class WeatherAndPricesSection extends StatelessWidget {
                 unit: "egp".tr(),
                 imagePath: "assets/images/white_egg_tray.png",
                 isBottomRounded: false,
+                context: context,
               ),
               _buildPriceCard(
                 title: "brown_egg_tray".tr(),
@@ -58,6 +61,7 @@ class WeatherAndPricesSection extends StatelessWidget {
                 unit: "egp".tr(),
                 imagePath: "assets/images/red_egg_tray.png",
                 isBottomRounded: true,
+                context: context,
               ),
             ],
           ),
@@ -70,7 +74,7 @@ class WeatherAndPricesSection extends StatelessWidget {
   }
 
   /// Weather Info Widget
-  Widget _buildWeatherInfo() {
+  Widget _buildWeatherInfo(BuildContext context) {
     return ReusableContainer(
       borderRadius: BorderRadius.all(Radius.circular(12)),
       boxShadow: [_buildShadow()],
@@ -78,23 +82,23 @@ class WeatherAndPricesSection extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                CustomText(
-                  title: (weather?.isEmpty ?? true)
-                      ? "🌤 N/A"
-                      : "🌤${double.tryParse(weather ?? "0")?.ceil() ?? ''}°",
-                  fontSize: 22,
-                  fontWeight: FontWeight.w400,
-                  textColor: AppColors.APP_BLUE,
-                ),
-              ],
-            ),
+          Row(
+            children: [
+              CustomText(
+                title: (weather?.isEmpty ?? true)
+                    ? "🌤 N/A"
+                    : context.locale.languageCode == "ar"
+                        ? NumbersManager.convertEnglishNumbersToArabic(
+                            "🌤${double.tryParse(weather ?? "0")?.ceil() ?? ''}°")
+                        : "🌤${double.tryParse(weather ?? "0")?.ceil() ?? ''}°",
+                fontSize: 22,
+                fontWeight: FontWeight.w400,
+                textColor: AppColors.APP_BLUE,
+              ),
+            ],
           ),
+          SizedBox(width: 10),
           Expanded(
-            flex: 2,
             child: Row(
               children: [
                 Image.asset(
@@ -110,15 +114,23 @@ class WeatherAndPricesSection extends StatelessWidget {
                   children: [
                     CustomText(
                       title: (date?.isEmpty ?? true)
-                          ? WeatherService.getCurrentDate()
-                          : date ?? WeatherService.getCurrentDate(),
+                          ? (context.locale.languageCode == "ar"
+                              ? NumbersManager.convertEnglishNumbersToArabic(
+                                  WeatherService.getCurrentDate(context))
+                              : WeatherService.getCurrentDate(context))
+                          : (context.locale.languageCode == "ar"
+                              ? NumbersManager.convertEnglishNumbersToArabic(
+                                  date ?? '')
+                              : date ?? ''),
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       textColor: AppColors.APP_BLUE,
                     ),
+                    SizedBox(height: 5),
                     CustomText(
-                      title:
-                          (city?.isEmpty ?? true) ? "Cairo" : city ?? 'Cairo',
+                      title: (city?.isEmpty ?? true)
+                          ? "cairo_str".tr()
+                          : city ?? 'cairo_str'.tr(),
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
                       textColor: AppColors.APP_BLUE,
@@ -142,6 +154,7 @@ class WeatherAndPricesSection extends StatelessWidget {
     bool? isImageWhite = false,
     bool isBottomRounded = false,
     bool isTopRounded = false,
+    required BuildContext context,
   }) {
     return ReusableContainer(
       boxShadow: [_buildShadow()],
@@ -160,14 +173,17 @@ class WeatherAndPricesSection extends StatelessWidget {
             color: isImageWhite ?? false ? AppColors.APP_BLUE : null,
           ),
           SizedBox(width: 5),
-          CustomText(
-            title: title,
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            textColor: AppColors.APP_BLUE,
+          Expanded(
+            child: CustomText(
+              title: title,
+              fontSize: 14,
+              maxLines: 2,
+              fontWeight: FontWeight.w700,
+              textColor: AppColors.APP_BLUE,
+            ),
           ),
-          Spacer(),
-          _buildPriceText(price, unit),
+          SizedBox(width: 5),
+          _buildPriceText(price, unit, context),
         ],
       ),
     );
@@ -211,7 +227,7 @@ class WeatherAndPricesSection extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 15),
-            _buildPriceText(katkootPrice ?? "N/A", "egp".tr()),
+            _buildPriceText(katkootPrice ?? "N/A", "egp".tr(), context),
           ],
         ),
       ),
@@ -219,16 +235,20 @@ class WeatherAndPricesSection extends StatelessWidget {
   }
 
   /// Price Text Widget
-  Widget _buildPriceText(String price, String unit) {
+  Widget _buildPriceText(String price, String unit, BuildContext context) {
     return RichText(
       text: TextSpan(
         children: [
           TextSpan(
-            text: price,
+            text: context.locale.languageCode == "ar"
+                ? NumbersManager.convertEnglishNumbersToArabic(price)
+                : price,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: AppColors.APPLE_GREEN,
+              fontFamily:
+                  context.locale.languageCode == "ar" ? 'Almarai' : 'Arial',
             ),
           ),
           TextSpan(
@@ -237,6 +257,8 @@ class WeatherAndPricesSection extends StatelessWidget {
               fontSize: 10,
               color: AppColors.APPLE_GREEN,
               fontWeight: FontWeight.w500,
+              fontFamily:
+                  context.locale.languageCode == "ar" ? 'Almarai' : 'Arial',
             ),
           ),
         ],

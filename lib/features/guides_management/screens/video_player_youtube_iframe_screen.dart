@@ -1,13 +1,11 @@
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/core/constants/app_constants.dart';
 import 'package:katkoot_elwady/features/guides_management/models/url.dart';
 import 'package:video_player/video_player.dart';
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'dart:io' show Platform;
 
 class VideoPlayerYouTubeIframeScreen extends StatefulWidget {
   static const routeName = "./videos_player";
@@ -38,26 +36,35 @@ class _VideoPlayerScreenState extends State<VideoPlayerYouTubeIframeScreen> {
             params: const YoutubePlayerParams(
               loop: true,
               showControls: true,
-              //showFullscreenButton: true,
+              showFullscreenButton: true,
               strictRelatedVideos: true,
               showVideoAnnotations: false,
             ),
           )
-            ;
-            // ..onInit = () {
-            //   youtubeController?.loadVideoById(videoId: id);
-            // }
-            // ..onFullscreenChange = (isFullScreen) {
-            //   if (isFullScreen) {
-            //     SystemChrome.setPreferredOrientations([
-            //       DeviceOrientation.landscapeLeft,
-            //       DeviceOrientation.landscapeRight,
-            //     ]);
-            //     print('Entered Fullscreen');
-            //   } else {
-            //     resetOrientation();
-            //   }
-            // };
+            ..loadVideoById(videoId: id)
+            ..setFullScreenListener((bool isFullScreen) {
+              if (isFullScreen) {
+                SystemChrome.setPreferredOrientations([
+                  DeviceOrientation.landscapeLeft,
+                  DeviceOrientation.landscapeRight,
+                ]);
+                print('Entered Fullscreen');
+              } else {
+                resetOrientation();
+              }
+            });
+
+          // ..onFullscreenChange = (isFullScreen) {
+          //   if (isFullScreen) {
+          //     SystemChrome.setPreferredOrientations([
+          //       DeviceOrientation.landscapeLeft,
+          //       DeviceOrientation.landscapeRight,
+          //     ]);
+          //     print('Entered Fullscreen');
+          //   } else {
+          //     resetOrientation();
+          //   }
+          // };
         }
       } else {
         isYoutube = false;
@@ -107,40 +114,40 @@ class _VideoPlayerScreenState extends State<VideoPlayerYouTubeIframeScreen> {
     } else {
       return youtubeController != null
           ? SafeArea(
-            child: GestureDetector(
-              onTap: () {
-                AppConstants.navigatorKey.currentState?.pop();
-              },
-              child: Material(
-                color: AppColors.black,
-                child: Stack(
-                    alignment: AlignmentDirectional.topEnd,
-                    children: [
-                      Center(child: YoutubePlayer(
-                        controller: youtubeController ?? YoutubePlayerController(),  
-                      )),
-                      Container(
-                        margin: EdgeInsets.all(5),
-                        child: IconButton(
-                            onPressed: () {
-                              AppConstants.navigatorKey.currentState?.pop();
-                            },
-                            icon: Container(
-                              padding: EdgeInsetsDirectional.all(2),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.Pastel_gray.withOpacity(
-                                      0.5)),
-                              child: Icon(
-                                Icons.close_rounded,
-                                color: Colors.white,
-                              ),
-                            )),
-                      ),
-                    ]),
+              child: GestureDetector(
+                onTap: () {
+                  AppConstants.navigatorKey.currentState?.pop();
+                },
+                child: Material(
+                  color: AppColors.black,
+                  child:
+                      Stack(alignment: AlignmentDirectional.topEnd, children: [
+                    Center(
+                        child: YoutubePlayer(
+                      controller:
+                          youtubeController ?? YoutubePlayerController(),
+                    )),
+                    Container(
+                      margin: EdgeInsets.all(5),
+                      child: IconButton(
+                          onPressed: () {
+                            AppConstants.navigatorKey.currentState?.pop();
+                          },
+                          icon: Container(
+                            padding: EdgeInsetsDirectional.all(2),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.Pastel_gray.withOpacity(0.5)),
+                            child: Icon(
+                              Icons.close_rounded,
+                              color: Colors.white,
+                            ),
+                          )),
+                    ),
+                  ]),
+                ),
               ),
-            ),
-          )
+            )
           : Container();
     }
   }

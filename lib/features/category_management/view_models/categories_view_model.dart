@@ -69,6 +69,8 @@ class CategoriesViewModel extends StateNotifier<BaseState<List<Category>?>>
 
   // get in app message data
   Future<Map<String, dynamic>> getInAppMessageData() async {
+    var isComplete = await _repository.isInAppMessageComplete();
+    if (isComplete == true) return {};
     // Set loading state before API call
     state = BaseState(data: state.data, isLoading: true);
 
@@ -76,6 +78,7 @@ class CategoriesViewModel extends StateNotifier<BaseState<List<Category>?>>
       var result = await _repository.getInAppMessageData();
 
       // After fetching data, update state with new data and stop loading
+      _repository.setInAppMessageComplete();
       state = BaseState(data: state.data, isLoading: false);
 
       return result ?? {};

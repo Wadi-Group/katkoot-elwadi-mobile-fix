@@ -20,7 +20,10 @@ class SearchPlaceHolder extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  child: Image.asset("assets/images/search.png"),
+                  child: Image.asset(
+                    "assets/images/search.png",
+                    color: AppColors.APP_BLUE,
+                  ),
                 ),
                 SizedBox(
                   height: 25,
