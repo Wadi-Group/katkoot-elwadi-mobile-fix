@@ -286,8 +286,8 @@
   "live_chat": "الدردشة الحية",
   "news": "الأخبار",
   "videos": "الفيديوهات",
-  "cb_report_generator": "مولد تقرير CB",
-  "ps_report_generator": "مولد تقرير PS",
+  "cb_report_generator": "مولد تقرير التسمين التجارى",
+  "ps_report_generator": "مولد تقرير أمهات التسمين",
   "egp_ton" : "ج.م./طن",
   "egp_kg" :"ج.م./كجم",
   "egp" : "ج.م.",
@@ -332,6 +332,8 @@
   "minutes_ago": "منذ {} دقائق",
   "just_now": "الآن",
   "yesterday": "أمس",
-  "attachment": "ملف مرفق"
+  "attachment": "ملف مرفق",
+   "cairo_str" : "القاهرة",
+    "no_messages_available" : "لا يوجد رسائل متاحة"
 
 }

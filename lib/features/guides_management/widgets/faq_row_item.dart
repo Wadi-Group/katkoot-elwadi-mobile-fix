@@ -27,7 +27,7 @@ class _FaqRowItemState extends State<FaqRowItem> {
       key: ValueKey(widget.faq.id),
       decoration: BoxDecoration(
           border: Border.all(
-            color: widget.expanded ? AppColors.Tea_green : AppColors.white,
+            color: widget.expanded ? AppColors.white : AppColors.white,
           ),
           borderRadius: BorderRadius.all(Radius.circular(5)),
           boxShadow: [
@@ -36,7 +36,7 @@ class _FaqRowItemState extends State<FaqRowItem> {
               blurRadius: 5.0,
             ),
           ],
-          color: widget.expanded ? AppColors.Tea_green : AppColors.white),
+          color: widget.expanded ? AppColors.white : AppColors.white),
       width: MediaQuery.of(context).size.width,
       child: CustomExpansionTile(
         maintainState: false,
@@ -79,7 +79,7 @@ class _FaqRowItemState extends State<FaqRowItem> {
           // widget.expanded
           // ?
           Container(
-            color: AppColors.Tea_green,
+            color: AppColors.white,
             child: Container(
                 padding: EdgeInsets.only(right: 20, left: 20, bottom: 20),
                 child: CustomText(

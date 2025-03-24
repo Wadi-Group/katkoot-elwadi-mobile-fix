@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
+import 'package:katkoot_elwady/core/utils/numbers_manager.dart';
 
 import '../../app_base/widgets/custom_text.dart';
 import '../widgets/reusable_container_widget.dart';
@@ -74,14 +75,23 @@ class AlafAlWadiPrices extends StatelessWidget {
                           SizedBox(height: 5),
                           RichText(
                             textAlign: TextAlign.center, // Center price text
+
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: item["price"]!,
+                                  text: context.locale.languageCode == "ar"
+                                      ? NumbersManager
+                                          .convertEnglishNumbersToArabic(
+                                              item["price"]!)
+                                      : item["price"]!,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.APPLE_GREEN,
+                                    fontFamily:
+                                        context.locale.languageCode == "ar"
+                                            ? 'Almarai'
+                                            : 'Arial',
                                   ),
                                 ),
                                 TextSpan(
@@ -90,6 +100,10 @@ class AlafAlWadiPrices extends StatelessWidget {
                                     fontSize: 12,
                                     color: AppColors.APPLE_GREEN,
                                     fontWeight: FontWeight.w400,
+                                    fontFamily:
+                                        context.locale.languageCode == "ar"
+                                            ? 'Almarai'
+                                            : 'Arial',
                                   ),
                                 ),
                               ],

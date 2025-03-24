@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   //  Fetch weather data from the API
   Future fetchWeatherData() async {
-    var data = await WeatherService.getWeatherByCity();
+    var data = await WeatherService.getWeatherByUserLocation(context);
     if (data != null) {
       setState(() {
         city = data['city'];
@@ -299,7 +299,7 @@ class _HomeScreenState extends State<HomeScreen>
                           return AutoScrollingTextSection(
                             rotatingTexts: [
                               Message(
-                                  id: 1, content: "No messages available".tr()),
+                                  id: 1, content: "no_messages_available".tr()),
                             ],
                           );
                         }

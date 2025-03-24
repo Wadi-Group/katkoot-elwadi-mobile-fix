@@ -98,6 +98,7 @@ Future<void> initializeApp() async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final sharedPreferencesService =
         SharedPreferencesService(sharedPreferences);
+    sharedPreferencesService.setInAppMessageComplete(value: false);
 
     // Initialize API service
     final apiService = ApiService();

@@ -61,10 +61,10 @@ class _CommercialBroilerFlockRequirementsScreenState
 
   Future setSliderData(Tool tool) async {
     await Future.delayed(Duration.zero, () {
-      var currentSliderValue = ProviderScope.containerOf(context,
-          listen: false).read(_currentSliderValue);
-      sliderViewModel = ProviderScope.containerOf(context,
-          listen: false).read(di.customSliderViewModelProvider.notifier);
+      var currentSliderValue = ProviderScope.containerOf(context, listen: false)
+          .read(_currentSliderValue);
+      sliderViewModel = ProviderScope.containerOf(context, listen: false)
+          .read(di.customSliderViewModelProvider.notifier);
       sliderViewModel.initSlider(SliderItem(
           duration: tool.duration ?? 'str_day'.tr(),
           min: tool.sliderData?.minValue != null
@@ -90,8 +90,8 @@ class _CommercialBroilerFlockRequirementsScreenState
 
   Future getToolDetails() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(di.toolDetailsViewModelProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.toolDetailsViewModelProvider.notifier)
           .getDetails(widget.toolId, 12);
     });
   }
@@ -132,8 +132,8 @@ class _CommercialBroilerFlockRequirementsScreenState
                     children: [
                       Consumer(builder: (cx, ref, __) {
                         var tool = ref.watch(_toolDataProvider);
-                        sliderViewModel =
-                            ref.watch(di.customSliderViewModelProvider.notifier);
+                        sliderViewModel = ref
+                            .watch(di.customSliderViewModelProvider.notifier);
                         if (tool != null) setSliderData(tool);
                         return tool != null
                             ? MediaQuery.removePadding(
@@ -148,8 +148,8 @@ class _CommercialBroilerFlockRequirementsScreenState
                                         category: widget.category,
                                       ),
                                       Consumer(builder: (_, ref, __) {
-                                        var selectedAgeIndex =
-                                        ref.watch(_selectedAgeIndexProvider);
+                                        var selectedAgeIndex = ref
+                                            .watch(_selectedAgeIndexProvider);
                                         return ListView.builder(
                                             padding: const EdgeInsets.only(
                                                 bottom: 10),
@@ -188,8 +188,8 @@ class _CommercialBroilerFlockRequirementsScreenState
             if (tool == null) return const SizedBox.shrink();
             return CustomSlider(onDrag: (value) {
               sliderViewModel.updateSliderWidget(value);
-              ProviderScope.containerOf(context,
-                  listen: false).read(di.toolDetailsViewModelProvider.notifier)
+              ProviderScope.containerOf(context, listen: false)
+                  .read(di.toolDetailsViewModelProvider.notifier)
                   .getSelectedAgeDataIndex(value);
             });
           })

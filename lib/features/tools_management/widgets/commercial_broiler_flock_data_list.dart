@@ -65,13 +65,13 @@ class CommercialBroilerFlockDataListView extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-          color: AppColors.Tea_green,
+          color: AppColors.APP_BLUE,
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(3))),
       child: Row(children: [
         Expanded(
           child: CustomText(
-              textColor: AppColors.Dark_spring_green,
+              textColor: AppColors.white,
               title: section?.sectionName ?? "",
               fontSize: 14,
               fontWeight: FontWeight.bold,

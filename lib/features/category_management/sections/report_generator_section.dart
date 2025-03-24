@@ -125,7 +125,7 @@ class ReportGenerator extends StatelessWidget {
               "assets/images/elite_logo.png",
               width: 30,
               height: 30,
-              color: AppColors.APPLE_GREEN,
+              color: AppColors.APP_BLUE,
             ),
             SizedBox(width: 10),
             Expanded(
@@ -137,6 +137,7 @@ class ReportGenerator extends StatelessWidget {
                 lineSpacing: 1,
               ),
             ),
+            SizedBox(width: 10),
             CustomText(
               title: subtitle ?? "",
               textColor: AppColors.APP_BLUE,

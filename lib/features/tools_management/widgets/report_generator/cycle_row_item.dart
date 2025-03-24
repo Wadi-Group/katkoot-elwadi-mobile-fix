@@ -62,6 +62,9 @@ class _CycleRowItemState extends State<CycleRowItem> {
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: AppColors.Liver,
+                            fontFamily: context.locale.languageCode == "ar"
+                                ? 'Almarai'
+                                : 'Arial',
                           ),
                           children: <TextSpan>[
                             TextSpan(
@@ -70,6 +73,9 @@ class _CycleRowItemState extends State<CycleRowItem> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.Dark_spring_green,
+                                fontFamily: context.locale.languageCode == "ar"
+                                    ? 'Almarai'
+                                    : 'Arial',
                               ),
                             ),
                           ],

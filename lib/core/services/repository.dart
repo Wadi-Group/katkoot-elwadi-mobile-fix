@@ -359,4 +359,11 @@ class Repository {
   Future<BaseApiResult> deleteMessages({required List<int> ids}) async {
     return _apiService.deleteMessage(messageIds: ids);
   }
+
+  Future<void> setInAppMessageComplete() async {
+    await _sharedPreferencesService.setInAppMessageComplete();
+  }
+
+  Future<bool> isInAppMessageComplete() async =>
+      await _sharedPreferencesService.isInAppMessageComplete();
 }

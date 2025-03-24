@@ -181,7 +181,7 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen>
                                       child: CustomElevatedButton(
                                         title: "str_cancel".tr(),
                                         textColor: AppColors.white,
-                                        backgroundColor: AppColors.calc_bef_btn,
+                                        backgroundColor: AppColors.Gamboge,
                                         onPressed: () {
                                           //widget.resetDrawerSelection();
                                           Navigator.pop(context);
