@@ -54,7 +54,7 @@ class ChangeLanguageWidget extends StatelessWidget {
               width: 10,
             ),
             CustomText(
-              textColor: AppColors.Liver,
+              textColor: isSelected ? AppColors.white : AppColors.Liver,
               title: title,
               fontSize: 16,
               fontWeight: FontWeight.w400,

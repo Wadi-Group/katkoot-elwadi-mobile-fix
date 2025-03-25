@@ -152,18 +152,18 @@ class ActionButton extends StatelessWidget {
 
 void openWhatsapp() async {
   // Replace with your WhatsApp number
-  String phoneNumber = "+201148730069";
+  // String phoneNumber = "+201148730069";
 
-  // Replace with your WhatsApp message
-  String message = "Hello, I need help!";
+  // // Replace with your WhatsApp message
+  // String message = "Hello, I need help!";
 
-  // Open WhatsApp with the specified number and message
-  String url =
-      "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+  // // Open WhatsApp with the specified number and message
+  // String url =
+  //     "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
 
-  if (await canLaunchUrl(Uri.parse(url))) {
-    await launchUrl(Uri.parse(url));
-  } else {
-    throw 'Could not launch $url';
-  }
+  // if (await canLaunchUrl(Uri.parse(url))) {
+  //   await launchUrl(Uri.parse(url));
+  // } else {
+  //   throw 'Could not launch $url';
+  // }
 }
