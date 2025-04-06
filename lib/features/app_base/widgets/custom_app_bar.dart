@@ -250,6 +250,27 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     );
                   },
                 )
+              // else
+              //   GestureDetector(
+              //     onTap: () {
+              //       Scaffold.of(context).openDrawer();
+              //     },
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(15.0),
+              //       child: SizedBox(
+              //         height: 20,
+              //         width: 20,
+              //         child: Transform.rotate(
+              //           angle: context.locale.languageCode == "ar" ? 3.14 : 0,
+              //           child: Image.asset(
+              //             "assets/images/menu.png",
+              //             fit: BoxFit.fitWidth,
+              //             color: Colors.white,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
             ],
       leading: widget.hasbackButton
           ? IconButton(

@@ -27,7 +27,9 @@ class _SplashScreenState extends State<SplashScreen> with BaseViewModel {
             .read(di.changeLanguageViewModelProvider.notifier)
             .isOnBoardingComplete()) {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-            return MainBottomAppBar();
+            return MainBottomAppBar(
+              selectedIndex: 0,
+            );
           }));
         } else {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {

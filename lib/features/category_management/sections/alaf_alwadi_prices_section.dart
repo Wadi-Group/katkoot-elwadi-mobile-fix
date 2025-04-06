@@ -40,7 +40,7 @@ class AlafAlWadiPrices extends StatelessWidget {
                         margin: EdgeInsets.symmetric(horizontal: 10),
                         width: 2,
                         height: 50,
-                        color: Colors.grey[300], // Vertical Divider
+                        color: AppColors.GreenColor,
                       );
                     }
                     final item = prices[index ~/ 2];
@@ -54,10 +54,15 @@ class AlafAlWadiPrices extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                item["image"]!,
-                                width: 30,
-                                height: 30,
+                              Transform.flip(
+                                flipX: context.locale.languageCode == "ar"
+                                    ? true
+                                    : false,
+                                child: Image.asset(
+                                  item["image"]!,
+                                  width: 30,
+                                  height: 30,
+                                ),
                               ),
                               SizedBox(width: 10),
                               Flexible(
@@ -87,7 +92,7 @@ class AlafAlWadiPrices extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.APPLE_GREEN,
+                                    color: AppColors.GreenColor,
                                     fontFamily:
                                         context.locale.languageCode == "ar"
                                             ? 'Almarai'
@@ -98,7 +103,7 @@ class AlafAlWadiPrices extends StatelessWidget {
                                   text: " ${"egp_ton".tr()}",
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: AppColors.APPLE_GREEN,
+                                    color: AppColors.GreenColor,
                                     fontWeight: FontWeight.w400,
                                     fontFamily:
                                         context.locale.languageCode == "ar"

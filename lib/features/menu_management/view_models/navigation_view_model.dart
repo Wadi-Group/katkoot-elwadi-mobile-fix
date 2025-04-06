@@ -90,7 +90,9 @@ class NavigationViewModel extends StateNotifier<BaseState> with BaseViewModel {
       state = BaseState(data: [], isLoading: false);
       if (result?.errorType == null) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-          return MainBottomAppBar();
+          return MainBottomAppBar(
+            selectedIndex: 0,
+          );
         }));
         // context.read(di.contentProvider).state =
         //     DrawerItemType.loginScreen.index;

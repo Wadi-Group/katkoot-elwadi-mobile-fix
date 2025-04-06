@@ -198,7 +198,7 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
                                 child: CustomText(
                                   title: 'Register'.tr(),
                                   fontSize: 14,
-                                  textColor: AppColors.Olive_Drab,
+                                  textColor: AppColors.GreenColor,
                                   padding: EdgeInsets.symmetric(horizontal: 8),
                                 ),
                               ),

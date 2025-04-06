@@ -128,7 +128,7 @@ class CustomDrawer extends StatelessWidget {
               child: Image.asset(
                 icon,
                 color: title == 'login'.tr() || title == 'str_sign_out'.tr()
-                    ? AppColors.APPLE_GREEN
+                    ? AppColors.GreenColor
                     : AppColors.APP_BLUE,
                 width: 25,
                 height: 25,
@@ -139,7 +139,7 @@ class CustomDrawer extends StatelessWidget {
               fontSize: 16,
               fontWeight: FontWeight.w500,
               textColor: title == 'login'.tr() || title == 'str_sign_out'.tr()
-                  ? AppColors.APPLE_GREEN
+                  ? AppColors.GreenColor
                   : AppColors.APP_BLUE,
             ),
             trailing: Icon(
@@ -151,9 +151,12 @@ class CustomDrawer extends StatelessWidget {
               Navigator.of(context).pop(); // Close the drawer before navigation
               if (isAuth) {
                 if (!userIsLoggedIn) {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginScreen();
-                  }));
+                  ProviderScope.containerOf(context, listen: false)
+                      .read(di.bottomNavigationViewModelProvider.notifier)
+                      .changeIndex(2);
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  //   return LoginScreen();
+                  // }));
                 } else {
                   modelView?.signOut();
                 }

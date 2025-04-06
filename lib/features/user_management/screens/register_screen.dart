@@ -255,7 +255,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                                     child: CustomText(
                                       title: 'Sign in'.tr(),
                                       fontSize: 14,
-                                      textColor: AppColors.Olive_Drab,
+                                      textColor: AppColors.GreenColor,
                                       padding:
                                           EdgeInsets.symmetric(horizontal: 8),
                                     ),
@@ -328,6 +328,7 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
 
   TextEditingController stateController = TextEditingController();
   TextEditingController flockSizeContoller = TextEditingController();
@@ -380,6 +381,23 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               errorMessage: errors
                   .firstWhere(
                       (element) => element.field == UserFields.PHONE.field,
+                      orElse: () => UserFormsErrors())
+                  .message);
+        }),
+        SizedBox(
+          height: 20,
+        ),
+        Consumer(builder: (_, ref, __) {
+          final errors = ref.watch(_errorsProvider);
+          return CustomTextField(
+              controller: emailController,
+              isMandatory: false,
+              hintText: "email".tr(),
+              inputType: TextInputType.emailAddress,
+              fontSize: 14,
+              errorMessage: errors
+                  .firstWhere(
+                      (element) => element.field == UserFields.EMAIL.field,
                       orElse: () => UserFormsErrors())
                   .message);
         }),

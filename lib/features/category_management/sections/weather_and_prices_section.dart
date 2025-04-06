@@ -48,6 +48,7 @@ class WeatherAndPricesSection extends StatelessWidget {
               ),
               SizedBox(height: 15),
               _buildPriceCard(
+                height: 35,
                 title: "white_egg_tray".tr(),
                 price: whiteEggTrayPrice ?? "N/A",
                 unit: "egp".tr(),
@@ -56,6 +57,7 @@ class WeatherAndPricesSection extends StatelessWidget {
                 context: context,
               ),
               _buildPriceCard(
+                height: 35,
                 title: "brown_egg_tray".tr(),
                 price: brownEggTrayPrice ?? "N/A",
                 unit: "egp".tr(),
@@ -154,6 +156,7 @@ class WeatherAndPricesSection extends StatelessWidget {
     bool? isImageWhite = false,
     bool isBottomRounded = false,
     bool isTopRounded = false,
+    double? height,
     required BuildContext context,
   }) {
     return ReusableContainer(
@@ -163,20 +166,23 @@ class WeatherAndPricesSection extends StatelessWidget {
         top: isTopRounded ? Radius.circular(20) : Radius.zero,
         bottom: isBottomRounded ? Radius.circular(20) : Radius.zero,
       ),
-      height: 50,
+      height: height ?? 50,
       child: Row(
         children: [
-          Image.asset(
-            imagePath,
-            width: 20,
-            height: 20,
-            color: isImageWhite ?? false ? AppColors.APP_BLUE : null,
+          Transform.flip(
+            flipX: context.locale.languageCode == "ar" ? true : false,
+            child: Image.asset(
+              imagePath,
+              width: 25,
+              height: 20,
+              color: isImageWhite ?? false ? AppColors.APP_BLUE : null,
+            ),
           ),
           SizedBox(width: 5),
           Expanded(
             child: CustomText(
               title: title,
-              fontSize: 14,
+              fontSize: 12,
               maxLines: 2,
               fontWeight: FontWeight.w700,
               textColor: AppColors.APP_BLUE,
@@ -207,16 +213,19 @@ class WeatherAndPricesSection extends StatelessWidget {
                 bottomLeft: Radius.circular(15),
               ),
         boxShadow: [_buildShadow()],
-        height: 245,
+        height: 215,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              "assets/images/katkot_broilers.png",
-              width: 30,
-              height: 30,
-              color: AppColors.APP_BLUE,
+            Transform.flip(
+              flipX: context.locale.languageCode == "ar" ? false : true,
+              child: Image.asset(
+                "assets/images/katkot_broilers.png",
+                width: 30,
+                height: 30,
+                color: AppColors.APP_BLUE,
+              ),
             ),
             SizedBox(height: 10),
             CustomText(
@@ -246,7 +255,7 @@ class WeatherAndPricesSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: AppColors.APPLE_GREEN,
+              color: AppColors.GreenColor,
               fontFamily:
                   context.locale.languageCode == "ar" ? 'Almarai' : 'Arial',
             ),
@@ -255,7 +264,7 @@ class WeatherAndPricesSection extends StatelessWidget {
             text: "  $unit",
             style: TextStyle(
               fontSize: 10,
-              color: AppColors.APPLE_GREEN,
+              color: AppColors.GreenColor,
               fontWeight: FontWeight.w500,
               fontFamily:
                   context.locale.languageCode == "ar" ? 'Almarai' : 'Arial',

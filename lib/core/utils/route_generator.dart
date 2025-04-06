@@ -71,7 +71,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => WhereToFindUsScreen());
 
       case MainBottomAppBar.routeName:
-        return MaterialPageRoute(builder: (_) => MainBottomAppBar());
+        return MaterialPageRoute(
+            builder: (_) => MainBottomAppBar(selectedIndex: 0));
       case FaqsScreen.routeName:
         return MaterialPageRoute(
             builder: (_) => FaqsScreen(category: args as Category));
@@ -192,19 +193,22 @@ class RouteGenerator {
 
       case CommercialBroilerPerformanceObjective.routeName:
         if (args is List<Object>) {
-          UserData? userData = ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-              listen: false).read(di.userViewModelProvider);
+          UserData? userData = ProviderScope.containerOf(
+                  AppConstants.navigatorKey.currentContext!,
+                  listen: false)
+              .read(di.userViewModelProvider);
 
           if (userData == null) {
             // context.read(di.contentProvider).state =
             //     DrawerItemType.loginScreen.index;
             return MaterialPageRoute(
                 builder: (_) => MainBottomAppBar(
-                    // redirectionData: RedirectionData(
-                    //     redirectionIndexAfterPop: args[2] as int,
-                    //     redirectionRouteName: CommercialBroilerPerformanceObjective.routeName,
-                    //     arguments: args
-                    // )
+                      selectedIndex: 0,
+                      // redirectionData: RedirectionData(
+                      //     redirectionIndexAfterPop: args[2] as int,
+                      //     redirectionRouteName: CommercialBroilerPerformanceObjective.routeName,
+                      //     arguments: args
+                      // )
                     ));
           } else {
             return MaterialPageRoute(
@@ -271,19 +275,22 @@ class RouteGenerator {
         return _errorRoute();
       case CyclesScreen.routeName:
         if (args is List<Object>) {
-          UserData? userData = ProviderScope.containerOf(AppConstants.navigatorKey.currentContext!,
-              listen: false).read(di.userViewModelProvider);
+          UserData? userData = ProviderScope.containerOf(
+                  AppConstants.navigatorKey.currentContext!,
+                  listen: false)
+              .read(di.userViewModelProvider);
           if (userData == null) {
             // context.read(di.contentProvider).state =
             //     DrawerItemType.loginScreen.index;
 
             return MaterialPageRoute(
                 builder: (_) => MainBottomAppBar(
-                    // redirectionData: RedirectionData(
-                    //     redirectionIndexAfterPop: args[2] as int,
-                    //     redirectionRouteName: CyclesScreen.routeName,
-                    //     arguments: args
-                    // )
+                      selectedIndex: 0,
+                      // redirectionData: RedirectionData(
+                      //     redirectionIndexAfterPop: args[2] as int,
+                      //     redirectionRouteName: CyclesScreen.routeName,
+                      //     arguments: args
+                      // )
                     ));
           } else {
             return MaterialPageRoute(

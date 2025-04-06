@@ -19,11 +19,14 @@ class LiveChatAndNewsSection extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               ActionButton(
+                isPrefix: true,
+                width: 50,
+                height: 50,
                 title: "live_chat".tr(),
                 onTap: () {
                   openWhatsapp();
                 },
-                image: "assets/images/live_chat.png",
+                image: "assets/images/elite_logo.png",
                 borderRadius: context.locale.languageCode == "en"
                     ? const BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -72,6 +75,7 @@ class LiveChatAndNewsSection extends StatelessWidget {
         SizedBox(width: 15),
         Expanded(
           child: ActionButton(
+            iconColor: AppColors.APP_BLUE,
             image: "assets/images/news.png",
             borderRadius: context.locale.languageCode == "en"
                 ? const BorderRadius.only(
@@ -100,11 +104,19 @@ class ActionButton extends StatelessWidget {
   final VoidCallback onTap;
   final BorderRadius borderRadius;
   final String image;
+  final double? height;
+  final double? width;
+  final Color? iconColor;
+  final bool isPrefix;
 
   const ActionButton({
     required this.title,
     required this.onTap,
     required this.image,
+    this.height,
+    this.width,
+    this.iconColor,
+    this.isPrefix = false,
     Key? key,
     this.borderRadius = const BorderRadius.all(Radius.circular(10)),
   }) : super(key: key);
@@ -129,19 +141,36 @@ class ActionButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              isPrefix
+                  ? Transform.flip(
+                      flipX: context.locale.languageCode == "ar" ? true : false,
+                      child: Image.asset(
+                        image,
+                        width: width ?? 15,
+                        height: height ?? 15,
+                        color: iconColor ?? null,
+                      ),
+                    )
+                  : Container(),
+              isPrefix ? const SizedBox(width: 10) : Container(),
               CustomText(
                 title: title,
                 textColor: AppColors.APP_BLUE,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-              const SizedBox(width: 10),
-              Image.asset(
-                image,
-                width: 15,
-                height: 15,
-                color: AppColors.APP_BLUE,
-              ),
+              isPrefix ? Container() : const SizedBox(width: 10),
+              isPrefix
+                  ? Container()
+                  : Transform.flip(
+                      flipX: context.locale.languageCode == "ar" ? true : false,
+                      child: Image.asset(
+                        image,
+                        width: width ?? 15,
+                        height: height ?? 15,
+                        color: iconColor ?? null,
+                      ),
+                    ),
             ],
           ),
         ),
@@ -152,18 +181,18 @@ class ActionButton extends StatelessWidget {
 
 void openWhatsapp() async {
   // Replace with your WhatsApp number
-  // String phoneNumber = "+201148730069";
+  String phoneNumber = "+201023455334";
 
-  // // Replace with your WhatsApp message
-  // String message = "Hello, I need help!";
+  // Replace with your WhatsApp message
+  String message = "Hello, I need help!";
 
-  // // Open WhatsApp with the specified number and message
-  // String url =
-  //     "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
+  // Open WhatsApp with the specified number and message
+  String url =
+      "https://wa.me/$phoneNumber?text=${Uri.encodeComponent(message)}";
 
-  // if (await canLaunchUrl(Uri.parse(url))) {
-  //   await launchUrl(Uri.parse(url));
-  // } else {
-  //   throw 'Could not launch $url';
-  // }
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  } else {
+    throw 'Could not launch $url';
+  }
 }

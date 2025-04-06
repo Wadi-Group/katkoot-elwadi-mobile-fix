@@ -552,7 +552,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         Navigator.pushReplacement(context, nextRoute!);
         //navigateToScreen(nextRoute!.redirectionRouteName,arguments: redirectionData!.arguments,replace: true);
       } else {
-        navigateToScreen(MainBottomAppBar.routeName, removeTop: true);
+        // navigateToScreen(MainBottomAppBar.routeName, removeTop: true);
       }
     } else {
       if (result.errorType == ErrorType.NO_NETWORK_ERROR) {

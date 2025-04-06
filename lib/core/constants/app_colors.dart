@@ -68,4 +68,5 @@ class AppColors {
   static const Color TEXTFIELD_HINT = Color(0xffced5e7);
   static const Color Tabs_Blue = Color(0xffe2eef3);
   static const Color Message_seen = Color(0xfff3f3f3);
+  static const Color GreenColor = const Color(0xffb7d69a);
 }

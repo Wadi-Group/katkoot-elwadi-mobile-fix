@@ -138,7 +138,9 @@ class UserViewModel extends StateNotifier<UserData?>
       BuildContext? context = AppConstants.navigatorKey.currentContext;
       if (context != null) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-          return MainBottomAppBar();
+          return MainBottomAppBar(
+            selectedIndex: 0,
+          );
         }));
       }
       var user = state?.user;

@@ -105,7 +105,7 @@ class CategoryTabWidget extends StatelessWidget {
               fontFamily: 'Arial',
               textOverflow: TextOverflow.ellipsis,
               fontWeight: FontWeight.w500,
-              textColor: AppColors.APPLE_GREEN,
+              textColor: AppColors.GreenColor,
             ),
           ],
         ),

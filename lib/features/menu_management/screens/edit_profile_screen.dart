@@ -454,6 +454,8 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
   TextEditingController nameController = TextEditingController();
 
   TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   TextEditingController flockSizeContoller = TextEditingController();
   TextEditingController stateController = TextEditingController();
   TextEditingController arrivalDateController = TextEditingController();
@@ -501,6 +503,23 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
               errorMessage: errors
                   .firstWhere(
                       (element) => element.field == UserFields.PHONE.field,
+                      orElse: () => UserFormsErrors())
+                  .message);
+        }),
+        SizedBox(
+          height: 20,
+        ),
+        Consumer(builder: (_, ref, __) {
+          final errors = ref.watch(_errorsProvider);
+          return CustomTextField(
+              controller: emailController,
+              isMandatory: false,
+              hintText: "email".tr(),
+              inputType: TextInputType.emailAddress,
+              fontSize: 14,
+              errorMessage: errors
+                  .firstWhere(
+                      (element) => element.field == UserFields.EMAIL.field,
                       orElse: () => UserFormsErrors())
                   .message);
         }),

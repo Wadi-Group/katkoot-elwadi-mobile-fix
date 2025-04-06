@@ -13,6 +13,9 @@ import '../../../core/di/injection_container.dart' as di;
 
 class MainBottomAppBar extends StatefulWidget {
   static const routeName = "./main_app_bar";
+  final int selectedIndex;
+
+  MainBottomAppBar({required this.selectedIndex});
 
   @override
   _MainBottomAppBarState createState() => _MainBottomAppBarState();
@@ -25,7 +28,7 @@ class _MainBottomAppBarState extends State<MainBottomAppBar>
   });
 
   late final TabController _tabController =
-      TabController(vsync: this, length: 4);
+      TabController(vsync: this, length: 3, initialIndex: widget.selectedIndex);
   late final List<Widget> mainTabs = <Widget>[
     Navigator(onGenerateRoute: (RouteSettings settings) {
       return PageRouteBuilder(pageBuilder: (context, _, __) {

@@ -54,7 +54,6 @@ class ToolRowItem extends StatelessWidget {
                   )
                 : Image.asset(
                     "assets/images/elite_logo.png",
-                    color: AppColors.APP_BLUE,
                   ),
           ],
         ),

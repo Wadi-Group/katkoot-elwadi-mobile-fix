@@ -83,7 +83,7 @@ class _AutoScrollingTextSectionState extends State<AutoScrollingTextSection> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
-                          color: AppColors.Card_Color,
+                          color: AppColors.GreenColor,
                         ),
                         height: 20,
                         width: 2,
