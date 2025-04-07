@@ -9,6 +9,7 @@ enum NavigationItem {
   received_messages,
   contact_us,
   video,
+  survey,
   share_app,
   language,
   none,

@@ -27,87 +27,96 @@ class CustomDrawer extends StatelessWidget {
               ref.watch(di.navigationDrawerViewModelProvider.notifier);
           userIsLoggedIn =
               ref.watch(di.userViewModelProvider.notifier).isUserLoggedIn();
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 50,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                child: CustomText(
-                  title: "more".tr(),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  textColor: AppColors.APP_BLUE,
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 50,
                 ),
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/about_us.png",
-                title: 'about_us'.tr(),
-                modelView: modelView,
-                navigationItem: NavigationItem.about_us,
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/ask_for_advice.png",
-                title: 'ask_for_advice'.tr(),
-                modelView: modelView,
-                navigationItem: NavigationItem.support,
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/sales.png",
-                title: 'sales_and_customer_support'.tr(),
-                modelView: modelView,
-                navigationItem: NavigationItem.where_to_find_us,
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/received_message.png",
-                title: 'received_messages'.tr(),
-                modelView: modelView,
-                navigationItem: NavigationItem.received_messages,
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/contact_us.png",
-                title: 'contact_us'.tr(),
-                modelView: modelView,
-                navigationItem: NavigationItem.contact_us,
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/videos.png",
-                title: 'videos'.tr(),
-                modelView: modelView,
-                navigationItem: NavigationItem.video,
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/share_app.png",
-                title: 'share_app'.tr(),
-                modelView: modelView,
-                navigationItem: NavigationItem.share_app,
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/language.png",
-                title: 'language'.tr(),
-                navigationItem: NavigationItem.language,
-                modelView: modelView,
-              ),
-              _buildDrawerItem(
-                context,
-                icon: "assets/images/login.png",
-                title: !userIsLoggedIn ? 'login'.tr() : 'str_sign_out'.tr(),
-                isAuth: true,
-                navigationItem: NavigationItem.none,
-                modelView: modelView,
-              ),
-            ],
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  child: CustomText(
+                    title: "more".tr(),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    textColor: AppColors.APP_BLUE,
+                  ),
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/about_us.png",
+                  title: 'about_us'.tr(),
+                  modelView: modelView,
+                  navigationItem: NavigationItem.about_us,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/ask_for_advice.png",
+                  title: 'ask_for_advice'.tr(),
+                  modelView: modelView,
+                  navigationItem: NavigationItem.support,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/sales.png",
+                  title: 'sales_and_customer_support'.tr(),
+                  modelView: modelView,
+                  navigationItem: NavigationItem.where_to_find_us,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/received_message.png",
+                  title: 'received_messages'.tr(),
+                  modelView: modelView,
+                  navigationItem: NavigationItem.received_messages,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/contact_us.png",
+                  title: 'contact_us'.tr(),
+                  modelView: modelView,
+                  navigationItem: NavigationItem.contact_us,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/videos.png",
+                  title: 'videos'.tr(),
+                  modelView: modelView,
+                  navigationItem: NavigationItem.video,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/share_app.png",
+                  title: 'survey'.tr(),
+                  modelView: modelView,
+                  navigationItem: NavigationItem.survey,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/share_app.png",
+                  title: 'share_app'.tr(),
+                  modelView: modelView,
+                  navigationItem: NavigationItem.share_app,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/language.png",
+                  title: 'language'.tr(),
+                  navigationItem: NavigationItem.language,
+                  modelView: modelView,
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: "assets/images/login.png",
+                  title: !userIsLoggedIn ? 'login'.tr() : 'str_sign_out'.tr(),
+                  isAuth: true,
+                  navigationItem: NavigationItem.none,
+                  modelView: modelView,
+                ),
+              ],
+            ),
           );
         },
       ),

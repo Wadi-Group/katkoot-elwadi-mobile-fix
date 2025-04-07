@@ -142,14 +142,11 @@ class ActionButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               isPrefix
-                  ? Transform.flip(
-                      flipX: context.locale.languageCode == "ar" ? true : false,
-                      child: Image.asset(
-                        image,
-                        width: width ?? 15,
-                        height: height ?? 15,
-                        color: iconColor ?? null,
-                      ),
+                  ? Image.asset(
+                      image,
+                      width: width ?? 15,
+                      height: height ?? 15,
+                      color: iconColor ?? null,
                     )
                   : Container(),
               isPrefix ? const SizedBox(width: 10) : Container(),

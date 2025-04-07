@@ -44,6 +44,7 @@ import 'package:katkoot_elwady/features/user_management/models/user_data.dart';
 import 'package:katkoot_elwady/features/user_management/screens/login_screen.dart';
 import 'package:katkoot_elwady/features/user_management/screens/register_screen.dart';
 import 'package:katkoot_elwady/features/user_management/screens/verify_phone_screen.dart';
+import '../../features/menu_management/screens/survey_screen.dart';
 import '../di/injection_container.dart' as di;
 
 class RouteGenerator {
@@ -158,6 +159,8 @@ class RouteGenerator {
 
       case ContactUsScreen.routeName:
         return MaterialPageRoute(builder: (_) => ContactUsScreen());
+      case SurveyScreen.routeName:
+        return MaterialPageRoute(builder: (_) => SurveyScreen());
       case MessageContentScreen.routeName:
         return MaterialPageRoute(
             builder: (_) => MessageContentScreen(

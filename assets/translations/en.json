@@ -333,6 +333,11 @@
   "attachment": "Attachment",
   "cairo_str" : "Cairo",
   "no_messages_available" : "No messages available"
-
+   , "continue": "Continue",
+   "finish": "Finish",
+   "survey": "Survey",
+  "thank_you": "Thank you!",
+  "survey_complete_message": "Your feedback has been submitted successfully.",
+  "done": "Done"
 
 }

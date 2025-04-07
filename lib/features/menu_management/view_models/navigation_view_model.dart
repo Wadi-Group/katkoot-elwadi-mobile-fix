@@ -9,6 +9,7 @@ import 'package:katkoot_elwady/features/app_base/view_models/base_view_model.dar
 import 'package:katkoot_elwady/features/menu_management/screens/categorized_videos_screen.dart';
 import 'package:katkoot_elwady/features/menu_management/screens/change_language_screen.dart';
 import 'package:katkoot_elwady/features/menu_management/screens/contact_us_screen.dart';
+import 'package:katkoot_elwady/features/menu_management/screens/survey_screen.dart';
 import 'package:katkoot_elwady/features/menu_management/screens/where_to_find_us_screen.dart';
 import 'package:katkoot_elwady/features/messages_management/screens/messages_list_screen.dart';
 import 'package:katkoot_elwady/features/messages_management/screens/send_message_screen.dart';
@@ -53,6 +54,11 @@ class NavigationViewModel extends StateNotifier<BaseState> with BaseViewModel {
       case NavigationItem.video:
         Navigator.of(context).push(MaterialPageRoute(builder: (context) {
           return MenuCategorizedVideosScreen();
+        }));
+        break;
+      case NavigationItem.survey:
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return SurveyScreen();
         }));
         break;
       case NavigationItem.language:

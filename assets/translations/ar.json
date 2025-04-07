@@ -334,6 +334,13 @@
   "yesterday": "أمس",
   "attachment": "ملف مرفق",
    "cairo_str" : "القاهرة",
-    "no_messages_available" : "لا يوجد رسائل متاحة"
+  "no_messages_available" : "لا يوجد رسائل متاحة",
+  "continue": "استمرار",
+   "finish": "إنهاء",
+   "survey": "الدراسات الإستقصائية",
+  "thank_you": "شكرًا لك!",
+  "survey_complete_message": "تم إرسال ملاحظاتك بنجاح.",
+  "done": "تم"
+
 
 }
