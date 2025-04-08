@@ -12,6 +12,7 @@ import 'package:katkoot_elwady/features/category_management/models/category.dart
 import 'package:katkoot_elwady/features/tools_management/models/tool.dart';
 import 'package:katkoot_elwady/features/tools_management/screens/flock_management/parent_flock_management_pullet_screen.dart';
 
+import '../../../app_base/screens/custom_drawer.dart';
 import 'parent_flock_management_broiler_screen.dart';
 
 class ParentFlockManagementScreenData {
@@ -55,8 +56,8 @@ class _ParentFlockManagementScreenState
 
   Future getToolDetails() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(di.toolDetailsViewModelProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.toolDetailsViewModelProvider.notifier)
           .getDetails(widget.toolId, 10);
     });
   }
@@ -70,6 +71,7 @@ class _ParentFlockManagementScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: Colors.white,
       appBar: AppBar(
           backgroundColor: AppColors.DARK_SPRING_GREEN,
@@ -78,10 +80,31 @@ class _ParentFlockManagementScreenState
           toolbarHeight: 0),
       body: NestedScrollView(
         controller: _scrollController,
-        headerSliverBuilder:
-            (BuildContext context, bool innerBoxIsScrolled) {
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
+                leading: Builder(builder: (context) {
+                  return GestureDetector(
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: Transform.rotate(
+                          angle: context.locale.languageCode == "ar" ? 3.14 : 0,
+                          child: Image.asset(
+                            "assets/images/menu.png",
+                            fit: BoxFit.fitWidth,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
                 backgroundColor: AppColors.DARK_SPRING_GREEN,
                 collapsedHeight: kToolbarHeight,
                 foregroundColor: Colors.white,
@@ -89,14 +112,13 @@ class _ParentFlockManagementScreenState
                 flexibleSpace: FlexibleSpaceBar(
                     stretchModes: [StretchMode.fadeTitle],
                     background: CustomAppBar(
-                        onBackClick: ()=> Navigator.of(context).pop(),
-                        title: widget.category?.title ?? '')
-                )),
+                        onBackClick: () => Navigator.of(context).pop(),
+                        title: widget.category?.title ?? ''))),
             SliverPersistentHeader(
               delegate: FlexibleTapBarDelegate(
                   body: CustomAppBar(
-                    title: '',
-                      onBackClick: ()=> Navigator.of(context).pop(),
+                      title: '',
+                      onBackClick: () => Navigator.of(context).pop(),
                       tabs: [
                         TabbarData(
                             key: "broiler",
@@ -132,13 +154,13 @@ class _ParentFlockManagementScreenState
                 children: [
                   tool != null
                       ? ParentFlockManagementBroilerScreen(
-                    tool: tool,
-                  )
+                          tool: tool,
+                        )
                       : Container(),
                   tool != null
                       ? ParentFlockManagementPulletsScreen(
-                    tool: tool,
-                  )
+                          tool: tool,
+                        )
                       : Container(),
                 ],
               );

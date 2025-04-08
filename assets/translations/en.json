@@ -293,7 +293,7 @@
   "about_us": "About Us",
   "ask_for_advice": "Ask for Advice",
   "sales_and_customer_support": "Sales & Customer Support",
-  "received_messages": "Received Messages",
+  "received_messages": "Notifications",
   "share_app": "Share App",
   "language": "Language",
 
@@ -338,6 +338,7 @@
    "survey": "Survey",
   "thank_you": "Thank you!",
   "survey_complete_message": "Your feedback has been submitted successfully.",
-  "done": "Done"
+  "done": "Done",
+   "type_your_message": "Type your message..."
 
 }

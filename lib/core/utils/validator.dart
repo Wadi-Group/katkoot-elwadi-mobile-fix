@@ -12,6 +12,7 @@ class Validator {
     } else if (message.length > 240) {
       return "message_err_length";
     }
+    return null;
   }
 
   static List<UserFormsErrors> validateFields({
@@ -248,12 +249,12 @@ class Validator {
             message: 'empty_arrival_date'.tr()));
       }
     }
-    if (birthDate != null) {
-      if (birthDate.isEmpty) {
-        errors.add(UserFormsErrors(
-            field: UserFields.DATE.field, message: 'empty_birth_date'.tr()));
-      }
-    }
+    // if (birthDate != null) {
+    //   if (birthDate.isEmpty) {
+    //     errors.add(UserFormsErrors(
+    //         field: UserFields.DATE.field, message: 'empty_birth_date'.tr()));
+    //   }
+    // }
     if (femaleNumber != null) {
       if (femaleNumber.isEmpty) {
         errors.add(UserFormsErrors(

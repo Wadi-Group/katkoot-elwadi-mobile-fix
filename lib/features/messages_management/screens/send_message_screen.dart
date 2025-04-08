@@ -11,6 +11,8 @@ import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import 'package:katkoot_elwady/features/menu_management/view_models/navigation_drawer_mixin.dart';
 import 'package:katkoot_elwady/features/messages_management/widgets/custom_message_widget.dart';
 
+import '../../app_base/screens/custom_drawer.dart';
+
 class SendSupportMessageScreen extends StatefulWidget
     with NavigationDrawerMixin {
   static const routeName = "./send_support_message";
@@ -35,6 +37,7 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen>
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).size.width * .06;
     return Scaffold(
+        drawer: CustomDrawer(),
         backgroundColor: AppColors.LIGHT_BACKGROUND,
         key: _scaffoldKey,
         appBar: CustomAppBar(
@@ -157,10 +160,23 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen>
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.3,
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppColors.APP_CARDS_BLUE
+                                                .withAlpha(25),
+                                            spreadRadius: 0.5,
+                                            blurRadius: 2,
+                                            offset: Offset(1, 2),
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
                                       child: CustomElevatedButton(
-                                        title: "str_send".tr(),
-                                        textColor: AppColors.white,
-                                        backgroundColor: AppColors.Olive_Drab,
+                                        fontSize: 17,
+                                        title: 'str_send'.tr(),
+                                        textColor: AppColors.APP_BLUE,
+                                        backgroundColor: AppColors.white,
                                         onPressed: () {
                                           FocusScope.of(context).unfocus();
 
@@ -178,10 +194,21 @@ class _SendSupportMessageScreenState extends State<SendSupportMessageScreen>
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.3,
+                                      decoration: BoxDecoration(
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppColors.APP_CARDS_BLUE
+                                                .withAlpha(25),
+                                            spreadRadius: 0.5,
+                                            blurRadius: 2,
+                                            offset: Offset(1, 2),
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
                                       child: CustomElevatedButton(
                                         title: "str_cancel".tr(),
-                                        textColor: AppColors.white,
-                                        backgroundColor: AppColors.Gamboge,
+                                        backgroundColor: AppColors.white,
                                         onPressed: () {
                                           //widget.resetDrawerSelection();
                                           Navigator.pop(context);

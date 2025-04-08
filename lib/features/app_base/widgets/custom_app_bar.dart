@@ -272,41 +272,26 @@ class _CustomAppBarState extends State<CustomAppBar> {
               //     ),
               //   ),
             ],
-      leading: widget.hasbackButton
-          ? IconButton(
-              icon: Icon(
-                Platform.isAndroid ? Icons.arrow_back : Icons.arrow_back_ios,
-                color: AppColors.white,
-              ),
-              onPressed: () {
-                if (widget.onBackClick != null) {
-                  widget.onBackClick!();
-                } else {
-                  Navigator.pop(context);
-                }
-              },
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            )
-          : GestureDetector(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: Transform.rotate(
-                    angle: context.locale.languageCode == "ar" ? 3.14 : 0,
-                    child: Image.asset(
-                      "assets/images/menu.png",
-                      fit: BoxFit.fitWidth,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+      leading: GestureDetector(
+        onTap: () {
+          Scaffold.of(context).openDrawer();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: SizedBox(
+            height: 20,
+            width: 20,
+            child: Transform.rotate(
+              angle: context.locale.languageCode == "ar" ? 3.14 : 0,
+              child: Image.asset(
+                "assets/images/menu.png",
+                fit: BoxFit.fitWidth,
+                color: Colors.white,
               ),
             ),
+          ),
+        ),
+      ),
       bottom: widget.tabs != null
           ? AppTabbar(
               tabController: widget.controller,

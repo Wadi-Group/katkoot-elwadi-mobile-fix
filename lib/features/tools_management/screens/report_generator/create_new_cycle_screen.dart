@@ -17,6 +17,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
 import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
 
+import '../../../app_base/screens/custom_drawer.dart';
+
 class CreateNewCycleScreen extends StatefulWidget {
   static const routeName = "./create_new_cycle";
   final Category? category;
@@ -49,6 +51,7 @@ class _CreateNewCycleScreenState extends State<CreateNewCycleScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: AppColors.LIGHT_BACKGROUND,
       appBar: CustomAppBar(
         showDrawer: false,

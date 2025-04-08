@@ -15,6 +15,7 @@ import 'package:katkoot_elwady/features/menu_management/widgets/contact_info_wid
 
 import '../../../core/di/injection_container.dart' as di;
 import '../../../core/utils/extentions/string_captilize.dart';
+import '../../app_base/screens/custom_drawer.dart';
 
 class ContactUsScreen extends StatefulWidget with NavigationDrawerMixin {
   static const routeName = "./contact_us";
@@ -40,6 +41,7 @@ class _ContactUsScreenState extends State<ContactUsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       key: _scaffoldKey,
       backgroundColor: AppColors.LIGHT_BACKGROUND,
       appBar: CustomAppBar(

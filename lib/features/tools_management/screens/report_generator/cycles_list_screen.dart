@@ -19,6 +19,7 @@ import 'package:katkoot_elwady/features/tools_management/view_models/report_gene
 import 'package:katkoot_elwady/features/tools_management/widgets/report_generator/cycle_row_item.dart';
 import 'package:katkoot_elwady/features/tools_management/widgets/tools_flexiple_app_bar.dart';
 
+import '../../../app_base/screens/custom_drawer.dart';
 import 'create_new_cycle_screen.dart';
 
 class CyclesScreen extends StatefulWidget {
@@ -61,6 +62,7 @@ class _CyclesScreenState extends State<CyclesScreen>
     final padding = MediaQuery.of(context).size.height * 0.01;
 
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
           backgroundColor: AppColors.DARK_SPRING_GREEN,
           automaticallyImplyLeading: false,
@@ -74,6 +76,28 @@ class _CyclesScreenState extends State<CyclesScreen>
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: Transform.rotate(
+                        angle: context.locale.languageCode == "ar" ? 3.14 : 0,
+                        child: Image.asset(
+                          "assets/images/menu.png",
+                          fit: BoxFit.fitWidth,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
               backgroundColor: AppColors.DARK_SPRING_GREEN,
               floating: true,
               pinned: true,

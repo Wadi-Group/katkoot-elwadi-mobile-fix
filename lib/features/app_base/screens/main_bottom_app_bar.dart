@@ -59,17 +59,17 @@ class _MainBottomAppBarState extends State<MainBottomAppBar>
               );
       });
     }),
-    Navigator(onGenerateRoute: (RouteSettings settings) {
-      return PageRouteBuilder(pageBuilder: (context, _, __) {
-        // use page PageRouteBuilder instead of 'PageRouteBuilder' to avoid material route animation
-        navStack[3] = context;
-        return NDrawer.NavigationDrawer();
-      });
-    }),
+    // Navigator(onGenerateRoute: (RouteSettings settings) {
+    //   return PageRouteBuilder(pageBuilder: (context, _, __) {
+    //     // use page PageRouteBuilder instead of 'PageRouteBuilder' to avoid material route animation
+    //     navStack[3] = context;
+    //     return NDrawer.NavigationDrawer();
+    //   });
+    // }),
   ];
 
   final List<BuildContext?> navStack = List.generate(
-      4,
+      3,
       (index) =>
           null); // one buildContext for each tab to store history  of navigation
 

@@ -14,6 +14,8 @@ import 'package:katkoot_elwady/features/tools_management/widgets/tool_category_h
 import 'package:katkoot_elwady/features/tools_management/widgets/tools_flexiple_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 
+import '../../app_base/screens/custom_drawer.dart';
+
 class CommercialBroilerPerformanceObjective extends StatefulWidget {
   static const routeName = "./commercial_performance_objective";
   final Category category;
@@ -46,6 +48,7 @@ class _CommercialBroilerPerformanceObjectiveState
   Widget build(BuildContext context) {
     final padding = MediaQuery.of(context).size.width * .018;
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
           backgroundColor: AppColors.DARK_SPRING_GREEN,
           automaticallyImplyLeading: false,
@@ -58,6 +61,29 @@ class _CommercialBroilerPerformanceObjectiveState
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
+                  leading: Builder(builder: (context) {
+                    return GestureDetector(
+                      onTap: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Transform.rotate(
+                            angle:
+                                context.locale.languageCode == "ar" ? 3.14 : 0,
+                            child: Image.asset(
+                              "assets/images/menu.png",
+                              fit: BoxFit.fitWidth,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
                   backgroundColor: AppColors.DARK_SPRING_GREEN,
                   floating: true,
                   pinned: true,
@@ -81,40 +107,40 @@ class _CommercialBroilerPerformanceObjectiveState
                         if (tool != null) setSliderData(tool);
                         return tool != null
                             ? SafeArea(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ToolCategoryHeader(
-                                category: widget.category,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(bottom: 10),
-                                width: MediaQuery.of(context).size.width,
-                                child: Consumer(builder: (_, ref, __) {
-                                  var selectedAgeIndex =
-                                  ref.watch(_selectedAgeIndexProvider);
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                    NeverScrollableScrollPhysics(),
-                                    itemCount: tool
-                                        .toolData?[
-                                    selectedAgeIndex ?? 0]
-                                        .sections
-                                        ?.length ??
-                                        1,
-                                    itemBuilder: (context, index) =>
-                                        CommercialPerformanceRow(
-                                            section: tool
-                                                .toolData?[
-                                            selectedAgeIndex ?? 0]
-                                                .sections?[index]),
-                                  );
-                                }),
-                              ),
-                            ],
-                          ),
-                        )
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ToolCategoryHeader(
+                                      category: widget.category,
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Consumer(builder: (_, ref, __) {
+                                        var selectedAgeIndex = ref
+                                            .watch(_selectedAgeIndexProvider);
+                                        return ListView.builder(
+                                          shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: tool
+                                                  .toolData?[
+                                                      selectedAgeIndex ?? 0]
+                                                  .sections
+                                                  ?.length ??
+                                              1,
+                                          itemBuilder: (context, index) =>
+                                              CommercialPerformanceRow(
+                                                  section: tool
+                                                      .toolData?[
+                                                          selectedAgeIndex ?? 0]
+                                                      .sections?[index]),
+                                        );
+                                      }),
+                                    ),
+                                  ],
+                                ),
+                              )
                             : Container();
                       },
                     ),
@@ -133,8 +159,8 @@ class _CommercialBroilerPerformanceObjectiveState
             return CustomSlider(
               onDrag: (value) {
                 sliderViewModel.updateSliderWidget(value);
-                ProviderScope.containerOf(context,
-                    listen: false).read(di.toolDetailsViewModelProvider.notifier)
+                ProviderScope.containerOf(context, listen: false)
+                    .read(di.toolDetailsViewModelProvider.notifier)
                     .getSelectedAgeDataIndex(value);
               },
             );
@@ -146,10 +172,10 @@ class _CommercialBroilerPerformanceObjectiveState
 
   Future setSliderData(Tool tool) async {
     await Future.delayed(Duration.zero, () {
-      var currentSliderValue = ProviderScope.containerOf(context,
-          listen: false).read(_currentSliderValue);
-      sliderViewModel = ProviderScope.containerOf(context,
-          listen: false).read(di.customSliderViewModelProvider.notifier);
+      var currentSliderValue = ProviderScope.containerOf(context, listen: false)
+          .read(_currentSliderValue);
+      sliderViewModel = ProviderScope.containerOf(context, listen: false)
+          .read(di.customSliderViewModelProvider.notifier);
 
       sliderViewModel.initSlider(SliderItem(
           duration: tool.duration ?? 'str_week'.tr(),
@@ -162,8 +188,8 @@ class _CommercialBroilerPerformanceObjectiveState
           current: (currentSliderValue != null)
               ? currentSliderValue
               : (tool.sliderData?.defaultValue != null
-              ? tool.sliderData!.defaultValue!.toDouble()
-              : 12),
+                  ? tool.sliderData!.defaultValue!.toDouble()
+                  : 12),
           step: tool.sliderData?.step != null
               ? tool.sliderData!.step!.toDouble()
               : 1,
@@ -176,8 +202,8 @@ class _CommercialBroilerPerformanceObjectiveState
 
   Future getToolDetails() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(di.toolDetailsViewModelProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(di.toolDetailsViewModelProvider.notifier)
           .getDetails(widget.toolId, 12);
     });
   }

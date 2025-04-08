@@ -10,6 +10,7 @@ import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/category_management/models/category.dart';
 import 'package:katkoot_elwady/features/menu_management/view_models/menu_categorized_videos_view_model.dart';
 import 'package:katkoot_elwady/features/menu_management/widgets/menu_category_with_videos_item.dart';
+import '../../app_base/screens/custom_drawer.dart';
 import '../../app_base/widgets/custom_text.dart';
 import '../../guides_management/models/video.dart';
 import '../sections/carousel_slider_videos_section.dart';
@@ -40,6 +41,7 @@ class _MenuCategorizedVideosScreenState
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: AppColors.LIGHT_BACKGROUND,
       key: _scaffoldKey,
       appBar: CustomAppBar(

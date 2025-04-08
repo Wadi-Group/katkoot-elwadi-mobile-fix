@@ -19,6 +19,8 @@ import 'package:katkoot_elwady/features/menu_management/widgets/single_category_
 import 'package:katkoot_elwady/features/menu_management/widgets/where_to_find_us_supplier_item.dart';
 import 'package:katkoot_elwady/features/user_management/models/city.dart';
 
+import '../../app_base/screens/custom_drawer.dart';
+
 class WhereToFindUsScreen extends StatefulWidget {
   static const routeName = "./where_to_find_us_screen";
 
@@ -87,6 +89,7 @@ class _WhereToFindUsScreenState extends State<WhereToFindUsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: CustomDrawer(),
         backgroundColor: AppColors.LIGHT_BACKGROUND,
         appBar: CustomAppBar(
           showNotificationsButton: true,

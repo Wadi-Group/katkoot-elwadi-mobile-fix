@@ -20,6 +20,8 @@ import 'package:katkoot_elwady/features/tools_management/view_models/tool_detail
 import 'package:katkoot_elwady/features/tools_management/widgets/tools_flexiple_app_bar.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
 
+import '../../app_base/screens/custom_drawer.dart';
+
 class FCRScreenData {
   final Category? category;
   final Tool? tool;
@@ -80,6 +82,7 @@ class _FCRScreenState extends State<FCRScreen> with BaseViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       appBar: AppBar(
           backgroundColor: AppColors.DARK_SPRING_GREEN,
           automaticallyImplyLeading: false,
@@ -93,6 +96,28 @@ class _FCRScreenState extends State<FCRScreen> with BaseViewModel {
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
+              leading: Builder(builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: Transform.rotate(
+                        angle: context.locale.languageCode == "ar" ? 3.14 : 0,
+                        child: Image.asset(
+                          "assets/images/menu.png",
+                          fit: BoxFit.fitWidth,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              }),
               backgroundColor: AppColors.DARK_SPRING_GREEN,
               floating: true,
               pinned: true,

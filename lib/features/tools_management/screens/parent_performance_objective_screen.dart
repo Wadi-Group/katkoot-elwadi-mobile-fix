@@ -17,6 +17,8 @@ import 'package:katkoot_elwady/features/tools_management/widgets/parent_performa
 import 'package:katkoot_elwady/features/tools_management/widgets/tool_category_header.dart';
 import 'package:katkoot_elwady/features/tools_management/widgets/tools_flexiple_app_bar.dart';
 
+import '../../app_base/screens/custom_drawer.dart';
+
 class ParentStockPerformanceObjective extends StatefulWidget {
   static const routeName = "./parent_performance_objective";
   final Category category;
@@ -50,7 +52,7 @@ class _ParentStockPerformanceObjectiveState
     final padding = MediaQuery.of(context).size.width * .018;
     return Scaffold(
       // backgroundColor: Colors.white,
-
+      drawer: CustomDrawer(),
       appBar: AppBar(
           backgroundColor: AppColors.DARK_SPRING_GREEN,
           automaticallyImplyLeading: false,
@@ -64,6 +66,29 @@ class _ParentStockPerformanceObjectiveState
             child: CustomScrollView(
               slivers: [
                 SliverAppBar(
+                  leading: Builder(builder: (context) {
+                    return GestureDetector(
+                      onTap: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Transform.rotate(
+                            angle:
+                                context.locale.languageCode == "ar" ? 3.14 : 0,
+                            child: Image.asset(
+                              "assets/images/menu.png",
+                              fit: BoxFit.fitWidth,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
                   backgroundColor: AppColors.DARK_SPRING_GREEN,
                   floating: true,
                   pinned: true,
@@ -103,10 +128,9 @@ class _ParentStockPerformanceObjectiveState
                                         margin: EdgeInsets.only(bottom: 10),
                                         width:
                                             MediaQuery.of(context).size.width,
-                                        child:
-                                            Consumer(builder: (_, ref, __) {
-                                          var selectedAgeIndex =
-                                          ref.watch(_selectedAgeIndexProvider);
+                                        child: Consumer(builder: (_, ref, __) {
+                                          var selectedAgeIndex = ref
+                                              .watch(_selectedAgeIndexProvider);
                                           // print(tool
                                           //     .toolData?[selectedAgeIndex ?? 0]
                                           //     .sections![1]
@@ -153,8 +177,7 @@ class _ParentStockPerformanceObjectiveState
             return CustomSlider(
               onDrag: (value) {
                 sliderViewModel.updateSliderWidget(value);
-                ProviderScope.containerOf(context,
-                    listen: false)
+                ProviderScope.containerOf(context, listen: false)
                     .read(di.toolDetailsViewModelProvider.notifier)
                     .getSelectedAgeDataIndex(value);
               },
@@ -167,10 +190,10 @@ class _ParentStockPerformanceObjectiveState
 
   Future setSliderData(Tool tool) async {
     await Future.delayed(Duration.zero, () {
-      var currentSliderValue = ProviderScope.containerOf(context,
-          listen: false).read(_currentSliderValue);
-      sliderViewModel = ProviderScope.containerOf(context,
-          listen: false).read(di.customSliderViewModelProvider.notifier);
+      var currentSliderValue = ProviderScope.containerOf(context, listen: false)
+          .read(_currentSliderValue);
+      sliderViewModel = ProviderScope.containerOf(context, listen: false)
+          .read(di.customSliderViewModelProvider.notifier);
 
       sliderViewModel.initSlider(SliderItem(
           duration: tool.duration ?? 'str_week'.tr(),
@@ -197,8 +220,7 @@ class _ParentStockPerformanceObjectiveState
 
   Future getToolDetails() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false)
+      ProviderScope.containerOf(context, listen: false)
           .read(di.toolDetailsViewModelProvider.notifier)
           .getDetails(widget.toolId, 32);
     });

@@ -241,10 +241,14 @@ class _HomeScreenState extends State<HomeScreen>
                         return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomText(
-                                title: "last_updated".tr(args: [lastFetchTime]),
-                                fontSize: 14,
-                                textColor: AppColors.APP_BLUE,
+                              Visibility(
+                                visible: lastFetchTime != "now".tr(),
+                                child: CustomText(
+                                  title:
+                                      "last_updated".tr(args: [lastFetchTime]),
+                                  fontSize: 12,
+                                  textColor: AppColors.APP_BLUE,
+                                ),
                               ),
                               SizedBox(height: 15),
                               //  WeatherAndPricesSection

@@ -364,7 +364,7 @@ class LoginState extends State<LoginScreen> with BaseViewModel {
     Color? iconColor,
   }) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: null,
       child: Container(
         height: 43,
         padding: EdgeInsets.symmetric(

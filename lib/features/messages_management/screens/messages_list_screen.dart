@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/core/di/injection_container.dart' as di;
+import 'package:katkoot_elwady/features/app_base/screens/custom_drawer.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/active_button.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_app_bar.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
@@ -130,6 +131,7 @@ class _MessagesListScreenState extends State<MessagesListScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: AppColors.white_smoke,
       key: _scaffoldKey,
       appBar: CustomAppBar(

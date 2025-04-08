@@ -25,7 +25,7 @@ class CategoryTabWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Stack(
-          clipBehavior: Clip.none, // Allows the image to overflow
+          clipBehavior: Clip.none,
           children: [
             _buildCard(context),
             _buildCategoryImage(context),
@@ -116,14 +116,19 @@ class CategoryTabWidget extends StatelessWidget {
   /// Builds the category image positioned above the card
   Widget _buildCategoryImage(BuildContext context) {
     return Positioned(
-      top: -20, // Moves the image 10 pixels above the card
+      top: -20,
       left: context.locale.languageCode == "en" ? 0 : null,
       right: context.locale.languageCode != "en" ? 0 : null,
-      child: CachedNetworkImage(
-        fit: BoxFit.fitHeight,
-        height: MediaQuery.of(context).size.height * 0.14,
-        width: MediaQuery.of(context).size.height * 0.15,
-        imageUrl: category.imageUrl!,
+      child: Transform.flip(
+        flipX: context.locale.languageCode == "en" && category.id == 3
+            ? true
+            : false,
+        child: CachedNetworkImage(
+          fit: BoxFit.fitHeight,
+          height: MediaQuery.of(context).size.height * 0.14,
+          width: MediaQuery.of(context).size.height * 0.15,
+          imageUrl: category.imageUrl!,
+        ),
       ),
     );
   }

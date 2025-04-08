@@ -296,7 +296,7 @@
   "about_us": "معلومات عنا",
   "ask_for_advice": "طلب نصيحة",
   "sales_and_customer_support": "المبيعات والدعم الفني",
-  "received_messages": "الرسائل المستلمة",
+  "received_messages": "الإشعارات",
   "share_app": "مشاركة التطبيق",
   "language": "اللغة",
   "number_of_birds" : "عدد الدواجن",
@@ -340,7 +340,8 @@
    "survey": "الدراسات الإستقصائية",
   "thank_you": "شكرًا لك!",
   "survey_complete_message": "تم إرسال ملاحظاتك بنجاح.",
-  "done": "تم"
+  "done": "تم",
+  "type_your_message": "اكتب رسالتك..."
 
 
 }

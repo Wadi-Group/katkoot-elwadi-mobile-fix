@@ -22,6 +22,8 @@ import '../../../core/di/injection_container.dart' as di;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app_base/screens/custom_drawer.dart';
+
 class CategoryDetailsBaseScreenModification extends StatefulWidget {
   static const routeName = "./category_base";
   final Category category;
@@ -79,6 +81,7 @@ class _CategoryDetailsBaseScreenModificationState
       initialIndex: 0,
       length: widget.category.getTabsNumber(),
       child: Scaffold(
+        drawer: CustomDrawer(),
         appBar: AppBar(
             backgroundColor: AppColors.DARK_SPRING_GREEN,
             automaticallyImplyLeading: false,
@@ -95,6 +98,30 @@ class _CategoryDetailsBaseScreenModificationState
                       (BuildContext context, bool innerBoxIsScrolled) {
                     return [
                       SliverAppBar(
+                          leading: Builder(builder: (context) {
+                            return GestureDetector(
+                              onTap: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: Transform.rotate(
+                                    angle: context.locale.languageCode == "ar"
+                                        ? 3.14
+                                        : 0,
+                                    child: Image.asset(
+                                      "assets/images/menu.png",
+                                      fit: BoxFit.fitWidth,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
                           backgroundColor: AppColors.DARK_SPRING_GREEN,
                           collapsedHeight: kToolbarHeight,
                           foregroundColor: Colors.white,

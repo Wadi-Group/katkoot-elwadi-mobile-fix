@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:katkoot_elwady/core/api/api_urls.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../app_base/widgets/active_button.dart';
@@ -11,6 +12,7 @@ void showInAppMessage(
   if (inAppMessageData.isNotEmpty) {
     var message = inAppMessageData['title'] ?? '';
     var imageUrl = inAppMessageData['image'] ?? '';
+    String url = inAppMessageData['url'] ?? '';
 
     if (message.isNotEmpty && imageUrl.isNotEmpty) {
       showDialog(
@@ -55,7 +57,12 @@ void showInAppMessage(
                       SizedBox(height: 30),
                       CustomElevatedButton(
                         title: "str_more".tr(),
-                        onPressed: () {},
+                        onPressed: () {
+                          if (url.isNotEmpty) {
+                            Uri uri = Uri.parse(url);
+                            launchUrl(uri);
+                          }
+                        },
                         backgroundColor: AppColors.APP_BLUE,
                         textColor: AppColors.white,
                         radiusCorners: 30,

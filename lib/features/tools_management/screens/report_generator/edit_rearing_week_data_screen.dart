@@ -16,6 +16,8 @@ import 'package:katkoot_elwady/features/tools_management/widgets/report_generato
 import 'package:katkoot_elwady/features/tools_management/widgets/report_generator/cycle_week_data_item.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
 
+import '../../../app_base/screens/custom_drawer.dart';
+
 class EditRearingWeekDataScreenData {
   final String? cycleId;
   final String? weekNumber;
@@ -72,31 +74,33 @@ class _EditRearingWeekDataScreenState extends State<EditRearingWeekDataScreen>
 
   Future getWeekData() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(_screenViewModelProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(_screenViewModelProvider.notifier)
           .getWeekData(widget.cycleId, widget.weekNumber);
     });
   }
 
   submitWeekData() {
-    ProviderScope.containerOf(context,
-        listen: false).read(_screenViewModelProvider.notifier).checkDataFields(
-        context: context,
-        cycleId: widget.cycleId.toString(),
-        weekNumber: widget.weekNumber.toString(),
-        femaleFeed: femaleFeedController.text,
-        maleFeed: maleFeedController.text,
-        femaleWeight: femaleWeightController.text,
-        maleWeight: maleWeightController.text,
-        femaleMort: femaleMortController.text,
-        maleMort: maleMortController.text,
-        sexErrors: sexErrorsController.text,
-        culls: cullsController.text);
+    ProviderScope.containerOf(context, listen: false)
+        .read(_screenViewModelProvider.notifier)
+        .checkDataFields(
+            context: context,
+            cycleId: widget.cycleId.toString(),
+            weekNumber: widget.weekNumber.toString(),
+            femaleFeed: femaleFeedController.text,
+            maleFeed: maleFeedController.text,
+            femaleWeight: femaleWeightController.text,
+            maleWeight: maleWeightController.text,
+            femaleMort: femaleMortController.text,
+            maleMort: maleMortController.text,
+            sexErrors: sexErrorsController.text,
+            culls: cullsController.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: AppColors.white,
       appBar: CustomAppBar(
         onBackClick: () => Navigator.of(context).pop(),
@@ -151,8 +155,9 @@ class _EditRearingWeekDataScreenState extends State<EditRearingWeekDataScreen>
               ScreenHandler(
                 screenProvider: _screenViewModelProvider,
                 onDeviceReconnected: () {
-                  if (ProviderScope.containerOf(context,
-                      listen: false).read(_weekDataProvider) != null) {
+                  if (ProviderScope.containerOf(context, listen: false)
+                          .read(_weekDataProvider) !=
+                      null) {
                     submitWeekData();
                   } else {
                     getWeekData();
@@ -172,7 +177,7 @@ class _EditRearingWeekDataScreenState extends State<EditRearingWeekDataScreen>
   buildDataFieldsView() {
     _setWeekDataToControllers();
 
-    return Consumer(builder: (_,ref, __) {
+    return Consumer(builder: (_, ref, __) {
       final errors = ref.watch(_errorsProvider);
 
       return Column(
@@ -258,8 +263,8 @@ class _EditRearingWeekDataScreenState extends State<EditRearingWeekDataScreen>
   }
 
   _setWeekDataToControllers() {
-    WeekData? weekData = ProviderScope.containerOf(context,
-        listen: false).read(_weekDataProvider);
+    WeekData? weekData = ProviderScope.containerOf(context, listen: false)
+        .read(_weekDataProvider);
 
     femaleFeedController.text =
         weekData?.value?.params?.femaleFeed.toString() ?? '';

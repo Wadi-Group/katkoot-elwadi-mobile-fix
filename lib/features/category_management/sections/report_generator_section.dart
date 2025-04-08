@@ -124,6 +124,7 @@ class ReportGenerator extends StatelessWidget {
             Image.asset(
               "assets/images/elite_logo.png",
               width: 30,
+              color: AppColors.Elite_Logo_Color,
               height: 30,
             ),
             SizedBox(width: 10),

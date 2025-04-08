@@ -48,7 +48,7 @@ class WeatherAndPricesSection extends StatelessWidget {
               ),
               SizedBox(height: 15),
               _buildPriceCard(
-                height: 35,
+                height: 30,
                 title: "white_egg_tray".tr(),
                 price: whiteEggTrayPrice ?? "N/A",
                 unit: "egp".tr(),
@@ -57,7 +57,7 @@ class WeatherAndPricesSection extends StatelessWidget {
                 context: context,
               ),
               _buildPriceCard(
-                height: 35,
+                height: 30,
                 title: "brown_egg_tray".tr(),
                 price: brownEggTrayPrice ?? "N/A",
                 unit: "egp".tr(),

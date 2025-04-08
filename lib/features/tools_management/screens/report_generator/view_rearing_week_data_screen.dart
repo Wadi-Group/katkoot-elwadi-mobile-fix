@@ -22,6 +22,8 @@ import 'package:katkoot_elwady/features/tools_management/view_models/report_gene
 import 'package:katkoot_elwady/features/tools_management/widgets/custom_slider.dart';
 import 'package:katkoot_elwady/features/tools_management/widgets/report_generator/custom_toggle.dart';
 
+import '../../../app_base/screens/custom_drawer.dart';
+
 class ViewRearingWeekDataScreenData {
   final String? cycleId;
   final String? cycleName;
@@ -87,8 +89,7 @@ class _ViewRearingWeekDataScreenState extends State<ViewRearingWeekDataScreen>
 
   Future getCycleData() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false)
+      ProviderScope.containerOf(context, listen: false)
           .read(_viewModelProvider.notifier)
           .getCycleData(widget.cycleId, widget.weekNumber!);
     });
@@ -103,6 +104,7 @@ class _ViewRearingWeekDataScreenState extends State<ViewRearingWeekDataScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: Colors.white,
       appBar: AppBar(
           backgroundColor: AppColors.DARK_SPRING_GREEN,
@@ -114,6 +116,28 @@ class _ViewRearingWeekDataScreenState extends State<ViewRearingWeekDataScreen>
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
+                leading: Builder(builder: (context) {
+                  return GestureDetector(
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: Transform.rotate(
+                          angle: context.locale.languageCode == "ar" ? 3.14 : 0,
+                          child: Image.asset(
+                            "assets/images/menu.png",
+                            fit: BoxFit.fitWidth,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
                 backgroundColor: AppColors.DARK_SPRING_GREEN,
                 collapsedHeight: kToolbarHeight,
                 foregroundColor: Colors.white,
@@ -123,8 +147,7 @@ class _ViewRearingWeekDataScreenState extends State<ViewRearingWeekDataScreen>
                     background: CustomAppBar(
                         showToggle: true,
                         onToggle: () {
-                          ProviderScope.containerOf(context,
-                              listen: false)
+                          ProviderScope.containerOf(context, listen: false)
                               .read(_viewModelProvider.notifier)
                               .toggleFunction();
                         },
@@ -185,7 +208,7 @@ class _ViewRearingWeekDataScreenState extends State<ViewRearingWeekDataScreen>
                       children: [
                         Consumer(builder: (_, ref, __) {
                           var selectedWeekNumber =
-                          ref.watch(_selectedWeekNumberProvider);
+                              ref.watch(_selectedWeekNumberProvider);
 
                           return Expanded(
                             child: TabBarView(
@@ -203,7 +226,7 @@ class _ViewRearingWeekDataScreenState extends State<ViewRearingWeekDataScreen>
                                     cycleName: widget.cycleName,
                                     weekNumber: selectedWeekNumber,
                                     cycle: ProviderScope.containerOf(context,
-                                        listen: false)
+                                            listen: false)
                                         .read(_viewModelProvider)
                                         .data
                                         ?.cycle),
@@ -222,7 +245,7 @@ class _ViewRearingWeekDataScreenState extends State<ViewRearingWeekDataScreen>
                               onDrag: (value) {
                                 sliderViewModel.updateSliderWidget(value);
                                 ProviderScope.containerOf(context,
-                                    listen: false)
+                                        listen: false)
                                     .read(_viewModelProvider.notifier)
                                     .getSelectedAgeDataIndex(value);
                               },
@@ -274,10 +297,10 @@ class _ViewRearingWeekDataScreenState extends State<ViewRearingWeekDataScreen>
 
   Future setSliderData() async {
     await Future.delayed(Duration.zero, () {
-      var currentSliderValue = ProviderScope.containerOf(context,
-          listen: false).read(_selectedWeekNumberProvider);
-      sliderViewModel = ProviderScope.containerOf(context,
-          listen: false).read(di.customSliderViewModelProvider.notifier);
+      var currentSliderValue = ProviderScope.containerOf(context, listen: false)
+          .read(_selectedWeekNumberProvider);
+      sliderViewModel = ProviderScope.containerOf(context, listen: false)
+          .read(di.customSliderViewModelProvider.notifier);
       sliderViewModel.initSlider(
         SliderItem(
             sliderIcons: getSliderIcons(),

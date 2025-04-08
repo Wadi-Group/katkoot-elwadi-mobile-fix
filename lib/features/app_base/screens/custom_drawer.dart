@@ -90,7 +90,7 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   icon: "assets/images/share_app.png",
                   title: 'survey'.tr(),
-                  modelView: modelView,
+                  // modelView: modelView,
                   navigationItem: NavigationItem.survey,
                 ),
                 _buildDrawerItem(

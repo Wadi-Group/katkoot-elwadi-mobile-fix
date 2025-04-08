@@ -8,6 +8,7 @@ import 'package:katkoot_elwady/features/menu_management/view_models/navigation_d
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/menu_management/widgets/change_language_widget.dart';
 import '../../../core/di/injection_container.dart' as di;
+import '../../app_base/screens/custom_drawer.dart';
 
 class ChangeLanguageScreen extends StatefulWidget {
   static const routeName = "./change_language";
@@ -37,7 +38,8 @@ class ChangeLanguageState extends State<ChangeLanguageScreen>
     return Consumer(
       builder: (_, ref, __) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          drawer: CustomDrawer(),
+          backgroundColor: AppColors.LIGHT_BACKGROUND,
           appBar: ref.watch(_isOnBoardingComplete).when(
                 data: (onBoardingShown) => onBoardingShown
                     ? CustomAppBar(

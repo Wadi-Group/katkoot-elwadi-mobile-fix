@@ -16,6 +16,8 @@ import 'package:katkoot_elwady/features/tools_management/widgets/report_generato
 import 'package:katkoot_elwady/features/tools_management/widgets/report_generator/cycle_week_data_item.dart';
 import 'package:katkoot_elwady/features/user_management/entities/user_forms_errors.dart';
 
+import '../../../app_base/screens/custom_drawer.dart';
+
 class EditProductionWeekDataScreenData {
   final String? cycleId;
   final String? weekNumber;
@@ -74,15 +76,16 @@ class _EditProductionWeekDataScreenState
 
   Future getWeekData() async {
     await Future.delayed(Duration.zero, () {
-      ProviderScope.containerOf(context,
-          listen: false).read(_screenViewModelProvider.notifier)
+      ProviderScope.containerOf(context, listen: false)
+          .read(_screenViewModelProvider.notifier)
           .getWeekData(widget.cycleId, widget.weekNumber);
     });
   }
 
   submitWeekData() {
-    ProviderScope.containerOf(context,
-        listen: false).read(_screenViewModelProvider.notifier).checkDataFields(
+    ProviderScope.containerOf(context, listen: false)
+        .read(_screenViewModelProvider.notifier)
+        .checkDataFields(
           context: context,
           cycleId: widget.cycleId.toString(),
           weekNumber: widget.weekNumber.toString(),
@@ -102,6 +105,7 @@ class _EditProductionWeekDataScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: AppColors.white,
       appBar: CustomAppBar(
         onBackClick: () => Navigator.of(context).pop(),
@@ -156,8 +160,9 @@ class _EditProductionWeekDataScreenState
               ScreenHandler(
                 screenProvider: _screenViewModelProvider,
                 onDeviceReconnected: () {
-                  if (ProviderScope.containerOf(context,
-                      listen: false).read(_weekDataProvider) != null) {
+                  if (ProviderScope.containerOf(context, listen: false)
+                          .read(_weekDataProvider) !=
+                      null) {
                     submitWeekData();
                   } else {
                     getWeekData();
@@ -177,7 +182,7 @@ class _EditProductionWeekDataScreenState
   buildDataFieldsView() {
     _setWeekDataToControllers();
 
-    return Consumer(builder: (_,ref, __) {
+    return Consumer(builder: (_, ref, __) {
       final errors = ref.watch(_errorsProvider);
 
       return Column(
@@ -287,8 +292,8 @@ class _EditProductionWeekDataScreenState
   }
 
   _setWeekDataToControllers() {
-    WeekData? weekData = ProviderScope.containerOf(context,
-        listen: false).read(_weekDataProvider);
+    WeekData? weekData = ProviderScope.containerOf(context, listen: false)
+        .read(_weekDataProvider);
 
     lightingProgramController.text =
         weekData?.value?.params?.lightingProg.toString() ?? '';

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:katkoot_elwady/core/constants/app_colors.dart';
 import 'package:katkoot_elwady/features/app_base/widgets/custom_text.dart';
 import '../../../core/di/injection_container.dart' as di;
+import '../../app_base/screens/custom_drawer.dart';
 import '../../app_base/widgets/custom_app_bar.dart';
 import '../view_models/navigation_drawer_mixin.dart';
 
@@ -17,6 +18,7 @@ class AboutUsScreen extends ConsumerWidget with NavigationDrawerMixin {
     final aboutUsData = aboutUsState.data;
 
     return Scaffold(
+      drawer: CustomDrawer(),
       backgroundColor: AppColors.LIGHT_BACKGROUND,
       appBar: CustomAppBar(
         showNotificationsButton: true,

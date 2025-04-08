@@ -663,14 +663,6 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
               ),
             ),
           ),
-          error.isNotEmpty
-              ? CustomText(
-                  fontSize: 12,
-                  textColor: AppColors.ERRORS_RED,
-                  textAlign: TextAlign.start,
-                  padding: EdgeInsets.only(top: 5),
-                  title: error)
-              : SizedBox()
         ],
       );
     });

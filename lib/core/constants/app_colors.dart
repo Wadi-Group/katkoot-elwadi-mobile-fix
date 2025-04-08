@@ -69,4 +69,5 @@ class AppColors {
   static const Color Tabs_Blue = Color(0xffe2eef3);
   static const Color Message_seen = Color(0xfff3f3f3);
   static const Color GreenColor = const Color(0xffb7d69a);
+  static const Color Elite_Logo_Color = const Color(0xffb7d69a);
 }

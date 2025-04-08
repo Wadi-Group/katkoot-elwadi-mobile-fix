@@ -24,8 +24,9 @@ class LiveChatAndNewsSection extends StatelessWidget {
                 height: 50,
                 title: "live_chat".tr(),
                 onTap: () {
-                  openWhatsapp();
+                  // openWhatsapp();
                 },
+                iconColor: AppColors.Elite_Logo_Color,
                 image: "assets/images/elite_logo.png",
                 borderRadius: context.locale.languageCode == "en"
                     ? const BorderRadius.only(
@@ -154,7 +155,7 @@ class ActionButton extends StatelessWidget {
                 title: title,
                 textColor: AppColors.APP_BLUE,
                 fontSize: 18,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
               ),
               isPrefix ? Container() : const SizedBox(width: 10),
               isPrefix
