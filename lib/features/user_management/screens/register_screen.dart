@@ -719,6 +719,13 @@ class _HomeScreenState extends State<RegisterScreen> with BaseViewModel {
                             : [],
                         userState: stateController.text,
                         flockSize: flockSizeContoller.text,
+                        numberOfBirds:
+                            int.tryParse(numberOfBirdsController.text),
+                        numberOfFarms:
+                            int.tryParse(numberOfFarmsController.text),
+                        numberOfHouses:
+                            int.tryParse(numberOfHousesController.text),
+                        email: emailController.text,
                       );
                   final errors =
                       ProviderScope.containerOf(context, listen: false)

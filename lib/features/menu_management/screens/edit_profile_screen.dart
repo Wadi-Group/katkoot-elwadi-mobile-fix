@@ -359,8 +359,7 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                       backgroundColor: AppColors.white,
                                       onPressed: () {
                                         FocusScope.of(context).unfocus();
-                                        ProviderScope.containerOf(context,
-                                                listen: false)
+                                        ProviderScope.containerOf(context, listen: false)
                                             .read(authViewProvider.notifier)
                                             .validateFeilds(
                                                 context: context,
@@ -370,19 +369,25 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
                                                 cityId: viewModel.data!
                                                         .selectedCity?.id ??
                                                     0,
+                                                email: emailController.text,
                                                 date:
                                                     arrivalDateController.text,
                                                 categoryId: viewModel.data!
                                                             .selectedCategory !=
                                                         null
-                                                    ? viewModel
-                                                        .data!.selectedCategory!
+                                                    ? viewModel.data!.selectedCategory!
                                                         .map((e) => e.id!)
                                                         .toList()
                                                     : [],
                                                 flockSize:
                                                     flockSizeContoller.text,
                                                 userState: stateController.text,
+                                                numberOfBirds: int.tryParse(
+                                                    numberOfBirdsController
+                                                        .text),
+                                                numberOfFarms: int.tryParse(
+                                                    numberOfFarmsController.text),
+                                                numberOfHouses: int.tryParse(numberOfHousesController.text),
                                                 isEdit: true);
                                       },
                                     ),
@@ -597,7 +602,11 @@ class _EditProfileState extends State<EditProfileScreen> with BaseViewModel {
               arrivalDateController,
               stateController,
               flockSizeContoller,
-              idController);
+              idController,
+              numberOfBirdsController,
+              numberOfFarmsController,
+              numberOfHousesController,
+              emailController);
     });
   }
 

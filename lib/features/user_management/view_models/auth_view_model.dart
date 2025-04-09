@@ -37,6 +37,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
     required String countryCode,
   }) async {
     var result = await _repository.putUserProfile(
+      email: updatedUser.user!.email,
       fbToken: fbToken,
       name: updatedUser.user!.name!,
       cityId: updatedUser.user!.cityId!,
@@ -129,18 +130,21 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
       int? numberOfBirds,
       int? numberOfFarms,
       int? numberOfHouses,
+      String? email,
       bool? isEdit}) async {
     List<UserFormsErrors> validationErrors = Validator.validateFields(
-        fullName: fullName,
-        phone: phone,
-        city: cityId,
-        category: categoryId,
-        birthDate: date,
-        state: userState,
-        flockSize: flockSize,
-        numberOfBirds: numberOfBirds,
-        numberOfFarms: numberOfFarms,
-        numberOfHouses: numberOfHouses);
+      fullName: fullName,
+      phone: phone,
+      city: cityId,
+      category: categoryId,
+      birthDate: date,
+      state: userState,
+      flockSize: flockSize,
+      numberOfBirds: numberOfBirds,
+      numberOfFarms: numberOfFarms,
+      numberOfHouses: numberOfHouses,
+      email: email,
+    );
 
     if (validationErrors.isEmpty) {
       if (isEdit != null && isEdit == true) {
@@ -159,6 +163,7 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
             UserData updatingUser = UserData(
               token: user.token,
               user: userModel.User(
+                email: email,
                 name: fullName,
                 phone: phone,
                 cityId: cityId!,
@@ -193,13 +198,18 @@ class AuthViewModel extends StateNotifier<BaseState<List<UserFormsErrors>>>
         state = BaseState(data: [], isLoading: false);
         isRegister = true;
         user = userModel.User(
+            email: email,
             phone: phone,
             name: fullName,
             cityId: cityId,
             birthDate: date,
             categoryId: categoryId,
             state: userState,
-            flockSize: flockSize);
+            flockSize: flockSize,
+            numberOfBirds: numberOfBirds,
+            numberOfFarms: numberOfFarms,
+            numberOfHouses: numberOfHouses);
+
         // sendSmsCode("$phone", countryCode);
         checkExistingPhone(
             context: context, phone: "$phone", countryCode: countryCode);

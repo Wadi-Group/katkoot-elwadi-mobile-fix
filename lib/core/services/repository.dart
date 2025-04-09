@@ -189,6 +189,7 @@ class Repository {
     int? numberOfBirds,
     int? numberOfFarms,
     int? numberOfHouses,
+    String? email,
   }) async {
     return await _apiService.putUserProfile(
       fbToken: fbToken,
@@ -201,6 +202,7 @@ class Repository {
       numberOfBirds: numberOfBirds,
       numberOfFarms: numberOfFarms,
       numberOfHouses: numberOfHouses,
+      email: email,
     );
   }
 

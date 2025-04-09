@@ -8,15 +8,17 @@ class ReusableContainer extends StatelessWidget {
   final BorderRadius? borderRadius;
   final List<BoxShadow>? boxShadow;
   final EdgeInsets? padding;
+  final Color? containerColor;
 
-  const ReusableContainer({
-    Key? key,
-    required this.child,
-    this.height = 50,
-    this.borderRadius,
-    this.boxShadow,
-    this.padding,
-  }) : super(key: key);
+  const ReusableContainer(
+      {Key? key,
+      required this.child,
+      this.height = 50,
+      this.borderRadius,
+      this.boxShadow,
+      this.padding,
+      this.containerColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class ReusableContainer extends StatelessWidget {
                 offset: Offset(0, 2),
               ),
             ],
-        color: Colors.white,
+        color: containerColor ?? Colors.white,
       ),
       height: height,
       width: double.infinity,

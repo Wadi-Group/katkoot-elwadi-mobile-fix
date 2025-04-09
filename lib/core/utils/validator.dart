@@ -145,16 +145,16 @@ class Validator {
       }
     }
 
-    if (email != null) {
-      if (email.isEmpty) {
-        errors.add(UserFormsErrors(
-            field: UserFields.EMAIL.field, message: 'empty_email'.tr()));
-      } else if (!_isValidaEmail(email)) {
-        errors.add(UserFormsErrors(
-            field: UserFields.EMAIL.field,
-            message: 'invalid_email_format'.tr()));
-      }
-    }
+    // if (email != null) {
+    //   if (email.isEmpty) {
+    //     errors.add(UserFormsErrors(
+    //         field: UserFields.EMAIL.field, message: 'empty_email'.tr()));
+    //   } else if (!_isValidaEmail(email)) {
+    //     errors.add(UserFormsErrors(
+    //         field: UserFields.EMAIL.field,
+    //         message: 'invalid_email_format'.tr()));
+    //   }
+    // }
 
     if (fullName != null) {
       if (fullName.isEmpty) {

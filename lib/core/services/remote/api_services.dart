@@ -232,33 +232,36 @@ class ApiService {
     int? numberOfBirds,
     int? numberOfFarms,
     int? numberOfHouses,
+    String? email,
   }) async {
     return await ApiMethods<UserData>().put(ApiUrls.EDIT_PROFILE,
         data: phone != null
             ? {
-                "token": fbToken,
+                // "token": fbToken,
                 "name": name,
+                "email": email,
                 "city_id": cityId,
                 "categories": categoryId,
                 "phone": phone,
                 "birth_date": birthDate,
                 "village": state!.isNotEmpty ? state.toString() : null,
                 "flock_size": flockSize,
-                "number_of_birds ": numberOfBirds,
-                "number_of_farms ": numberOfFarms,
-                "number_of_houses ": numberOfHouses
+                "number_of_birds": numberOfBirds,
+                "number_of_farms": numberOfFarms,
+                "number_of_houses": numberOfHouses
               }
             : {
-                "token": fbToken,
+                // "token": fbToken,
                 "name": name,
+                "email": email,
                 "city_id": cityId,
                 "birth_date": birthDate,
                 "categories": categoryId,
                 "village": state!.isNotEmpty ? state.toString() : null,
                 "flock_size": flockSize,
-                "number_of_birds ": numberOfBirds,
-                "number_of_farms ": numberOfFarms,
-                "number_of_houses ": numberOfHouses
+                "number_of_birds": numberOfBirds,
+                "number_of_farms": numberOfFarms,
+                "number_of_houses": numberOfHouses
               },
         hasToken: true,
         hasLanguage: true);

@@ -24,6 +24,10 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
     TextEditingController dateController,
     TextEditingController stateController,
     TextEditingController flockSizeController,
+    TextEditingController numberOfBirdsController,
+    TextEditingController numberOfFarmsController,
+    TextEditingController numberOfHousesController,
+    TextEditingController emailController,
     idController,
   ) async {
     print("call start");
@@ -49,6 +53,10 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
               dateController,
               stateController,
               flockSizeController,
+              numberOfBirdsController,
+              numberOfFarmsController,
+              numberOfHousesController,
+              emailController,
               idController);
         } else if (value[0].errorType == ErrorType.NO_NETWORK_ERROR ||
             value[1].errorType == ErrorType.NO_NETWORK_ERROR) {
@@ -73,6 +81,10 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
     TextEditingController stateController,
     TextEditingController flockSizeController,
     TextEditingController idController,
+    TextEditingController numberOfBirdsController,
+    TextEditingController numberOfFarmsController,
+    TextEditingController numberOfHousesController,
+    TextEditingController emailController,
   ) async {
     var currentUser = ProviderScope.containerOf(context, listen: false)
         .read(di.userViewModelProvider.notifier)
@@ -86,6 +98,10 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
     String? birthDate;
     String? userState;
     String? flockSize;
+    int? numberOfBirds;
+    int? numberOfFarms;
+    int? numberOfHouses;
+    String? email;
 
     if (currentUser!.user != null) {
       if (currentUser.user!.name != null) {
@@ -107,6 +123,21 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
         flockSize = currentUser.user!.flockSize!.toString();
         flockSizeController.text = currentUser.user!.flockSize!.toString();
       }
+      if (currentUser.user!.numberOfBirds != null) {
+        numberOfBirds = currentUser.user!.numberOfBirds!;
+        numberOfBirdsController.text =
+            currentUser.user!.numberOfBirds!.toString();
+      }
+      if (currentUser.user!.numberOfFarms != null) {
+        numberOfFarms = currentUser.user!.numberOfFarms!;
+        numberOfFarmsController.text =
+            currentUser.user!.numberOfFarms!.toString();
+      }
+      if (currentUser.user!.numberOfHouses != null) {
+        numberOfHouses = currentUser.user!.numberOfHouses!;
+        numberOfHousesController.text =
+            currentUser.user!.numberOfHouses!.toString();
+      }
       if (currentUser.user!.birthDate != null) {
         birthDate = currentUser.user!.birthDate!;
         dateController.text = currentUser.user!.birthDate!;
@@ -114,6 +145,10 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
       if (currentUser.user!.phone != null) {
         phoneNumber = currentUser.user!.phone!;
         phoneControoler.text = currentUser.user!.phone!;
+      }
+      if (currentUser.user!.email != null) {
+        email = currentUser.user!.email!;
+        emailController.text = currentUser.user!.email!;
       }
       if (currentUser.user!.cityId != null && state.data!.cities != null) {
         print(currentUser.user!.cityId);
@@ -152,6 +187,9 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
         selectedCity: selectedCity,
         state: userState,
         flockSize: flockSize,
+        numberOfBirds: numberOfBirds,
+        numberOfFarms: numberOfFarms,
+        numberOfHouses: numberOfHouses,
       ));
 
       state = BaseState(data: state.data, isLoading: true);
@@ -180,6 +218,21 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
             flockSizeController.text =
                 remoteUserData.user!.flockSize!.toString();
           }
+          if (remoteUserData.user!.numberOfBirds != null) {
+            numberOfBirds = remoteUserData.user!.numberOfBirds!;
+            numberOfBirdsController.text =
+                remoteUserData.user!.numberOfBirds!.toString();
+          }
+          if (remoteUserData.user!.numberOfFarms != null) {
+            numberOfFarms = remoteUserData.user!.numberOfFarms!;
+            numberOfFarmsController.text =
+                remoteUserData.user!.numberOfFarms!.toString();
+          }
+          if (remoteUserData.user!.numberOfHouses != null) {
+            numberOfHouses = remoteUserData.user!.numberOfHouses!;
+            numberOfHousesController.text =
+                remoteUserData.user!.numberOfHouses!.toString();
+          }
           if (remoteUserData.user!.birthDate != null) {
             birthDate = remoteUserData.user!.birthDate!;
             dateController.text = remoteUserData.user!.birthDate!;
@@ -187,6 +240,10 @@ class EditProfileViewModel extends StateNotifier<BaseState<EditProdileData?>>
           if (remoteUserData.user!.phone != null) {
             phoneNumber = remoteUserData.user!.phone!;
             phoneControoler.text = remoteUserData.user!.phone!;
+          }
+          if (remoteUserData.user!.email != null) {
+            email = remoteUserData.user!.email!;
+            emailController.text = remoteUserData.user!.email!;
           }
           if (remoteUserData.user!.cityId != null &&
               state.data!.cities != null) {

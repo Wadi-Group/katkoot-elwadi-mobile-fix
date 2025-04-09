@@ -86,12 +86,14 @@ class CustomDrawer extends StatelessWidget {
                   modelView: modelView,
                   navigationItem: NavigationItem.video,
                 ),
-                _buildDrawerItem(
-                  context,
-                  icon: "assets/images/share_app.png",
-                  title: 'survey'.tr(),
-                  // modelView: modelView,
-                  navigationItem: NavigationItem.survey,
+                AbsorbPointer(
+                  child: _buildDrawerItem(
+                    context,
+                    icon: "assets/images/received_message.png",
+                    title: 'survey'.tr(),
+                    modelView: modelView,
+                    navigationItem: NavigationItem.survey,
+                  ),
                 ),
                 _buildDrawerItem(
                   context,
