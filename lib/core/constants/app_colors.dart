@@ -23,7 +23,7 @@ class AppColors {
   static const Color APP_ICONS_GREEN = BLUE_GREY;
   static const Color COLLAPSED_ROUTES_GREEN = BLUE_GREY;
   static const Color MEDIUM_SEA_GREEN = BLUE_GREY;
-  static const Color APP_BLUE = Color(0xff2D4A96);
+  static const Color APP_BLUE = Color(0xff0c3b5d);
   static const Color APP_DARK_BLUE = Color(0xff2F3D65);
   static const Color BLUE_GREY = Color(0xff6e8ad3);
   static const Color APP_TEXTFIELD_TITLE = Color(0xff595A80);
@@ -68,6 +68,6 @@ class AppColors {
   static const Color TEXTFIELD_HINT = Color(0xffced5e7);
   static const Color Tabs_Blue = Color(0xffe2eef3);
   static const Color Message_seen = Color(0xfff3f3f3);
-  static const Color GreenColor = const Color(0xffb7d69a);
-  static const Color Elite_Logo_Color = const Color(0xffb7d69a);
+  static const Color GreenColor = const Color(0xff76bc21);
+  static const Color Elite_Logo_Color = const Color(0xff76bc21);
 }

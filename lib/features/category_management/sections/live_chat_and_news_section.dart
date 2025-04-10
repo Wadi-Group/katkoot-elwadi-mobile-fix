@@ -16,7 +16,7 @@ class LiveChatAndNewsSection extends StatelessWidget {
       children: [
         Expanded(
           child: ActionButton(
-            containerColor: Colors.white70,
+            disableContainer: true,
             isPrefix: true,
             width: 50,
             height: 50,
@@ -73,7 +73,7 @@ class ActionButton extends StatelessWidget {
   final double? width;
   final Color? iconColor;
   final bool isPrefix;
-  final Color? containerColor;
+  final bool? disableContainer;
 
   const ActionButton({
     required this.title,
@@ -84,7 +84,7 @@ class ActionButton extends StatelessWidget {
     this.iconColor,
     this.isPrefix = false,
     Key? key,
-    this.containerColor,
+    this.disableContainer,
     this.borderRadius = const BorderRadius.all(Radius.circular(10)),
   }) : super(key: key);
 
@@ -94,7 +94,7 @@ class ActionButton extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.translucent,
       child: ReusableContainer(
-        containerColor: containerColor ?? Colors.white,
+        disableContainer: disableContainer,
         boxShadow: [
           BoxShadow(
             color: AppColors.APP_CARDS_BLUE.withValues(alpha: 0.3),
@@ -122,7 +122,7 @@ class ActionButton extends StatelessWidget {
                 title: title,
                 textColor: AppColors.APP_BLUE,
                 fontSize: 18,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.bold,
               ),
               isPrefix ? Container() : const SizedBox(width: 10),
               isPrefix

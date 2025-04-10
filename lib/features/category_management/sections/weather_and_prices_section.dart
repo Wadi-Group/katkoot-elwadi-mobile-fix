@@ -48,7 +48,7 @@ class WeatherAndPricesSection extends StatelessWidget {
               ),
               SizedBox(height: 15),
               _buildPriceCard(
-                height: 30,
+                height: 35,
                 title: "white_egg_tray".tr(),
                 price: whiteEggTrayPrice ?? "N/A",
                 unit: "egp".tr(),
@@ -57,7 +57,7 @@ class WeatherAndPricesSection extends StatelessWidget {
                 context: context,
               ),
               _buildPriceCard(
-                height: 30,
+                height: 35,
                 title: "brown_egg_tray".tr(),
                 price: brownEggTrayPrice ?? "N/A",
                 unit: "egp".tr(),
@@ -68,7 +68,7 @@ class WeatherAndPricesSection extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(width: 20),
+        SizedBox(width: 15),
         // Right Side: Katkoot Al Wadi Broiler Price
         _buildKatkootPrice(context),
       ],
@@ -182,7 +182,7 @@ class WeatherAndPricesSection extends StatelessWidget {
           Expanded(
             child: CustomText(
               title: title,
-              fontSize: 12,
+              fontSize: 14,
               maxLines: 2,
               fontWeight: FontWeight.w700,
               textColor: AppColors.APP_BLUE,

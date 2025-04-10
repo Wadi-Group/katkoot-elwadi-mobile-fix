@@ -24,7 +24,7 @@ class ReportGeneratorSection extends ConsumerWidget {
     return Column(
       children: [
         ReportGenerator(
-          containerColor: Colors.white70,
+          disableContainer: true,
           title: "cb_report_generator".tr(),
           subtitle: "str_add_new_cycle".tr(),
           onTap: () async {
@@ -101,14 +101,14 @@ class ReportGenerator extends StatelessWidget {
   final String? subtitle;
   final VoidCallback onTap;
   final Widget? icon;
-  final Color? containerColor;
+  final bool? disableContainer;
 
   const ReportGenerator({
     required this.title,
     required this.onTap,
     this.subtitle,
     this.icon,
-    this.containerColor,
+    this.disableContainer,
     Key? key,
   }) : super(key: key);
 
@@ -117,7 +117,7 @@ class ReportGenerator extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: ReusableContainer(
-        containerColor: containerColor ?? Colors.white,
+        disableContainer: disableContainer,
         height: 60,
         padding: EdgeInsets.symmetric(horizontal: 15),
         borderRadius: BorderRadius.circular(12), // Optional border radius
